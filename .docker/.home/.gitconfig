@@ -1,0 +1,51 @@
+[alias]
+	a = add
+	b  = branch
+	ba = branch --all
+	br = branch --remote
+	c  = checkout
+	cb = checkout -b
+	cm = commit -m
+	f = fetch
+	fp = fetch --prune
+	# all commits from "Develop branch"'s fork to HEAD
+	l-dh= log --oneline --decorate develop..HEAD
+	lg = log --all --oneline --decorate --graph
+	lo = log --oneline --decorate
+	p = pull
+	r  = rebase
+	ri = rebase -i
+	# rebase all commits from 'Develop branch' 
+	rid = rebase -i develop
+	s  = status
+	
+	ref = reflog
+	rev-oh = rev-list origin..HEAD
+
+[core]
+	autocrlf = input
+	editor = vim
+
+[credential]
+	helper = store --file ~/.git-credentials
+	helper = cache --timeout 30000
+
+#[credential "https://example.com"]#
+	#username = your_user
+	#helper = "!f() { test \"$1\" = get && echo \"password=$(cat $HOME/.secret)\"; }; f"
+	
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	
+[http]
+	#50M
+	postBuffer = 52428800
+	
+[ssh]
+	postBuffer = 52428800
+	
+[pull]
+	rebase = true

@@ -1,0 +1,9 @@
+alias s="symfony"
+alias sc="symfony console"
+
+alias ls="ls --color"
+alias grep="grep --color"
+alias ll="ls -la"
+alias lh="ls -lh"
+alias la="ls -a"
+alias igrep="grep -i"
