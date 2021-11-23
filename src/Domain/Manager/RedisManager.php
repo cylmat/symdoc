@@ -3,13 +3,20 @@
 namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
-use Predis\Client;
+use App\Infrastructure\Service\RedisService;
 
 class RedisManager implements ManagerInterface
 {
+    private $redisService;
+
+    public function __construct(RedisService $redisService)
+    {
+        $this->redisService = $redisService;
+    }
+
     public function call()
     {
-        $client = new Client();
+        $client = $this->redisService->getClient();
         $client->set('foo', 'bar');
         $value = $client->get('foo');
         d($value);
