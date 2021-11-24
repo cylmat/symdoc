@@ -1,4 +1,0 @@
-services:
-    _defaults:
-        bind:
-            $redis_dsn: ''
