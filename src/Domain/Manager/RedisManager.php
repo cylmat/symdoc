@@ -18,7 +18,7 @@ class RedisManager implements ManagerInterface
     {
         $client = $this->redisService->getClient();
         $client->set('foo', 'bar');
+        $client->set('foo2', 'bar3');
         $value = $client->get('foo');
-        d($value);
     }
 }

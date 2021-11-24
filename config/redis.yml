@@ -1,0 +1,7 @@
+parameters:
+    redis_dsn: '%env(REDIS_DSN)%'
+
+services:
+    App\Infrastructure\Service\RedisService:
+        bind:
+            string $redis_dsn: '%redis_dsn%'

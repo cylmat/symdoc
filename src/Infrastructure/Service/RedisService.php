@@ -7,8 +7,15 @@ use Predis\Client;
 
 class RedisService implements ServiceInterface
 {
+    private $redis_dsn;
+
+    public function __construct(string $redis_dsn)
+    {
+        $this->redis_dsn = $redis_dsn;
+    }
+
     public function getClient()
     {
-        return new Client($_SERVER['REDIS_DSN']);
+        return new Client($this->redis_dsn);
     }
 }

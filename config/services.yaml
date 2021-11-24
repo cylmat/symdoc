@@ -1,6 +1,9 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 
+imports:
+    - { resource: redis.yml }
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
@@ -16,10 +19,12 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            # - '../src/DependencyInjection/'
+            # - '../src/Entity/'
+
+            - '../src/Infrastructure/' # manually imported
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
