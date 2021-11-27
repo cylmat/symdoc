@@ -3,12 +3,15 @@
 ./bin/composer create-project symfony/skeleton ./project
 ./bin/symfony new project
 
-## Api
+## Front
+Webpack encore
+
+## Service
 * CloudAmpq
 * ElephantSql
 * NewRelic
 * Redis
 * Sentry
 
-## Front
-Webpack encore
+## api
+api-platform, laminas, lumen, mezzio, silex, slim
