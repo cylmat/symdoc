@@ -1,0 +1,33 @@
+
+// $configuration = $this->getConfiguration($configs, $container);
+//         $config = $this->processConfiguration($configuration, $configs);
+
+//         // Pass arguments to service
+//         $definition = $container->getDefinition('knp.ipsum');
+
+        /**
+         * Solution with reference class
+         */
+        /*if (null !== $config['word_provider']) {
+            $service_ref = new Reference($config['word_provider']);
+            $definition->setArgument(0, $service_ref);
+        }*/
+
+        /**
+         * Solution with alias and servicex.xml configuration
+         */
+        // if (null !== $config['word_provider']) {
+        //    $container->setAlias('knp.custom_provider', $config['word_provider']);
+        // }
+
+        /**
+         * Solution 3: work with CompilerPass and tags
+         */
+        //---
+        // for autoregister tags
+        // $container->registerForAutoconfiguration(KnpProviderInterface::class)
+        //     ->addTag('knp.provider.tag');
+
+        // other arguments
+        // $definition->setArgument(1, $config['unicorn']); //second arg
+        // $definition->setArgument(2, $config['min']); //third arg

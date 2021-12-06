@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Hello DoctrineController!{% endblock %}
 
@@ -17,4 +17,11 @@
         <li>Your admin at <code><a href="{{ '/phpliteadmin.php' }}" target="_blank">/phpliteadmin.php</a></code></li>
     </ul>
 </div>
+{% endblock %}
+
+{% block bon '' %}
+
+{% block test %}
+    {{ block('bon') }}
+    {{ block('test', 'base.html.twig') }}
 {% endblock %}
