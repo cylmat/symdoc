@@ -1,0 +1,22 @@
+services:
+    rot13:
+        class:    App\Application\Service\Rot13Transformer
+        arguments: 
+            $transform: false
+    
+    twitter_client:
+        class:    App\Application\Service\TwitterClient
+        autowire: true
+    
+    # Aliases HAVE to be manually declared to type-hint
+    App\Application\Service\Rot13Transformer: '@rot13'
+    App\Application\Service\TwitterClient: '@twitter_client'
+
+    ########################
+    # SAMPLE AND DECORATOR #
+    ########################
+    # services:
+    #         Doctrine\Migrations\Version\DbalMigrationFactory: ~
+    #         App\Migrations\Factory\MigrationFactoryDecorator:
+    #             decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+    #             arguments: ['@App\Migrations\Factory\MigrationFactoryDecorator.inner', '@service_container']

@@ -2,6 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 imports:
+    - { resource: services_config.yml }
     - { resource: services/redis.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -27,8 +28,9 @@ services:
             #####################
             # manually imported #
             #####################
+            - '../src/Application/Service/'
             - '../src/Domain/**/*Handler'
-            - '../src/Infrastructure/' 
+            - '../src/Infrastructure/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
