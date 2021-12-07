@@ -14,10 +14,11 @@ final class AllController extends AbstractController
      */
     public function index(AllManager $allManager): Response
     {
-        $allManager->call();
+        $data = $allManager->call();
 
         return $this->render('all/index.html.twig', [
             'controller_name' => 'AllController',
+            'data' => $data,
         ]);
     }
 }

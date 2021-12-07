@@ -7,3 +7,11 @@ redirect:
     controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
     defaults:
         path: /new-path
+
+static: 
+  path: /static 
+  controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+  defaults:
+    template: base.html.twig
+    maxAge:    86400
+    sharedAge: 86400
