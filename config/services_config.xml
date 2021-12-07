@@ -6,9 +6,22 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services 
         https://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters key="my_parameters" type="collection">
+        <parameter key="my_param">testing-param</parameter>
+    </parameters>
+
     <services>
+        <defaults autowire="false" autoconfigure="false"/>
+
         <service id="App\Domain\MessageHandler\MessageHandler">
             <tag name="messenger.message_handler" handles="App\Domain\Message\Message" />
+        </service>
+
+        <service id="twitter_client_2" class="App\Application\Service\TwitterClient">
+            <!-- symthetic=true abstract=true factory=<class> -->
+            <call method="withConfiguredSerializer" returns-clone="true">
+                <argument type="service" id="logger"/>
+            </call>
         </service>
     </services>
 

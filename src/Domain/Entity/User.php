@@ -4,6 +4,13 @@ namespace App\Domain\Entity;
 
 use App\Domain\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraint as Assert;
+
+/**
+ * There is 2 default validation groups
+ * - <classname> (here User)
+ * - Default
+ */
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -19,11 +26,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $email;
 

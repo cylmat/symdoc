@@ -6,6 +6,11 @@ services:
     twitter_client:
         class:    App\Application\Service\TwitterClient
         autowire: true
+        calls:
+            # the TRUE argument turns this into a wither method
+            # vendor/symfony/dependency-injection/Compiler/AutowirePass.php 
+            # vendor/symfony/config/Loader/FileLoader.php
+            - [withConfiguredSerializer, ['@serializer'], true]
     
     # Aliases HAVE to be manually declared to type-hint
     App\Application\Service\Rot13Transformer: '@rot13'
