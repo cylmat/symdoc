@@ -21,6 +21,8 @@ final class RedisManager implements ManagerInterface
         $client->set('foo2', 'bar3');
         $value = $client->get('foo');
 
-        return []; 
+        return [
+            'redis' => $value
+        ]; 
     }
 }

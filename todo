@@ -1,3 +1,10 @@
+https://symfony.com/doc/current/components/serializer.html#converting-property-names-when-serializing-and-deserializing
+Factories
+KernelView
+data_collector
+
+
+
 
 // $configuration = $this->getConfiguration($configs, $container);
 //         $config = $this->processConfiguration($configuration, $configs);

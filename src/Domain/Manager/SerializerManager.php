@@ -7,6 +7,8 @@ use App\Domain\Entity\User;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -22,11 +24,21 @@ final class SerializerManager implements ManagerInterface
 
     public function call(): array
     {
-        $user = $this->deserializeUser();
-
         return [
-            $user
+            'serialize' => $this->serialize(),
+            'deserialize' => $this->deserializeUser(),
+            'deserialize_array' => $this->deserializeUsers(),
         ];
+    }
+
+    private function serialize(): string
+    {
+        $user1 = (new User)->setUsername('Alpha')->setPhone(01);
+        $user2 = (new User)->setUsername('Beta')->setPhone(02);
+
+        $serialize = $this->serializer->serialize([$user1, $user2], 'json'); //@todo ['groups' => 'registration']);
+
+        return $serialize;
     }
 
     /**
@@ -48,5 +60,21 @@ final class SerializerManager implements ManagerInterface
         ]);
 
         return $user;
+    }
+
+    private function deserializeUsers(): array
+    {
+        $normalizers = [new GetSetMethodNormalizer(), new ArrayDenormalizer()];
+        $serializer = new Serializer($normalizers, [new JsonEncoder()]);
+
+        $data = $this->serialize();
+        $users = $serializer->deserialize($data, User::class.'[]', JsonEncoder::FORMAT, [
+            [
+                AbstractNormalizer::OBJECT_TO_POPULATE => new User()
+            ],
+            'ctx' => 'testing_framework'
+        ]);
+
+        return $users;
     }
 }

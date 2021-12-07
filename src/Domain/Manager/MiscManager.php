@@ -10,10 +10,8 @@ final class MiscManager implements ManagerInterface
 {
     public function call(): array
     {
-        $property = $this->properties();
-
         return [
-            'property' => $property
+            'property' => $this->properties(),
         ];
     }
 
