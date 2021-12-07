@@ -41,6 +41,8 @@ class User
      */
     private $phone;
 
+    public $testing;
+
     public function getId(): ?int
     {
         return $this->id;

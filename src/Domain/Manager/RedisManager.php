@@ -5,7 +5,7 @@ namespace App\Domain\Manager;
 use App\Domain\Core\Interfaces\ManagerInterface;
 use App\Infrastructure\Service\RedisService;
 
-class RedisManager implements ManagerInterface
+final class RedisManager implements ManagerInterface
 {
     private $redisService;
 

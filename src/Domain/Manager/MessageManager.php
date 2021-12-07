@@ -6,7 +6,7 @@ use App\Domain\Core\Interfaces\ManagerInterface;
 use App\Domain\Message\Message;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class MessageManager implements ManagerInterface
+final class MessageManager implements ManagerInterface
 {
     private $messageBus;
 

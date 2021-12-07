@@ -2,18 +2,20 @@
 
 namespace App\Application\Controller;
 
-use App\Application\Service\TwitterClient;
+use App\Domain\Manager\AllManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AllController extends AbstractController
+final class AllController extends AbstractController
 {
     /**
      * @Route("/all")
      */
-    public function index(TwitterClient $t): Response
+    public function index(AllManager $allManager): Response
     {
+        $allManager->call();
+
         return $this->render('all/index.html.twig', [
             'controller_name' => 'AllController',
         ]);

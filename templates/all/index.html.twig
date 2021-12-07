@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Hello AllController!{% endblock %}
+{% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
 <style>
@@ -13,8 +13,14 @@
 
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/AllController.php'|file_link(0) }}">src/Controller/AllController.php</a></code></li>
+        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/' ~ controller_name ~ 'Controller.php'|file_link(0) }}">src/Controller/{{ controller_name }}.php</a></code></li>
     </ul>
 </div>
 {% endblock %}
 
+{% block bon '' %}
+
+{% block test %}
+    {{ block('bon') }}
+    {{ block('test', 'base.html.twig') }}
+{% endblock %}

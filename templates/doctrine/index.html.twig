@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Hello DoctrineController!{% endblock %}
+{% block title %}Hello {{ controller_name }}Controller!{% endblock %}
 
 {% block body %}
 <style>
@@ -13,15 +13,8 @@
 
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/DoctrineController.php'|file_link(0) }}">src/Controller/DoctrineController.php</a></code></li>
+        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/DoctrineController.php'|file_link(0) }}">src/Controller/{{ controller_name }}Controller.php</a></code></li>    
         <li>Your admin at <code><a href="{{ '/phpliteadmin.php' }}" target="_blank">/phpliteadmin.php</a></code></li>
     </ul>
 </div>
-{% endblock %}
-
-{% block bon '' %}
-
-{% block test %}
-    {{ block('bon') }}
-    {{ block('test', 'base.html.twig') }}
 {% endblock %}
