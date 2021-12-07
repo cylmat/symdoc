@@ -16,15 +16,15 @@ class AppMyBundle extends Bundle
         $this->container->getParameter('kernel.http_method_override');
     }
 
-    public function build(ContainerBuilder $container): void
+    public function build(ContainerBuilder $containerBuilder): void
     {
-        parent::build($container);
+        parent::build($containerBuilder);
 
         $extClass = $this->getContainerExtensionClass();
         $ext = $this->getContainerExtension(); 
 
         // ADD compiler pass
-        $container->addCompilerPass(new AppCompilerPass());
+        $containerBuilder->addCompilerPass(new AppCompilerPass());
     }
 
     public function registerCommands(Application $application): void

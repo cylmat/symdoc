@@ -4,6 +4,8 @@ namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
 use App\Domain\Entity\User;
+use DOMDocument;
+use DOMXPath;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -25,6 +27,7 @@ final class MiscManager implements ManagerInterface
     {
         $user = $this->deserializeUser();
         $this->properties();
+        $xpathValue = $this->xpath();
 
         return [];
     }
@@ -60,5 +63,16 @@ final class MiscManager implements ManagerInterface
         $testing = $accessor->getValue($person, 'testing');
 
         return $testing;
+    }
+
+    private function xpath(): string
+    {
+        $dom = new DOMDocument();
+        $dom->loadHTML('<body bgcolor="555"></body>');
+        $xpath = new DOMXPath($dom);
+        $nodes = $xpath->query('*[local-name()="body"]');
+        $value = $nodes->item(0)->getAttributeNode('bgcolor')->value;
+
+        return $value;
     }
 }

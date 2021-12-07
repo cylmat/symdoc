@@ -15,6 +15,12 @@
     <ul>
         <li>Your controller at <code><a href="{{ '/var/www/src/Controller/' ~ controller_name ~ 'Controller.php'|file_link(0) }}">src/Controller/{{ controller_name }}.php</a></code></li>
     </ul>
+
+    <p>
+        {% if data is defined %}
+            {{ dump(data) }}
+        {% endif %}
+    </p>
 </div>
 {% endblock %}
 

@@ -4,5 +4,9 @@
 
     {{ parent() }}
 
+    <p>
+        Route: {{ app.request.attributes.get('_route') }}
+    </p>
+
 {% endblock %}
 
