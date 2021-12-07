@@ -21,12 +21,12 @@ final class MiscManager implements ManagerInterface
         $this->serializer = $serializer;
     }
 
-    public function call()
+    public function call(): array
     {
         $user = $this->deserializeUser();
         $this->properties();
 
-        d($user);
+        return [];
     }
 
     /**

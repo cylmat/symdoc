@@ -14,7 +14,10 @@ use Symfony\Component\Yaml\Yaml;
 
 final class AllManager implements ManagerInterface
 {
-    public function call() {}
+    public function call(): array
+    {
+        return [];
+    }
 
     public function interfaces()
     {

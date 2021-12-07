@@ -14,11 +14,13 @@ final class RedisManager implements ManagerInterface
         $this->redisService = $redisService;
     }
 
-    public function call()
+    public function call(): array
     {
         $client = $this->redisService->getClient();
         $client->set('foo', 'bar');
         $client->set('foo2', 'bar3');
         $value = $client->get('foo');
+
+        return []; 
     }
 }
