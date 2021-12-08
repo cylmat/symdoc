@@ -21,6 +21,7 @@ use Symfony\Component\Yaml\Yaml;
 final class AllManager implements ManagerInterface
 {
     private 
+        $expressionManager,
         $formatManager,
         $messageManager,
         $miscManager,
@@ -28,12 +29,14 @@ final class AllManager implements ManagerInterface
         $serializerManager;
     
     public function __construct(
+        ExpressionManager $expressionManager,
         FormatManager $formatManager,
         MessageManager $messageManager,
         MiscManager $miscManager,
         RedisManager $redisManager,
         SerializerManager $serializerManager
     ) {
+        $this->expressionManager = $expressionManager;
         $this->formatManager = $formatManager;
         $this->messageManager = $messageManager;
         $this->miscManager = $miscManager;
@@ -44,8 +47,10 @@ final class AllManager implements ManagerInterface
     public function call(): array
     {
         return [
+            'expression' => $this->expressionManager->call(),
             'format' => $this->formatManager->call(),
             // 'message' => $this->messageManager->call(),
+            'expression' => $this->expressionManager->call(),
             'misc' => $this->miscManager->call(),
             'redis' => $this->redisManager->call(),
             'serializer' => $this->serializerManager->call(),
