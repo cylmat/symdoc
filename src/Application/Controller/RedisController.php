@@ -14,10 +14,9 @@ final class RedisController extends AbstractController
      */
     public function index(RedisManager $redisManager): Response
     {
-        $redisManager->call();
-
         return $this->render('redis/index.html.twig', [
             'controller_name' => 'RedisController',
+            'data' => $redisManager->call(),
         ]);
     }
 }

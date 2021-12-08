@@ -16,10 +16,9 @@ final class MiscController extends AbstractController
      */
     public function index(MiscManager $miscManager): Response
     {
-        $miscManager->call();
-
         return $this->render('misc/index.html.twig', [
             'controller_name' => 'MiscController',
+            'data' => $miscManager->call(),
         ]);
     }
 

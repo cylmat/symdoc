@@ -14,10 +14,9 @@ final class MessageController extends AbstractController
      */
     public function index(MessageManager $messageManager): Response
     {
-        $messageManager->call();
-
         return $this->render('message/index.html.twig', [
             'controller_name' => 'MessageController',
+            'data' => $messageManager->call(),
         ]);
     }
 }

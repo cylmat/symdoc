@@ -4,13 +4,18 @@ namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Yaml\Yaml;
 
 final class AllManager implements ManagerInterface
@@ -59,8 +64,13 @@ final class AllManager implements ManagerInterface
     {
         ConfigCacheFactory::class;
         DateTimeType::class;
+        ExpressionLanguage::class;
+        Finder::class;
+        FormEvents::class;
+        Kernel::class;
         KernelEvent::class;
         Serializer::class;
+        VarDumper::class;
         Yaml::class;
     }
 }

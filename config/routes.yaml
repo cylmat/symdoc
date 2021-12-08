@@ -2,6 +2,12 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+homepage:
+  path: /
+  controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
+  defaults:
+    path: /all
+
 redirect:
     path: /old-path
     controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
