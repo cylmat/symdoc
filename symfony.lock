@@ -121,6 +121,9 @@
     "jetbrains/phpstorm-stubs": {
         "version": "v2021.3"
     },
+    "koenhoeijmakers/headers": {
+        "version": "v1.0.0"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
