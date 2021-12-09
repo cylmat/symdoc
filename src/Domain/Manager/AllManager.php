@@ -5,6 +5,7 @@ namespace App\Domain\Manager;
 use App\Domain\Core\Interfaces\ManagerInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -70,6 +71,7 @@ final class AllManager implements ManagerInterface
         ConfigCacheFactory::class;
         DateTimeType::class;
         ExpressionLanguage::class;
+        Filesystem::class;
         Finder::class;
         FormEvents::class;
         Kernel::class;
