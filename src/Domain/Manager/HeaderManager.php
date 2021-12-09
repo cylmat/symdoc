@@ -7,7 +7,7 @@ use KoenHoeijmakers\Headers\Header;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CacheManager implements ManagerInterface
+final class HeaderManager implements ManagerInterface
 {
     private $requestStack;
 
@@ -18,10 +18,10 @@ final class CacheManager implements ManagerInterface
 
     public function call(): array
     {        
-        return $this->cache();
+        return $this->header();
     }
 
-    private function cache(): array
+    private function header(): array
     {
         $response = new Response();
 

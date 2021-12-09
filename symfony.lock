@@ -133,6 +133,12 @@
     "jetbrains/phpstorm-stubs": {
         "version": "v2021.3"
     },
+    "knplabs/knp-menu": {
+        "version": "v3.3.0"
+    },
+    "knplabs/knp-menu-bundle": {
+        "version": "v3.2.0"
+    },
     "koenhoeijmakers/headers": {
         "version": "v1.0.0"
     },

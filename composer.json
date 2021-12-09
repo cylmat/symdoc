@@ -20,6 +20,7 @@
         "doctrine/orm": "^2.10",
         "friendsofsymfony/rest-bundle": "^3.1",
         "jetbrains/phpstorm-stubs": "^2021.3",
+        "knplabs/knp-menu-bundle": "^3.2",
         "koenhoeijmakers/headers": "^1.0",
         "laminas/laminas-code": "^3.4",
         "phpdocumentor/reflection-docblock": "^5.3",

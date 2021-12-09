@@ -1,0 +1,17 @@
+<!-- <?xml version="1.0" charset="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:knp-menu="http://knplabs.com/schema/dic/menu">
+
+    <!--
+        templating:       if true, enabled the helper for PHP templates
+        default-renderer: the renderer to use, list is also available by default
+    --
+    <knp-menu:config
+        templating="false"
+        default-renderer="twig"
+    >
+        <!-- add enabled="false" to disable the Twig extension and the TwigRenderer --
+        <knp-menu:twig template="KnpMenuBundle::menu.html.twig"/>
+    </knp-menu:config>
+</container> -->
