@@ -5,6 +5,8 @@ Factories
 HttpCache
 KernelView events
 
+FosRestBundle
+willdurand/negotiation
 
 
 

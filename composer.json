@@ -18,6 +18,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.10",
+        "friendsofsymfony/rest-bundle": "^3.1",
         "jetbrains/phpstorm-stubs": "^2021.3",
         "koenhoeijmakers/headers": "^1.0",
         "laminas/laminas-code": "^3.4",
