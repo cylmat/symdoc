@@ -1,17 +1,27 @@
 <?php
 
-/*
-$container->loadFromExtension('knp_menu', 
-[
-    // use 'twig' => false to disable the Twig extension and the TwigRenderer
-    'twig' => [
-        'template' => 'KnpMenuBundle::menu.html.twig'
-    ],
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-    // if true, enabled the helper for PHP templates
-    'templating' => false,
+use App\Application\Service\DateTimeService;
 
-    // the renderer to use, list is also available by default
-    'default_renderer' => 'twig',
-]);
-*/
+return function(ContainerConfigurator $configurator) {
+    // makes classes in src/ available to be used as services
+    // this creates a service per class whose id is the fully-qualified class name
+    $services = $configurator->services();
+
+    $services
+        ->set(DateTimeService::class);
+
+    $services
+        ->set('mydatetimeservice', DateTimeService::class)
+        /*->args([
+            service(MessageGenerator::class),
+            service('mailer'),
+            'superadmin@example.com',
+        ]);*/
+        //->public()
+        //->arg('$adminEmail', 'manager@example.com');
+        //->args([service('logger')])
+        //->arg('$logger', service('monolog.logger.request'))
+    ;
+};

@@ -28,7 +28,7 @@ class KnpMenuBuilder
         return $menu;
     }
 
-    private function filterRoutes(): \Generator
+    private function filterRoutes(): iterable
     {
         $routes = array_filter($this->routeCollection->all(), function($object, $route) {
             if (0 === strpos($route, 'app_')) {

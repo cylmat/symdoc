@@ -16,12 +16,12 @@ final class HeaderController extends AbstractController
     /**
      * @Route("/headers")
      */
-    public function headers(Request $request, HeaderManager $cacheManager): Response
+    public function headers(HeaderManager $headerManager): Response
     {
         return $this->render('header/index.html.twig', [
             'controller_name' => 'HeaderController',
-            'data' => $cacheManager->call(),
-            'current_date' => (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE),
+            'data' => $headerManager->call(),
+            'current_date' => $this->getDateTime(),
         ]);
     }
 
@@ -30,15 +30,21 @@ final class HeaderController extends AbstractController
      */
     public function request(Request $request): Response
     {
+        
         $response = HttpClient::create()->request(Request::METHOD_GET, 'http://localhost:88/headers');
 
         return $this->render('header/index.html.twig', [
             'controller_name' => 'HeaderController',
             'data' => [
-                'headers' => $response->getHeaders(),
+                'response_headers' => $response->getHeaders(),
                 'response' => $response,
             ],
-            'current_date' => (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE),
+            'current_date' => $this->getDateTime(),
         ]);
+    }
+
+    private function getDateTime(): string
+    {
+        return (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE);
     }
 }

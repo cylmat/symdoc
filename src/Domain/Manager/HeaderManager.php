@@ -2,18 +2,18 @@
 
 namespace App\Domain\Manager;
 
+use App\Application\Service\DateTimeService;
 use App\Domain\Core\Interfaces\ManagerInterface;
 use KoenHoeijmakers\Headers\Header;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 final class HeaderManager implements ManagerInterface
 {
-    private $requestStack;
+    private $dateTime;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(DateTimeService $dateTime)
     {
-        $this->requestStack = $requestStack;
+        $this->dateTime = $dateTime;
     }
 
     public function call(): array
@@ -25,13 +25,28 @@ final class HeaderManager implements ManagerInterface
     {
         $response = new Response();
 
-        $response->headers->set(Header::VARY, ['Accept-Encoding', 'User-Agent'], true); //replace
+        /*
+         * Cache
+         */
+        $response->setMaxAge(100); //Sets the number of seconds after which the response should no longer be considered fresh.
+        $response->setSharedMaxAge(200);
 
+        $response->setLastModified((new \DateTime())->add(($this->dateTime->getDateInterval('', '8600S'))));
+        $response->setPrivate();
+        $response->setProtocolVersion('1.1');
+        $response->setStatusCode(Response::HTTP_PARTIAL_CONTENT, 'status code text');
+        $response->setTtl(3600); // adjusts the Cache-Control/s-maxage
+        
+        // specific
+        (new Response())->setNotModified(); //discards any headers that MUST NOT be included in 304 NOT MODIFIED  responses
+
+        /*
+         * Vary
+         */
+        $response->headers->set(Header::VARY, ['Accept-Encoding', 'User-Agent'], true); //replace
         $response->setVary(Header::ACCEPT_ENCODING, true); // replace = true
         $response->setVary(Header::USER_AGENT);
-
-        $response->setVary(['Accept-Encoding', 'User-Agent']); // replace = true
-        $response->setMaxAge(100); //Sets the number of seconds after which the response should no longer be considered fresh.
+        $response->setVary([Header::ACCEPT_ENCODING, Header::USER_AGENT]); // replace = true
 
         return $response->headers->all();
     }
