@@ -29,7 +29,17 @@ class CacheHeader
      */
 
     /*
-     * max-age=N response directive indicates that the response remains fresh until N seconds after the response is generated
+     * max-age=N    the response remains fresh until N seconds after the response is generated
+     * s-maxage=N   how long the response is fresh for (similar to max-age) — but it is specific to shared caches
+     *              ignore max-age when it is present
+     * no-cache     the response can be stored in caches, but must be validated with the origin server before each reuse
+     *              <> dont' cache (no-store) because it cache but revalidate each time
+     * must-revalidate the response can be stored in caches and reused while fresh. 
+     *              Once it becomes stale, it must be validated again before reuse
+     *                  if not (disconnected), it return a 504 (Gateway Timeout)
+     *              Typically, must-revalidate is used with max-age.
+     * proxy-revalidate equivalent of must-revalidate, but specifically for shared caches only
+     * no-store     indicates that any caches of any kind (private or shared) should not store this response
      */
     const CACHE_CONTROL = Header::CACHE_CONTROL;
 
