@@ -7,12 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class RedisController extends AbstractController
+final class DbController extends AbstractController
 {
+    /**
+     * @Route("/doctrine")
+     */
+    public function doctrine(): Response
+    {
+        return $this->render('doctrine/index.html.twig', [
+            'controller_name' => 'DoctrineController',
+        ]);
+    }
+
     /**
      * @Route("/redis")
      */
-    public function index(RedisManager $redisManager): Response
+    public function redis(RedisManager $redisManager): Response
     {
         return $this->render('redis/index.html.twig', [
             'controller_name' => 'RedisController',

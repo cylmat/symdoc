@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Domain\Manager\MessageManager;
 use App\Domain\Manager\MiscManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ final class MiscController extends AbstractController
     /**
      * @Route("/misc")
      */
-    public function index(MiscManager $miscManager): Response
+    public function misc(MiscManager $miscManager): Response
     {
         return $this->render('misc/index.html.twig', [
             'controller_name' => 'MiscController',
@@ -32,6 +33,17 @@ final class MiscController extends AbstractController
         return $this->render('misc/index.html.twig', [
             'controller_name' => 'MiscController',
             'data' => $data,
+        ]);
+    }
+
+    /**
+     * @Route("/message")
+     */
+    public function message(MessageManager $messageManager): Response
+    {
+        return $this->render('message/index.html.twig', [
+            'controller_name' => 'MessageController',
+            'data' => $messageManager->call(),
         ]);
     }
 }

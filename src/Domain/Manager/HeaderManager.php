@@ -48,6 +48,21 @@ final class HeaderManager implements ManagerInterface
         $response->setVary(Header::USER_AGENT);
         $response->setVary([Header::ACCEPT_ENCODING, Header::USER_AGENT]); // replace = true
 
+        // @todo
+        /* 
+        $response->setVary('Accept-Encoding');
+        $response->setVary('User-Agent', false);
+        $response->headers->set('Vary', 'Accept-Encoding, User-Agent');
+        $response->headers->set('Vary', 'Accept-Encoding');
+        $response->headers->set('Vary', 'User-Agent', false);
+        $response->setVary('Accept-Encoding, User-Agent');
+        $response->headers->set('Vary', 'Accept-Encoding');
+        $response->headers->set('Vary', 'User-Agent');
+        $response->setVary('Accept-Encoding');
+        $response->setVary('User-Agent');
+        $response->setVary(['Accept-Encoding', 'User-Agent']);
+        $response->headers->set('Vary', ['Accept-Encoding', 'User-Agent']);*/
+
         return $response->headers->all();
     }
 }
