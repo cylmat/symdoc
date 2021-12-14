@@ -10,10 +10,7 @@ return function(ContainerConfigurator $configurator) {
     $services = $configurator->services();
 
     $services
-        ->set(DateTimeService::class);
-
-    $services
-        ->set('mydatetimeservice', DateTimeService::class)
+        ->set('mydatetimeservice', DateTimeService::class);
         /*->args([
             service(MessageGenerator::class),
             service('mailer'),
@@ -23,5 +20,8 @@ return function(ContainerConfigurator $configurator) {
         //->arg('$adminEmail', 'manager@example.com');
         //->args([service('logger')])
         //->arg('$logger', service('monolog.logger.request'))
-    ;
+
+    $services->set(DateTimeService::class)
+        // the first argument is the class and the second argument is the static method
+        ->factory([DateTimeService::class, 'createFactory']);
 };

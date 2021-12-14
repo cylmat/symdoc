@@ -42,7 +42,6 @@ final class AllController extends AbstractController
      */
     public function request(Request $request): Response
     {
-        
         $response = HttpClient::create()->request(Request::METHOD_GET, 'http://localhost:88/headers');
 
         return $this->render('header/index.html.twig', [

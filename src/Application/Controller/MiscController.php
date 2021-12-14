@@ -34,6 +34,16 @@ final class MiscController extends AbstractController
             'controller_name' => 'MiscController',
             'data' => $data,
         ]);
+
+        /**
+         * $builder  
+            ->add('dt', DateTimeType::class, [
+                'html5' => false,
+                'date_format' => 'yyyy-MM-dd',
+                'format' => 'yyyy-MM-dd h:mm:ss',
+                'input_format' => 'Ymd H.i.s'
+            ])
+         */
     }
 
     /**

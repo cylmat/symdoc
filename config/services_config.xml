@@ -22,7 +22,9 @@
             <call method="withConfiguredSerializer" returns-clone="true">
                 <argument type="service" id="logger"/>
             </call>
+            <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
+
     </services>
 
 </container>

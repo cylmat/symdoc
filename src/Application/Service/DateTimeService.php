@@ -9,6 +9,11 @@ class DateTimeService
     private const PERIOD = 'P';
     private const TIME = 'T';
 
+    public static function createFactory(): self
+    {
+        return new self();
+    }
+
     /**
      * @see https://www.php.net/manual/en/dateinterval.construct.php
      */
