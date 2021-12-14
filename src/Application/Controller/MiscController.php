@@ -45,15 +45,4 @@ final class MiscController extends AbstractController
             ])
          */
     }
-
-    /**
-     * @Route("/message")
-     */
-    public function message(MessageManager $messageManager): Response
-    {
-        return $this->render('message/index.html.twig', [
-            'controller_name' => 'MessageController',
-            'data' => $messageManager->call(),
-        ]);
-    }
 }

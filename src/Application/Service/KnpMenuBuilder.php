@@ -6,7 +6,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class KnpMenuBuilder
+final class KnpMenuBuilder
 {
     private $factory;
     private $routeCollection;
@@ -20,7 +20,6 @@ class KnpMenuBuilder
     public function createMainMenu(array $options): ItemInterface
     {
         $menu = $this->factory->createItem('root');
-
         foreach ($this->filterRoutes() as $route => $controller) {
             $menu->addChild($controller, ['route' => $route]);
         }
@@ -48,5 +47,32 @@ class KnpMenuBuilder
         foreach($routes as $path => $route) {
             yield $path => $route['controller'];
         }
+    }
+
+    public function createDocMenu(array $options): ItemInterface
+    {
+        $symdoc = 'https://symfony.com/doc/current/index.html';
+
+        $menu = $this->factory->createItem('root');
+        foreach ($this->getDocLinks() as $doc => $validated) {
+            $validated = $validated ? 'validated' : '';
+            $menu->addChild($doc, ['uri' => $symdoc, "linkAttributes" => ["class" => $validated]]);
+        }
+
+        return $menu;
+    }
+
+    private function getDocLinks(): array
+    {
+        return [
+            'Getting Started' => false,
+            'Architecture' => false,
+            'Basics' => false,
+            'Advanced' => false,
+            'Security' => false,
+            'Frontend' => false,
+            'Utilities' => false,
+            'Production' => false,
+        ];
     }
 }

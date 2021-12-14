@@ -30,7 +30,7 @@ final class AllController extends AbstractController
      */
     public function headers(HeaderManager $headerManager): Response
     {
-        return $this->render('header/index.html.twig', [
+        return $this->render('all/headers.html.twig', [
             'controller_name' => 'HeaderController',
             'data' => $headerManager->call(),
             'current_date' => $this->getDateTime(),
@@ -44,7 +44,7 @@ final class AllController extends AbstractController
     {
         $response = HttpClient::create()->request(Request::METHOD_GET, 'http://localhost:88/headers');
 
-        return $this->render('header/index.html.twig', [
+        return $this->render('all/headers.html.twig', [
             'controller_name' => 'HeaderController',
             'data' => [
                 'response_headers' => $response->getHeaders(),

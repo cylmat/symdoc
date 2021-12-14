@@ -10,3 +10,11 @@ knp_menu:
 
     # the renderer to use, list is also available by default
     default_renderer: twig
+
+services:
+    app.menu_builder:
+        class: App\Application\Service\KnpMenuBuilder
+        arguments: ["@knp_menu.factory", "@router"]
+        tags:
+            - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # The alias is what is used to retrieve the menu
+            - { name: knp_menu.menu_builder, method: createDocMenu, alias: doc } # The alias is what is used to retrieve the menu
