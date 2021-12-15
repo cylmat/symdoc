@@ -2,7 +2,7 @@
 
 namespace App\Application\Controller;
 
-use App\Domain\Manager\MessageManager;
+use App\Application\Form\ApplicationType;
 use App\Domain\Manager\MiscManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,21 +28,24 @@ final class MiscController extends AbstractController
      */
     public function form(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        $data[0] = $request->attributes;
+        $forms = $this->forms($request);
 
         return $this->render('misc/index.html.twig', [
             'controller_name' => 'MiscController',
-            'data' => $data,
+            'data' => ['attributes' => $request->attributes, 'request' => $request->request],
+            'form' => $forms->form,
+            'formBuilder' => $forms->formBuilder
         ]);
+    }
 
-        /**
-         * $builder  
-            ->add('dt', DateTimeType::class, [
-                'html5' => false,
-                'date_format' => 'yyyy-MM-dd',
-                'format' => 'yyyy-MM-dd h:mm:ss',
-                'input_format' => 'Ymd H.i.s'
-            ])
-         */
+    private function forms(Request $request): object
+    {
+        $form = $this->createForm(ApplicationType::class, null, []); // type, data, [options]
+        $formBuilder = $this->createFormBuilder(null, []); // data, [options]
+
+        return (object)[
+            'form' => $form->createView(null), // parent
+            'formBuilder' => $formBuilder->getForm()->createView(null)
+        ];
     }
 }

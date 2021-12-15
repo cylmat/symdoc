@@ -6,7 +6,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-final class KnpMenuBuilder
+final class MenuBuilder
 {
     private $factory;
     private $routeCollection;
