@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraint as Assert;
 use Symfony\Component\Validator\Constraint\NotBlank;
 
 /**
+ * DOC
+ * 
  * There is 2 default validation groups
  * - <classname> (here User)
  * - Default
@@ -43,6 +45,12 @@ class User
     private $phone;
 
     public $testing;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Token::class, invertedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $token;
 
     public function getId(): ?int
     {
@@ -82,6 +90,23 @@ class User
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getToken(): ?Token
+    {
+        return $this->token;
+    }
+
+    public function setToken(Token $token): self
+    {
+        // set the owning side of the relation if necessary
+        if ($token->getUser() !== $this) {
+            $token->setUser($this);
+        }
+
+        $this->token = $token;
 
         return $this;
     }
