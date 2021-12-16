@@ -14,7 +14,7 @@ final class Version20211216141207 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'create token';
+        return 'create token entity';
     }
 
     public function up(Schema $schema): void

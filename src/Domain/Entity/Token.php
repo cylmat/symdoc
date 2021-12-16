@@ -23,7 +23,7 @@ class Token
     private $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="token", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="token", cascade={"persist", "remove"})
      */
     private $user;
 
@@ -31,6 +31,11 @@ class Token
      * @ORM\Column(type="string", length=255)
      */
     private $value;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
+    }
 
     public function getId(): ?int
     {

@@ -3,6 +3,7 @@
 namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
+use App\Domain\Entity\Token;
 use App\Domain\Entity\User;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -33,10 +34,10 @@ final class SerializerManager implements ManagerInterface
 
     private function serialize(): string
     {
-        $user1 = (new User)->setUsername('Alpha')->setPhone(01);
-        $user2 = (new User)->setUsername('Beta')->setPhone(02);
+        $user1 = (new User)->setUsername('Alpha')->setPhone(01)->setToken(new Token);
+        $user2 = (new User)->setUsername('Beta')->setPhone(02)->setToken(new Token);
 
-        $serialize = $this->serializer->serialize([$user1, $user2], 'json'); //@todo ['groups' => 'registration']);
+        $serialize = $this->serializer->serialize([$user1, $user2], 'json', ['groups' => 'registration']);
 
         return $serialize;
     }
