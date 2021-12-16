@@ -5,20 +5,24 @@ namespace App\Domain\Manager;
 use App\Domain\Core\Interfaces\ManagerInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Config\Definition\Builder\ExprBuilder;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Yaml\Yaml;
 
@@ -72,12 +76,15 @@ final class AllManager implements ManagerInterface
     public function classes()
     {
         AnnotationLoader::class;
+        Constraint::class;
         DateTimeType::class;
         ExprBuilder::class;
         ExpressionLanguage::class;
         Filesystem::class;
         Finder::class;
+        InputArgument::class;
         Kernel::class;
+        Security::class;
         Serializer::class;
         VarDumper::class;
         Yaml::class;
@@ -85,6 +92,11 @@ final class AllManager implements ManagerInterface
         // events
         FormEvents::class;
         KernelEvent::class;
+    }
+    
+    public function form()
+    {
+        FormType::class;
     }
     
     public function factory()
