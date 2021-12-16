@@ -25,16 +25,14 @@ final class FormController extends AbstractController
         $user = (new User())
             ->setUsername('Albert')
             ->setAge(45);
-        $sport = (new Sport())
-            ->setName('basket');
 
         $form = $this->createForm(ApplicationType::class, null, []); // type, data, [options]
         $formBuilder = $this->createFormBuilder($user, []);
 
         $generatedForms = (object)$formManager->setForms($form, $formBuilder)->call();
 
-        return $this->render('misc/index.html.twig', [
-            'controller_name' => 'MiscController',
+        return $this->render('form/index.html.twig', [
+            'controller_name' => 'FormController',
             'data' => [
                 'attributes' => $request->attributes, 
                 'request' => $request->request,
@@ -42,7 +40,8 @@ final class FormController extends AbstractController
                 'formBuilder' => $generatedForms->formBuilder,
             ],
             'form' => $generatedForms->form->createView(null), // parent,
-            'formBuilder' => $generatedForms->formBuilder->getForm()->createView(null)
+            'formBuilder' => $generatedForms->formBuilder->getForm()->createView(null),
+            'customFormBuilder' => $generatedForms->customFormBuilder->getForm()->createView(null)
         ]);
     }
 }

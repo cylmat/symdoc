@@ -1,0 +1,18 @@
+{% extends 'all/index.html.twig' %}
+
+{% block wrapper %}
+
+    {#{ parent() }#}
+    {% if data is defined %}
+        {{ dump(data) }}
+    {% endif %}
+
+    <p>
+        Form: {{ form(form) }}
+        <br/>
+        FormBuilder: {{ form(formBuilder) }}
+        <br/>
+        CustomFormBuilder: {{ form(customFormBuilder) }}
+    </p>
+
+{% endblock %}

@@ -3,27 +3,19 @@
 {% block wrapper %}
 
     {#{ parent() }#}
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
     {% if data is defined %}
         {{ dump(data) }}
     {% endif %}
 
-    {#% if myvar is defined %}
+    {% if myvar is defined %}
         <p>
             1.{{ myvar|raw~myvar2 }}-
             2.{{ myvar|raw|upper }}-
-            3.{{ myvar|upper|lower|raw }}- {# raw: need to be the last one to not escaping values # }
+            3.{{ myvar|upper|lower|raw }}- {# raw: need to be the last one to not escaping values #}
 
             Route: {{ app.request.attributes.get('_route') }}
         </p>
-    {% endif %#}
-
-    <p>
-        Form: {{ form(form) }}
-        <br/>
-        FormBuilder: {{ form(formBuilder) }}
-    </p>
+    {% endif %}
 
 {% endblock %}
 

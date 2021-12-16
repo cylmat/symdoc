@@ -17,6 +17,10 @@
             {{ knp_menu_render('main') }}
         </div>
 
+        {% if controller_name is defined %}
+            <h2>Welcome to {{ controller_name }}</h2>
+        {% endif %}
+
         {% block wrapper '' %}
 
         <div class="doc_menu">
