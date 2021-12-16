@@ -65,9 +65,15 @@ class User
      */
     private $sport;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->sport = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -167,6 +173,18 @@ class User
                 $sport->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
