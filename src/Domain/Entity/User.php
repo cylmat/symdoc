@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraint as Assert;
-use Symfony\Component\Validator\Constraint\NotBlank;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * DOC
@@ -75,6 +77,19 @@ class User
         $this->sport = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    /**
+     * - Validation without annotations
+     */
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('username', new NotBlank());
+        $metadata->addPropertyConstraint(
+            'createdAt',
+            new Type(\DateTimeImmutable::class)
+        );
+    }
+    // -validation
 
     public function getId(): ?int
     {

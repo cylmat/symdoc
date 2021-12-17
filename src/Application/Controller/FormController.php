@@ -37,6 +37,7 @@ final class FormController extends AbstractController
         $form->handleRequest($request);
         $formBuilded->handleRequest($request);
 
+         // validate if object valid after submitted data to it
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
 
