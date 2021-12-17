@@ -25,6 +25,11 @@
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
 
+        <twig:config>
+            <twig:form-theme>bootstrap_4_layout.html.twig</twig:form-theme>
+            <!-- ... -->
+        </twig:config>
+
     </services>
 
 </container>

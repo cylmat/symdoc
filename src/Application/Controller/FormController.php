@@ -3,9 +3,9 @@
 namespace App\Application\Controller;
 
 use App\Application\Form\ApplicationType;
-use App\Domain\Entity\Sport;
+use App\Application\Form\UserType;
+use App\Application\FormCreator\FormCreator;
 use App\Domain\Entity\User;
-use App\Domain\Manager\FormManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,27 +20,43 @@ final class FormController extends AbstractController
      * 2. Render
      * 3. Process
      */
-    public function index(Request $request, FormManager $formManager): Response
+    public function index(Request $request, FormCreator $formCreator): Response
     {
         $user = (new User())
             ->setUsername('Albert')
             ->setAge(45);
 
-        $form = $this->createForm(ApplicationType::class, null, []); // type, data, [options]
-        $formBuilder = $this->createFormBuilder($user, []);
+        $generatedForms = (object)$formCreator->setControllerForms(
+            $this->createForm(UserType::class, null, []), // type, data, [options]
+            $this->createFormBuilder($user, []) // data, [options]
+        )->create();
 
-        $generatedForms = (object)$formManager->setForms($form, $formBuilder)->call();
+        $form = $generatedForms->form;
+        $formBuilded = $generatedForms->formBuilder->getForm();
+
+        $form->handleRequest($request);
+        $formBuilded->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('info', 'Form submitted');
+
+            // redirecting
+        }
+
+        if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
+            $this->addFlash('info', 'Formbuilded sumbitted');
+        }
 
         return $this->render('form/index.html.twig', [
             'controller_name' => 'FormController',
-            'data' => [
-                'attributes' => $request->attributes, 
-                'request' => $request->request,
+            'data' => [ 
+                'request' => $request->request->all(),
                 'form' => $generatedForms->form,
                 'formBuilder' => $generatedForms->formBuilder,
+                'customFormBuilder' => $generatedForms->customFormBuilder,
             ],
-            'form' => $generatedForms->form->createView(null), // parent,
-            'formBuilder' => $generatedForms->formBuilder->getForm()->createView(null),
+            'form' => $form->createView(null), // parent,
+            'formBuilder' => $formBuilded->createView(null),
             'customFormBuilder' => $generatedForms->customFormBuilder->getForm()->createView(null)
         ]);
     }

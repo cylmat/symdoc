@@ -28,11 +28,14 @@ final class AllController extends AbstractController
     /**
      * @Route("/headers")
      */
-    public function headers(HeaderManager $headerManager): Response
+    public function headers(Request $request, HeaderManager $headerManager): Response
     {
         return $this->render('all/headers.html.twig', [
             'controller_name' => 'HeaderController',
-            'data' => $headerManager->call(),
+            'data' => array_merge(
+                ['attributes' => $request->attributes], 
+                $headerManager->call()
+            ),
             'current_date' => $this->getDateTime(),
         ]);
     }

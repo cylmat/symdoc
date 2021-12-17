@@ -2,31 +2,38 @@
 
 namespace App\Application\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ApplicationType extends FormType
+class UserType extends AbstractType implements FormTypeInterface
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder
-            ->add('dt', DateTimeType::class, [
+            ->add('dt', Type\DateTimeType::class, [
                 'html5' => false,
                 'format' => 'yyyy-MM-dd h:mm:ss', // used with html5 disabled
                 'date_format' => 'yyyy-MM-dd',
                 'input_format' => 'Ymd H.i.s'
+            ])
+            ->add('custom_file', Type\FileType::class, [
+                'required' => false,
+            ])
+            ->add('save', Type\SubmitType::class, [
+
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        parent::configureOptions($resolver);
+        $resolver->setDefaults([
+            'data_classs' => User::class,
+        ]);
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)
@@ -34,13 +41,13 @@ class ApplicationType extends FormType
         parent::finishView($view, $form, $options);
     }
 
-    public function getParent()
-    {
-        return null;
-    }
-
     public function getBlockPrefix()
     {
-        return 'form';
+        return parent::getBlockPrefix();
+    }
+
+    public function getParent()
+    {
+        return Type\FormType::class;
     }
 }
