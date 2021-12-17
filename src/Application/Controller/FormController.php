@@ -27,8 +27,14 @@ final class FormController extends AbstractController
             ->setAge(45);
 
         $generatedForms = (object)$formCreator->setControllerForms(
-            $this->createForm(UserType::class, null, []), // type, data, [options]
-            $this->createFormBuilder($user, []) // data, [options]
+            // FORM
+            $this->createForm(UserType::class, $user,  [ // type, data, [options]
+                'custom_type_options_file_required' => [false, true]
+            ]), 
+            // FORM BUILDER
+            $this->createFormBuilder($user, [ // data, [options]
+                'action' => $this->generateUrl('app_application_form_index')
+            ])->setAction($this->generateUrl('app_application_form_index'))
         )->create();
 
         $form = $generatedForms->form;

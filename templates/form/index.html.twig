@@ -8,7 +8,13 @@
     {% endif %}
 
     <p>
-        Form: {{ form(form) }}
+        Form: 
+            {{ form_start(form, {'action': path('app_application_form_index'), 'method': 'GET'}) }}
+                {{ form_errors(form) }}
+                {#{ form_label(form) }#}
+                {{ form_widget(form) }}
+                {#{ form_rows(form.created_at) }#}
+            {{ form_end(form) }}
         <br/>
         FormBuilder: {{ form(formBuilder) }}
         <br/>

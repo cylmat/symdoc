@@ -6,9 +6,7 @@ use App\Domain\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraint as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints as Asserts;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
@@ -33,13 +31,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @todo NotBlank(groups={"registration"})
+     * @Asserts\NotBlank(groups={"registration"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @todo (with serialize) Assert\NotBlank
+     * @Asserts\NotBlank
      */
     private $email;
 
@@ -83,10 +81,11 @@ class User
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('username', new NotBlank());
+        $metadata->addPropertyConstraint('username', new Asserts\NotBlank());
+        $metadata->addPropertyConstraint('createdAt', new Asserts\NotBlank());
         $metadata->addPropertyConstraint(
             'createdAt',
-            new Type(\DateTimeImmutable::class)
+            new Asserts\Type(\DateTimeImmutable::class)
         );
     }
     // -validation
