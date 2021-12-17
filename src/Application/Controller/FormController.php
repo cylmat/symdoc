@@ -47,6 +47,8 @@ final class FormController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
 
+            d($form->get('agreeTerms')->getData());
+
             // redirecting
         }
 
