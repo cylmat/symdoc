@@ -20,6 +20,10 @@
     <em>form-widget-override!</em>
 {% endblock %}
 
+{% block integer_widget %} {# only errors for datetime values #}
+    <em>test</em> {{ parent() }}
+{% endblock %}
+
 {% block _user_agreeTerms_widget %} 
     {# every param will be "form" #}
     {% set agreeTerms = form %}
@@ -80,6 +84,7 @@
                 <br/>
                 <em> username.prefixes: {{ form.username.vars.block_prefixes|join('|') }}</em>
 
+                {{ form_row(form.my_int) }} {# prefix: _user_my_int #}
                 {{ form_row(form.agreeTerms, {'label': 'Agree terms'}) }} {# row: label + widget #}
                 {{ form_row(form.rangefield) }}
 

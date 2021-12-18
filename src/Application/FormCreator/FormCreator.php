@@ -53,6 +53,10 @@ class FormCreator
             ->add('agreeTerms', Type\CheckboxType::class, [
                 'mapped' => false
             ])
+            ->add('my_int', Type\IntegerType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('rangefield', Type\RangeType::class, [
                 'block_name' => 'rangename',
                 'error_bubbling' => true,
