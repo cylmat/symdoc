@@ -48,11 +48,10 @@ final class FormController extends AbstractController
             'controller_name' => 'FormController',
             'data' => [ 
                 'request' => $request->request->all(),
-                'generatedForms' => $generatedForms,
                 'form' => $form,
-                'form.view' => $form->createView(null),
+                'form.view' => $form->createView(null),// parent,
             ],
-            'form' => $form->createView(null), // parent,
+            'form' => $form->createView(null),
         ]);
     }
 
@@ -85,13 +84,16 @@ final class FormController extends AbstractController
             'controller_name' => 'FormController',
             'data' => [ 
                 'request' => $request->request->all(),
-                'generatedForms' => $generatedForms,
+                'generatedForms' => [
+                    'formBuilder' => $generatedForms->formBuilder,
+                    'customFormBuilder' => $generatedForms->customFormBuilder,
+                ],
                 'formBuilder' => $formBuilded,
                 'formBuilder.view' => $formBuilded->createView(null),
                 'customFormBuilder' => $customFormBuilded,
             ],
             'formBuilder' => $formBuilded->createView(null),
-            'customFormBuilder' => $customFormBuilded->createView(null)
+            'customFormBuilder' => $customFormBuilded->createView(null),
         ]);
     }
 }

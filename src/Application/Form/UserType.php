@@ -52,8 +52,8 @@ class UserType extends AbstractType implements FormTypeInterface
 
     public function getBlockPrefix()
     {
-        return "my_typped_block_prefix";
-        //return parent::getBlockPrefix();
+        //return "my_typped_block_prefix";
+        return parent::getBlockPrefix(); // User
     }
 
     public function getParent()

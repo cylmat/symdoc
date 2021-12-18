@@ -52,6 +52,13 @@ class FormCreator
             ])
             ->add('agreeTerms', Type\CheckboxType::class, [
                 'mapped' => false
+            ])
+            ->add('rangefield', Type\RangeType::class, [
+                'block_name' => 'rangename',
+                'error_bubbling' => true,
+                'help' => 'This is a range value',
+                'mapped' => false,
+                'block_prefix' => 'customrangeblockprefix',
             ]);
 
         return $userForm;

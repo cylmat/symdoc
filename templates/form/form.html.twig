@@ -1,28 +1,50 @@
 {% extends 'all/index.html.twig' %}
 
-{#% use 'form_div_layout.html.twig' %#}
+{# can use parent() on existing block #}
+{% use 'form_div_layout.html.twig' with 
+    form_widget_compound as base_form_widget_compound,
+    range_widget as base_range_widget
+%}
+
 {# MANDATORY TO OVERRIDE BLOCKS_PREFIXES #}
-{% form_theme form _self %}
+{#% form_theme form _self %#}
+{% form_theme form with [
+    _self,
+    'form/custom_range_theme.html.twig'
+] %}
 {# -mandatory #}
 
 {% block form_widget %}
-    overrided
+    {# can use parent() on existing block (with "use templatefile.twig" keyword) #}
+    {{ parent() }}
+    <em>form-widget-override!</em>
 {% endblock %}
 
-{% block _my_typped_block_prefix_username_widget %}
-    aeapezruiaeuzoaruozaue
+{% block _user_agreeTerms_widget %} 
+    {# every param will be "form" #}
+    {% set agreeTerms = form %}
+
+    {# CAN'T use parent() on specific block #}
+    {{ form_widget(agreeTerms) }}
+
+    {# 
+        "id" => "my_typped_block_prefix_username"
+        "full_name" => "my_typped_block_prefix[username]"
+        "unique_block_prefix" => "_my_typped_block_prefix_username"
+        "cache_key" => "_my_typped_block_prefix_username_text"
+        "block_prefixes" =>
+            0 => "form"
+            1 => "text"
+            2 => "special_field_prefix"
+            3 => "_my_typped_block_prefix_username"
+    #}
+    <em>-custom-field-agree-</em>
 {% endblock %}
 
-{% block special_field_prefix %} {# block_prefix => special_field_prefix #}
+{% block customrangeblockprefix_help %} {# block_prefix => special_field_prefix #}
     {#{ form_widget(formBuilder, {'attr': {'v-model': 'color', '@focus': 'open'}}) }#}
     {# ... more custom code here ... #}
-    <div>alphadsfgdfgfgfsdgfdshgghh87787927927</div>
-{% endblock %}
-
-{% block special_field_prefix_help %} {# block_prefix => special_field_prefix #}
-    {#{ form_widget(formBuilder, {'attr': {'v-model': 'color', '@focus': 'open'}}) }#}
-    {# ... more custom code here ... #}
-    <div>beta153326454354531</div>
+    <em>-customrange-theme-</em>
 {% endblock %}
 
 {% block wrapper %}
@@ -31,15 +53,6 @@
     {%~ if data is defined %} {# ~ remove only whitespaces #}
         {{ dump(data) }}
     {% endif -%} {# - remove whitespaces and \n #}
-
-    <script>
-        $(document).ready(function() {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-        });
-    </script>
 
     <p>
         <h3>Form user</h3>
@@ -55,16 +68,21 @@
 
                 {# block_prefixes => form / text / _user_username #}
                 {{ form.username.vars.required ? 'req' }}
-                {{ form_label(form.username, 'Username '~form.username.vars.id, {
-                    'label_attr': {'class': 'its_foo'}
-                }) }}
-                {{ form_widget(form.username, {'attr': {
-                    'class': 'my_widget_username_class'
-                }}) }}
-                {{ form_help(form.username) }}<br/>
-                <em> prefix: {{ form.username.vars.block_prefixes|join('|') }}</em>
+                {{ form_label(form.username, 'Username ',
+                    {'label_attr': {'class': 'its_foo'}}
+                ) }}
+                {{ form_widget(form.username, 
+                    {'attr': {'class': 'my_widget_username_class'}}
+                ) }}
+                <br/><em>{{ 'User id:'~form.username.vars.id }}</em>
+                <br/>
+                {{ form_help(form.username) }}
+                <br/>
+                <em> username.prefixes: {{ form.username.vars.block_prefixes|join('|') }}</em>
 
                 {{ form_row(form.agreeTerms, {'label': 'Agree terms'}) }} {# row: label + widget #}
+                {{ form_row(form.rangefield) }}
+
                 {# form_rest(form) #}
                 <button id="form_twig_submit" type="submit">Save this</button>
             {{ form_end(form, {render_rest: false}) }}

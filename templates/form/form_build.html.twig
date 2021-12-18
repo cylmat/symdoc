@@ -1,5 +1,22 @@
 {% extends 'all/index.html.twig' %}
 
+{# this form theme will be applied only to the form of this template #}
+{% form_theme form 'foundation_5_layout.html.twig' only %} {# only disable other themes #}
+{#% form_theme form.a_child_form 'form/my_custom_theme.html.twig' %#}
+
+{#
+    all fields of the same type (e.g. all <textarea>)
+        use the fieldtype_fieldpart (e.g. textarea_widget, datetime_row, ...)
+
+    only one specific field (e.g. the <textarea> used for the description)
+        use the _classname_fieldid_fieldpart pattern (e.g. _class_myfield_part, _product_customname_errors, ...)
+
+    use "block_name" and "block_prefix", options
+
+    parents fallback:
+        ... textarea_widget => text_widget => form_widget
+#}
+
 {% block wrapper %}
 
     {#{ parent() }#}
