@@ -3,6 +3,7 @@
 namespace App\Application\FormCreator;
 
 use Symfony\Component\Form\Extension\Core\Type;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -16,7 +17,8 @@ class FormCreator
     private $formBuilder;
     private $formFactory;
 
-    public function __construct(FormFactoryInterface $formFactory) {
+    public function __construct(FormFactoryInterface $formFactory)
+    {
         $this->formFactory = $formFactory;
     }
 
@@ -29,7 +31,7 @@ class FormCreator
         ];
     }
 
-    public function setControllerForms(FormInterface $userForm, FormBuilderInterface $userFormBuilder): self
+    public function setControllerForms(?FormInterface $userForm = null, ?FormBuilderInterface $userFormBuilder = null): self
     {
         $this->form = $userForm;
         $this->formBuilder = $userFormBuilder;
@@ -40,7 +42,14 @@ class FormCreator
     // Symfony\Component\Form\FormFactory()->create($type, $data, $options);
     private function getForm(): FormInterface
     {
+        if (!$this->form) {
+            return $this->formFactory->create();
+        }
+
         $userForm = $this->form
+            ->add('username', null, [
+                'block_prefix' => 'special_field_prefix'
+            ])
             ->add('agreeTerms', Type\CheckboxType::class, [
                 'mapped' => false
             ]);
@@ -51,6 +60,10 @@ class FormCreator
     // Symfony\Component\Form\FormFactory()->createBuilder(FormType::class, $data, $options)
     private function getFormBuilder(): FormBuilderInterface
     {
+        if (!$this->formBuilder) {
+            return $this->formFactory->createBuilder();
+        }
+
         $userFormBuilder = $this->formBuilder;
         
         $userFormBuilder
@@ -59,12 +72,12 @@ class FormCreator
             ->add('createdAt', null, [ 
                 'attr' => [],
 
-                // datepicker
+                // Bootstrap datepicker sample
                 // 'widget' => 'single_text',
                 // 'attr' => ['class' => 'js-datepicker'],
 
                 // format of the input data
-                'input' => 'datetime', // (default) datetime
+                'input' => 'datetime_immutable', // (default) datetime
 
                 'html5' => false, // need to disable to use "format"
                 'format' => 'yyyy-MM-dd', // (default) HTML5_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -76,8 +89,8 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
-        $userFormBuilder
-            ->addEventListener();
+        //$userFormBuilder
+        //    ->addEventListener();
         
         return $userFormBuilder;
     }

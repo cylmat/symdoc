@@ -1,0 +1,74 @@
+{% extends 'all/index.html.twig' %}
+
+{#% use 'form_div_layout.html.twig' %#}
+{# MANDATORY TO OVERRIDE BLOCKS_PREFIXES #}
+{% form_theme form _self %}
+{# -mandatory #}
+
+{% block form_widget %}
+    overrided
+{% endblock %}
+
+{% block _my_typped_block_prefix_username_widget %}
+    aeapezruiaeuzoaruozaue
+{% endblock %}
+
+{% block special_field_prefix %} {# block_prefix => special_field_prefix #}
+    {#{ form_widget(formBuilder, {'attr': {'v-model': 'color', '@focus': 'open'}}) }#}
+    {# ... more custom code here ... #}
+    <div>alphadsfgdfgfgfsdgfdshgghh87787927927</div>
+{% endblock %}
+
+{% block special_field_prefix_help %} {# block_prefix => special_field_prefix #}
+    {#{ form_widget(formBuilder, {'attr': {'v-model': 'color', '@focus': 'open'}}) }#}
+    {# ... more custom code here ... #}
+    <div>beta153326454354531</div>
+{% endblock %}
+
+{% block wrapper %}
+
+    {#{ parent() }#}
+    {%~ if data is defined %} {# ~ remove only whitespaces #}
+        {{ dump(data) }}
+    {% endif -%} {# - remove whitespaces and \n #}
+
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
+
+    <p>
+        <h3>Form user</h3>
+        <p>
+        {# debug: 'attr': {'novalidate': 'novalidate'} #}
+            {{ form_start(form, {
+                    'action': path('app_application_form_form'), 
+                    'method': 'GET',
+            }) }}
+                {% if form is rootform %}
+                    {{ form_errors(form) }}
+                {% endif %}
+
+                {# block_prefixes => form / text / _user_username #}
+                {{ form.username.vars.required ? 'req' }}
+                {{ form_label(form.username, 'Username '~form.username.vars.id, {
+                    'label_attr': {'class': 'its_foo'}
+                }) }}
+                {{ form_widget(form.username, {'attr': {
+                    'class': 'my_widget_username_class'
+                }}) }}
+                {{ form_help(form.username) }}<br/>
+                <em> prefix: {{ form.username.vars.block_prefixes|join('|') }}</em>
+
+                {{ form_row(form.agreeTerms, {'label': 'Agree terms'}) }} {# row: label + widget #}
+                {# form_rest(form) #}
+                <button id="form_twig_submit" type="submit">Save this</button>
+            {{ form_end(form, {render_rest: false}) }}
+        </p>
+    </p>
+
+{% endblock %}

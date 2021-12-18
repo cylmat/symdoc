@@ -12,7 +12,7 @@ final class MiscController extends AbstractController
     /**
      * @Route("/misc")
      */
-    public function index(MiscManager $miscManager): Response
+    public function misc(MiscManager $miscManager): Response
     {
         return $this->render('misc/index.html.twig', [
             'controller_name' => 'MiscController',

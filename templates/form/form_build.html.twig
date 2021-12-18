@@ -1,0 +1,30 @@
+{% extends 'all/index.html.twig' %}
+
+{% block wrapper %}
+
+    {#{ parent() }#}
+    {%~ if data is defined %} {# ~ remove only whitespaces #}
+        {{ dump(data) }}
+    {% endif -%} {# - remove whitespaces and \n #}
+
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
+
+    <p>
+        <p>
+            {{ form(formBuilder) }}
+        </p>
+
+        <h3>CustomFormBuilder</h3> 
+        <p>
+            {{ form(customFormBuilder) }}
+        </p>
+    </p>
+
+{% endblock %}
