@@ -34,6 +34,7 @@ final class FormController extends AbstractController
         )->create();
 
         $form = $generatedForms->form;
+
         $form->handleRequest($request);
 
          // validate if object valid after submitted data to it

@@ -84,6 +84,7 @@
                 <br/>
                 <em> username.prefixes: {{ form.username.vars.block_prefixes|join('|') }}</em>
 
+                {{ form_row(form.choice) }} {# prefix: _user_my_int #}
                 {{ form_row(form.my_int) }} {# prefix: _user_my_int #}
                 {{ form_row(form.agreeTerms, {'label': 'Agree terms'}) }} {# row: label + widget #}
                 {{ form_row(form.rangefield) }}

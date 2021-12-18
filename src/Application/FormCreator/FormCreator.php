@@ -2,12 +2,16 @@
 
 namespace App\Application\FormCreator;
 
+use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
+use Symfony\Component\Form\ChoiceList\LazyChoiceList;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
+use Symfony\Component\OptionsResolver\Options;
 
 class FormCreator
 {
@@ -63,6 +67,20 @@ class FormCreator
                 'help' => 'This is a range value',
                 'mapped' => false,
                 'block_prefix' => 'customrangeblockprefix',
+            ])
+            ->add('choice', Type\ChoiceType::class, [
+                'mapped' => false,
+                'choices' => [
+                    'alpha' => (new LazyChoiceList(
+                        new CallbackChoiceLoader(function () {
+                            return [111]; // keys
+                        }), function($key) {
+                            return [111 => 'value_111'][$key];
+                        }
+                    ))->getChoices(),
+                    'beta' => ['val1' => 'val1']
+                ],
+                // sample: 'choice_loader' => new CallbackChoiceLoader
             ]);
 
         return $userForm;
