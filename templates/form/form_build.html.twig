@@ -1,7 +1,7 @@
 {% extends 'all/index.html.twig' %}
 
 {# this form theme will be applied only to the form of this template #}
-{% form_theme form 'foundation_5_layout.html.twig' only %} {# only disable other themes #}
+{% form_theme formBuilder with ['foundation_5_layout.html.twig', _self] only %} {# only disable other themes #}
 {#% form_theme form.a_child_form 'form/my_custom_theme.html.twig' %#}
 
 {#
@@ -16,6 +16,17 @@
     parents fallback:
         ... textarea_widget => text_widget => form_widget
 #}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form is not rootform %}<small class="error">{% else %}<div data-alert class="alert-box alert">{% endif %}
+        {%- for error in errors -%}
+            {{ error.message|replace({'value': 'value "'~error.cause.propertyPath~'"'}) }}
+            {% if not loop.last %}, {% endif %}
+        {%- endfor -%}
+        {% if form is not rootform %}</small>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
 
 {% block wrapper %}
 
@@ -34,6 +45,7 @@
     </script>
 
     <p>
+        <h3>FormBuilder</h3>
         <p>
             {{ form(formBuilder) }}
         </p>

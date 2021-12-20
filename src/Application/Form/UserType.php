@@ -5,6 +5,7 @@ namespace App\Application\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
@@ -17,9 +18,6 @@ class UserType extends AbstractType implements FormTypeInterface
     {
         $builder
             ->setMethod(Request::METHOD_POST)
-            /*->add('dt', Type\DateTimeType::class, [ // doesn't exists
-                'mapped' => false,
-            ]) */
             ->add('created_at', Type\DateTimeType::class, [
                 'html5' => false,
                 'input' => 'datetime_immutable',
@@ -33,6 +31,17 @@ class UserType extends AbstractType implements FormTypeInterface
                     'label' => 'Custom file info'
             ])
             ->add('save', Type\SubmitType::class, []);
+
+        $builder
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                [$this, 'onPreSetData']
+            );
+    }
+
+    public function onPreSetData(string $g) 
+    {
+        d($g);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

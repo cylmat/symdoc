@@ -2,16 +2,16 @@
 
 namespace App\Application\FormCreator;
 
-use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
+use Symfony\Component\Form\Event\PostSetDataEvent;
+use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
-use Symfony\Component\OptionsResolver\Options;
 
 class FormCreator
 {
@@ -113,15 +113,24 @@ class FormCreator
                 
                 'date_format' => IntlDateFormatter::MEDIUM,
                 'date_widget' => 'choice', // "default" choice
-                'with_minutes' => false,
             ])
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
-        //$userFormBuilder
-        //    ->addEventListener();
+        $userFormBuilder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(PreSetDataEvent $event, string $eventName, $dispatcher) {
+                
+            })
+            ->addEventListener(FormEvents::POST_SET_DATA, function(PostSetDataEvent $event, string $eventName, $dispatcher) {
+                
+            });
         
         return $userFormBuilder;
+    }
+
+    private function onPostSetData(string $e)
+    {
+        d($e);
     }
 
     private function createCustomFormBuilder(): FormBuilderInterface

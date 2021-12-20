@@ -70,12 +70,6 @@ class User
      */
     private $createdAt;
 
-    public function __construct()
-    {
-        $this->sport = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
-    }
-
     /**
      * - Validation without annotations
      */
@@ -89,6 +83,12 @@ class User
         );
     }
     // -validation
+
+    public function __construct()
+    {
+        $this->sport = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
