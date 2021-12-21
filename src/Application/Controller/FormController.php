@@ -53,16 +53,21 @@ final class FormController extends AbstractController
      */
     public function formBuild(Request $request, FormCreator $formCreator): Response
     {
-        $user = (new User());
+        $user = (new User())
+            ->setUsername('username from controller');
 
+        //Create a classical FormType::class
         $formBuilder = $this->createFormBuilder($user, [ // data, [options]
+            'csrf_message' => 'This is an invalid Csrf...',
         ]);
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
 
         $formBuilded->handleRequest($request);
         if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
-            $this->addFlash('info', 'Formbuilded sumbitted');
+            $this->addFlash('info', 'Formbuilded submitted');
+
+            $submitted = $formBuilded->getData();
         }
 
         return $this->render('form/form_build.html.twig', [
@@ -74,6 +79,7 @@ final class FormController extends AbstractController
                 'formBuilded.view' => $formBuilded->createView(null),
             ],
             'formBuilder' => $formBuilded->createView(null),
+            'submitted' => $submitted ?? null,
         ]);
     }
 

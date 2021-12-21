@@ -46,6 +46,13 @@
 
     <p>
         <h3>FormBuilder</h3>
+        <p class="alert alert-info">{% for message in app.flashes('info') %}{{ message }}{% endfor %}</p>
+        <ul class="alert alert-warning">
+            {% if submitted is defined and submitted is not null %}
+                <li> username: {{ submitted.username }} </li>
+                <li> email: {{ submitted.email }} </li>
+            {% endif %}
+        </ul>
         <p>
             {{ form(formBuilder) }}
         </p>

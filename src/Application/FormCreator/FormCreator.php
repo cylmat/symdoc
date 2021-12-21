@@ -5,7 +5,10 @@ namespace App\Application\FormCreator;
 use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Event\PostSetDataEvent;
+use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Event\PreSetDataEvent;
+use Symfony\Component\Form\Event\PreSubmitEvent;
+use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -68,6 +71,9 @@ class FormCreator
     {
         $formBuilder
             ->add('username', Type\TextType::class)
+            ->add('custom_field_from_builder', null, [
+                'mapped' => false,
+            ])
             // passing "null" will autoload Type\DateTimeType::class, required and maxlength option
             ->add('createdAt', null, [ 
                 'attr' => [],
@@ -88,16 +94,44 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
+        /**
+          * add an email field (preset), 
+          * then populate data (presubmit)
+          * then remove field
+          */
         $formBuilder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(PreSetDataEvent $event, string $eventName, $dispatcher) {
-                
+            ->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData'])
+            ->addEventListener(FormEvents::POST_SET_DATA, [$this, 'onPostSetData'])
+
+            // Change data from the request
+            ->addEventListener(FormEvents::PRE_SUBMIT, function(PreSubmitEvent $event) {
+
             })
-            ->addEventListener(FormEvents::POST_SET_DATA, function(PostSetDataEvent $event, string $eventName, $dispatcher) {
+            //  change data from the normalized representation
+            // data objects model
+            ->addEventListener(FormEvents::SUBMIT, function(SubmitEvent $event) {
+                $event->getForm()->add('email');
                 
+                $data = $event->getData();
+                $data->setEmail('modifyed from presubmit');
+                $event->setData($data);
+
+                $event->getForm()->remove('email');
+            })
+            // can be used to fetch data after denormalization
+            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
+
             });
     }
 
-    private function onPostSetData(string $e)
+    // No datas yet, add or remove field...
+    // Use  FormEvent::setData(), not Form:setData()
+    public function onPreSetData(PreSetDataEvent $event, string $eventName, $dispatcher)
+    {
+    }
+
+    // Data from model denormalizer and view
+    public function onPostSetData(PostSetDataEvent $event, string $eventName, $dispatcher)
     {
         
     }
