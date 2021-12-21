@@ -84,6 +84,12 @@ class User
     }
     // -validation
 
+    // MANDATORY WHEN USING EntityType
+    public function __toString()
+    {
+        return $this->username;
+    }
+
     public function __construct()
     {
         $this->sport = new ArrayCollection();

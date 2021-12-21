@@ -2,6 +2,9 @@
 
 namespace App\Application\FormCreator;
 
+use App\Domain\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Event\PostSetDataEvent;
@@ -70,7 +73,13 @@ class FormCreator
     public function updateFormBuilder(FormBuilderInterface $formBuilder): void
     {
         $formBuilder
-            ->add('username', Type\TextType::class)
+            ->add('username', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u');
+                },
+                'choice_label' => 'username',
+            ])
             ->add('custom_field_from_builder', null, [
                 'mapped' => false,
             ])
@@ -94,6 +103,19 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
+        $formBuilder->get('username')
+            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
+                if (1 == $event->getData()) {
+                    $event->getForm()->getParent()->add('amanda', Type\TextType::class, [
+                        'mapped' => false,
+                        'required' => false,
+                        'attr' => [
+                            'placeholder' => 'field from "username" listener',
+                        ],
+                    ]);
+                }
+            });
+
         /**
           * add an email field (preset), 
           * then populate data (presubmit)
@@ -113,14 +135,15 @@ class FormCreator
                 $event->getForm()->add('email');
                 
                 $data = $event->getData();
-                $data->setEmail('modifyed from presubmit');
+                $data->setEmail('modified from presubmit');
                 $event->setData($data);
 
                 $event->getForm()->remove('email');
             })
             // can be used to fetch data after denormalization
+            // PS event does not allow modifications to the form the listener is bound to, but it allows modifications to its parent
             ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
-
+                
             });
     }
 
@@ -128,6 +151,8 @@ class FormCreator
     // Use  FormEvent::setData(), not Form:setData()
     public function onPreSetData(PreSetDataEvent $event, string $eventName, $dispatcher)
     {
+        //$event->getForm()
+        //$event->getData()->getUsername();
     }
 
     // Data from model denormalizer and view

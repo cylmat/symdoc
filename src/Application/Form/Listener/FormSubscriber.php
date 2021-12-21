@@ -18,7 +18,7 @@ class FormSubscriber implements EventSubscriberInterface
 
     public function preSubmit(string $event)
     {
-        d($event);
+        
     }
 
     public function submit(string $event)

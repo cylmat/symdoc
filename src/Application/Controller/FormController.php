@@ -54,7 +54,7 @@ final class FormController extends AbstractController
     public function formBuild(Request $request, FormCreator $formCreator): Response
     {
         $user = (new User())
-            ->setUsername('username from controller');
+            ->setUsername('user from ctrl');
 
         //Create a classical FormType::class
         $formBuilder = $this->createFormBuilder($user, [ // data, [options]
@@ -63,7 +63,7 @@ final class FormController extends AbstractController
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
 
-        $formBuilded->handleRequest($request);
+        $formBuilded->handleRequest($request);  
         if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
             $this->addFlash('info', 'Formbuilded submitted');
 

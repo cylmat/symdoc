@@ -46,13 +46,15 @@
 
     <p>
         <h3>FormBuilder</h3>
-        <p class="alert alert-info">{% for message in app.flashes('info') %}{{ message }}{% endfor %}</p>
-        <ul class="alert alert-warning">
-            {% if submitted is defined and submitted is not null %}
+        {% if app.flashes('info') is defined %}
+            <p class="alert alert-info">{% for message in app.flashes('info') %}{{ message }}{% endfor %}</p>
+        {% endif %}
+        {% if submitted is defined and submitted is not null %}
+            <ul class="alert alert-warning">
                 <li> username: {{ submitted.username }} </li>
                 <li> email: {{ submitted.email }} </li>
-            {% endif %}
-        </ul>
+            </ul>
+        {% endif %}
         <p>
             {{ form(formBuilder) }}
         </p>
