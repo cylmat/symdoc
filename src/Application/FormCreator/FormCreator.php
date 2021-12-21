@@ -15,10 +15,6 @@ use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
 
 class FormCreator
 {
-    /** @var FormInterface $form */
-    private $form;
-    /** @var FormBuilderInterface $formBuilder */
-    private $formBuilder;
     private $formFactory;
 
     public function __construct(FormFactoryInterface $formFactory)
@@ -26,31 +22,14 @@ class FormCreator
         $this->formFactory = $formFactory;
     }
 
-    public function create(): array
-    {
-        return [
-            'form' => $this->getForm(),
-            'formBuilder' => $this->getFormBuilder(),
-            'customFormBuilder' => $this->createCustomFormBuilder(),
-        ];
-    }
-
-    public function setControllerForms(?FormInterface $userForm = null, ?FormBuilderInterface $userFormBuilder = null): self
-    {
-        $this->form = $userForm;
-        $this->formBuilder = $userFormBuilder;
-
-        return $this;
-    }
-
     // Symfony\Component\Form\FormFactory()->create($type, $data, $options);
-    private function getForm(): FormInterface
+    public function updateForm(FormInterface $form): void
     {
-        if (!$this->form) {
-            return $this->formFactory->create();
+        if (!$form) {
+            $form = $this->formFactory->create();
         }
 
-        $userForm = $this->form
+        $form
             ->add('username', null, [
                 'block_prefix' => 'special_field_prefix'
             ])
@@ -82,20 +61,12 @@ class FormCreator
                 ],
                 // sample: 'choice_loader' => new CallbackChoiceLoader
             ]);
-
-        return $userForm;
     }
 
     // Symfony\Component\Form\FormFactory()->createBuilder(FormType::class, $data, $options)
-    private function getFormBuilder(): FormBuilderInterface
+    public function updateFormBuilder(FormBuilderInterface $formBuilder): void
     {
-        if (!$this->formBuilder) {
-            return $this->formFactory->createBuilder();
-        }
-
-        $userFormBuilder = $this->formBuilder;
-        
-        $userFormBuilder
+        $formBuilder
             ->add('username', Type\TextType::class)
             // passing "null" will autoload Type\DateTimeType::class, required and maxlength option
             ->add('createdAt', null, [ 
@@ -117,23 +88,21 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
-        $userFormBuilder
+        $formBuilder
             ->addEventListener(FormEvents::PRE_SET_DATA, function(PreSetDataEvent $event, string $eventName, $dispatcher) {
                 
             })
             ->addEventListener(FormEvents::POST_SET_DATA, function(PostSetDataEvent $event, string $eventName, $dispatcher) {
                 
             });
-        
-        return $userFormBuilder;
     }
 
     private function onPostSetData(string $e)
     {
-        d($e);
+        
     }
 
-    private function createCustomFormBuilder(): FormBuilderInterface
+    public function createCustomFormBuilder(): FormBuilderInterface
     {
         // sample: $this->formFactory->createNamed('my_name', TaskType::class, $task);
 

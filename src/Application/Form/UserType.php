@@ -3,6 +3,7 @@
 namespace App\Application\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -18,6 +19,7 @@ class UserType extends AbstractType implements FormTypeInterface
     {
         $builder
             ->setMethod(Request::METHOD_POST)
+            ->add('username')
             ->add('created_at', Type\DateTimeType::class, [
                 'html5' => false,
                 'input' => 'datetime_immutable',
@@ -35,13 +37,14 @@ class UserType extends AbstractType implements FormTypeInterface
         $builder
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
-                [$this, 'onPreSetData']
+                [$this, 'ucfirstUsernameOnPreSetData']
             );
     }
 
-    public function onPreSetData(string $g) 
+    public function ucfirstUsernameOnPreSetData(PreSetDataEvent $event) 
     {
-        d($g);
+        $username = ucfirst($event->getData()->getUsername());
+        $event->getForm()->get('username')->setData($username);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -21,22 +21,14 @@ final class FormController extends AbstractController
      */
     public function form(Request $request, FormCreator $formCreator): Response
     {
-        $user = (new User())
-            ->setUsername('Albert')
-            ->setAge(45);
+        $user = (new User());
 
-        $generatedForms = (object)$formCreator->setControllerForms(
-            // FORM
-            $this->createForm(UserType::class, $user,  [ // type, data, [options]
-                'custom_type_options_file_required' => [false, true]
-            ]),
-            null
-        )->create();
-
-        $form = $generatedForms->form;
+        $form = $this->createForm(UserType::class, $user,  [ // type, data, [options]
+            'custom_type_options_file_required' => [false, true]
+        ]);
+        $formCreator->updateForm($form);
 
         $form->handleRequest($request);
-
          // validate if object valid after submitted data to it
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
@@ -61,22 +53,14 @@ final class FormController extends AbstractController
      */
     public function formBuild(Request $request, FormCreator $formCreator): Response
     {
-        $user = (new User())
-            ->setUsername('Albert')
-            ->setAge(45);
+        $user = (new User());
 
-        $generatedForms = (object)$formCreator->setControllerForms(null,
-            // FORM BUILDER
-            $this->createFormBuilder($user, [ // data, [options]
-                'action' => $this->generateUrl('app_application_form_formbuild')
-            ])->setAction($this->generateUrl('app_application_form_formbuild'))
-        )->create();
-
-        $formBuilded = $generatedForms->formBuilder->getForm();
-        $customFormBuilded = $generatedForms->customFormBuilder->getForm();
+        $formBuilder = $this->createFormBuilder($user, [ // data, [options]
+        ]);
+        $formCreator->updateFormBuilder($formBuilder);
+        $formBuilded = $formBuilder->getForm();
 
         $formBuilded->handleRequest($request);
-
         if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
             $this->addFlash('info', 'Formbuilded sumbitted');
         }
@@ -85,16 +69,38 @@ final class FormController extends AbstractController
             'controller_name' => 'FormController',
             'data' => [ 
                 'request' => $request->request->all(),
-                'generatedForms' => [
-                    'formBuilder' => $generatedForms->formBuilder,
-                    'customFormBuilder' => $generatedForms->customFormBuilder,
-                ],
-                'formBuilder' => $formBuilded,
-                'formBuilder.view' => $formBuilded->createView(null),
-                'customFormBuilder' => $customFormBuilded,
+                'formBuilder' => $formBuilder,
+                'formBuilded' => $formBuilded,
+                'formBuilded.view' => $formBuilded->createView(null),
             ],
             'formBuilder' => $formBuilded->createView(null),
-            'customFormBuilder' => $customFormBuilded->createView(null),
+        ]);
+    }
+
+    /**
+     * @Route("/formbuildcustom")
+     */
+    public function formBuildCustom(Request $request, FormCreator $formCreator): Response
+    {
+        $formBuilder = $this->createFormBuilder(null, [ // data, [options]
+            'action' => $this->generateUrl('app_application_form_formbuildcustom')
+        ])
+        ->setAction($this->generateUrl('app_application_form_formbuildcustom'));
+
+        $formBuilded = $formBuilder->getForm();
+
+        $formBuilded->handleRequest($request);
+        if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
+            $this->addFlash('info', 'Formbuilded sumbitted');
+        }
+
+        return $this->render('form/form_build_custom.html.twig', [
+            'controller_name' => 'FormController',
+            'data' => [ 
+                'request' => $request->request->all(),
+                'customFormBuilder' => $formBuilder,
+            ],
+            'customFormBuilder' => $formBuilder->getForm()->createView(null),
         ]);
     }
 }

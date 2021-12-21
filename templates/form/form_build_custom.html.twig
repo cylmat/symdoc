@@ -1,7 +1,7 @@
 {% extends 'all/index.html.twig' %}
 
 {# this form theme will be applied only to the form of this template #}
-{% form_theme formBuilder with ['foundation_5_layout.html.twig', _self] only %} {# only disable other themes #}
+{% form_theme customFormBuilder with ['foundation_5_layout.html.twig', _self] only %} {# only disable other themes #}
 {#% form_theme form.a_child_form 'form/my_custom_theme.html.twig' %#}
 
 {#
@@ -45,9 +45,9 @@
     </script>
 
     <p>
-        <h3>FormBuilder</h3>
+        <h3>CustomFormBuilder</h3> 
         <p>
-            {{ form(formBuilder) }}
+            {{ form(customFormBuilder) }}
         </p>
     </p>
 
