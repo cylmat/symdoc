@@ -59,6 +59,7 @@ final class FormController extends AbstractController
         //Create a classical FormType::class
         $formBuilder = $this->createFormBuilder($user, [ // data, [options]
             'csrf_message' => 'This is an invalid Csrf...',
+            'attr' => ['id' => 'form'],
         ]);
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();

@@ -5,6 +5,7 @@ namespace App\Application\FormCreator;
 use App\Domain\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\ChoiceList\LazyChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Event\PostSetDataEvent;
@@ -12,7 +13,6 @@ use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Event\SubmitEvent;
-use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -71,7 +71,7 @@ class FormCreator
 
     // Symfony\Component\Form\FormFactory()->createBuilder(FormType::class, $data, $options)
     public function updateFormBuilder(FormBuilderInterface $formBuilder): void
-    {
+    {var_dump($_POST);
         $formBuilder
             ->add('username', EntityType::class, [
                 'class' => User::class,
@@ -79,6 +79,9 @@ class FormCreator
                     return $er->createQueryBuilder('u');
                 },
                 'choice_label' => 'username',
+            ])
+            ->add('type', Type\ChoiceType::class, [
+                'choices' => array_flip(User::TYPES),
             ])
             ->add('custom_field_from_builder', null, [
                 'mapped' => false,
@@ -103,16 +106,27 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
-        $formBuilder->get('username')
+        $formBuilder->get('type')
             ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
-                if (1 == $event->getData()) {
-                    $event->getForm()->getParent()->add('amanda', Type\TextType::class, [
-                        'mapped' => false,
-                        'required' => false,
-                        'attr' => [
-                            'placeholder' => 'field from "username" listener',
-                        ],
-                    ]);
+                $type = $event->getData();
+                $parentForm = $event->getForm()->getParent();
+
+                if (0 === $type) {
+                    $parentForm
+                        ->add('address', Type\TextType::class, [
+                            'mapped' => false,
+                            'required' => false,
+                        ]);
+                } elseif (1 === $type) {
+                    $parentForm
+                        ->add('tax', Type\TextType::class, [
+                            'mapped' => false,
+                            'required' => false,
+                        ])
+                        ->add('social', Type\TextType::class, [
+                            'mapped' => false,
+                            'required' => false,
+                        ]);
                 }
             });
 
@@ -151,8 +165,25 @@ class FormCreator
     // Use  FormEvent::setData(), not Form:setData()
     public function onPreSetData(PreSetDataEvent $event, string $eventName, $dispatcher)
     {
-        //$event->getForm()
-        //$event->getData()->getUsername();
+        $entity = $event->getData();
+
+        if (0 === $entity->getType()) {
+            $event->getForm()
+                ->add('address', Type\TextType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                ]);
+        } elseif (1 === $entity->getType()) {
+            $event->getForm()
+                ->add('tax', Type\TextType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                ])
+                ->add('social', Type\TextType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                ]);
+        }
     }
 
     // Data from model denormalizer and view

@@ -40,7 +40,7 @@ final class MenuBuilder
 
             return [
                 'path' => $object->getPath(),
-                'controller' => $match[1]{0}.'::'.$match[2],
+                'controller' => $match[1][0].'::'.$match[2],
             ];
         }, $routes);
 

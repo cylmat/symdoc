@@ -36,11 +36,25 @@
     {% endif -%} {# - remove whitespaces and \n #}
 
     <script>
-        $(document).ready(function() {
+        /*$(document).ready(function() {
             // you may need to change this code if you are not using Bootstrap Datepicker
             $('.js-datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
+        });*/
+    </script>
+
+    <script> // ajax form update
+        $(document).ready(function() {
+            $('#form_type').change(function() {
+                var $form = $('#form')
+                var postdata = $form.serialize()
+                $.post('/formbuild', postdata, function(html) {
+                  /*  $('#form_div_for_type').replaceWith(
+                        $(html).find('#form_div_for_type')
+                    )*/
+                })
+            })
         });
     </script>
 
@@ -56,7 +70,19 @@
             </ul>
         {% endif %}
         <p>
-            {{ form(formBuilder) }}
+            {#{ form(formBuilder) }#}
+            {{ form_start(formBuilder) }}
+                {{ form_row(formBuilder.username) }}   
+                {{ form_row(formBuilder.type) }}
+                {{ form_row(formBuilder.custom_field_from_builder) }}
+                {{ form_row(formBuilder.createdAt) }}
+                <div id="form_div_for_type">
+                    {{ formBuilder.address is defined ? form_row(formBuilder.address) : null }}
+                    {{ formBuilder.tax is defined ? form_row(formBuilder.tax) : null }}
+                    {{ formBuilder.social is defined ? form_row(formBuilder.social) : null }}
+                </div>
+                {{ form_row(formBuilder.save) }}
+            {{ form_end(formBuilder) }}
         </p>
     </p>
 

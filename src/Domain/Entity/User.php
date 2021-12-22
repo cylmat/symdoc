@@ -22,6 +22,13 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class User
 {
+    public const TYPES = ['individual', 'company'];
+    
+    private $testing;
+
+    /** @var int $type */
+    private $type = 0;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -46,8 +53,6 @@ class User
      */
     private $phone;
 
-    public $testing;
-
     /**
      * @ORM\OneToOne(targetEntity=Token::class, mappedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -66,7 +71,7 @@ class User
     private $sport;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=false)
      */
     private $createdAt;
 
@@ -205,6 +210,18 @@ class User
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
