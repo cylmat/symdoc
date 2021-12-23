@@ -1,4 +1,4 @@
-{% extends 'all/index.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {# can use parent() on existing block #}
 {% use 'form_div_layout.html.twig' with 
@@ -9,7 +9,7 @@
 {# MANDATORY TO OVERRIDE BLOCKS_PREFIXES #}
 {#% form_theme form _self %#}
 {% form_theme form with [
-    'basics/form_custom_range_theme.html.twig',
+    'basics/custom/range_theme.html.twig',
     _self
 ] %}
 {# -mandatory #}
@@ -63,7 +63,7 @@
         <p>
         {# debug: 'attr': {'novalidate': 'novalidate'} #}
             {{ form_start(form, {
-                    'action': path('app_application_basics_form_form'), 
+                    'action': path('app_application_basics_form'), 
                     'method': 'GET',
             }) }}
                 {% if form is rootform %}

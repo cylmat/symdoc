@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-final class MiscManager implements ManagerInterface
+final class ComponentManager implements ManagerInterface
 {
     public function call(): array
     {

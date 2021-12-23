@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Controller\Basics;
+namespace App\Application\Controller;
 
 use App\Application\Form\UserType;
 use App\Application\FormCreator\FormCreator;
@@ -8,13 +8,10 @@ use App\Application\Response;
 use App\Domain\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
-final class FormController extends AbstractController
+final class BasicsFormController extends AbstractController
 {
     /**
-     * @Route("/form")
-     * 
      * 1. Build
      * 2. Render
      * 3. Process
@@ -33,7 +30,6 @@ final class FormController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
 
-            d($form->get('agreeTerms')->getData());
             // redirecting
         }
 
@@ -47,9 +43,6 @@ final class FormController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/form-build")
-     */
     public function formBuild(Request $request, FormCreator $formCreator): Response
     {
         $user = (new User())
@@ -59,9 +52,9 @@ final class FormController extends AbstractController
         $formBuilder = $this->createFormBuilder($user, [ // data, [options]
             'csrf_message' => 'This is an invalid Csrf...',
             'attr' => ['id' => 'form'],
-            'action' => $this->generateUrl('app_application_basics_form_formbuild')
+            'action' => $this->generateUrl('app_application_basics_formbuild')
         ])
-        ->setAction($this->generateUrl('app_application_basics_form_formbuild'));
+        ->setAction($this->generateUrl('app_application_basics_formbuild'));
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
 

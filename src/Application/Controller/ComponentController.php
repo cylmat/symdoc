@@ -3,16 +3,16 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
-use App\Domain\Manager\MiscManager;
+use App\Domain\Manager\ComponentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class MiscController extends AbstractController
+final class ComponentController extends AbstractController
 {
     /**
-     * @Route("/misc")
+     * @Route("/component")
      */
-    public function index(MiscManager $miscManager): Response
+    public function index(ComponentManager $miscManager): Response
     {
         return new Response([
             'data' => $miscManager->call(),

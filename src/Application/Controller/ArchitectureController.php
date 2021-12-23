@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Controller\Architecture;
+namespace App\Application\Controller;
 
 use App\Application\Response;
 use App\Domain\Manager\HeaderManager;
@@ -8,14 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class HttpController extends AbstractController
+final class ArchitectureController extends AbstractController
 {
     private const DATETIME_PARIS = 'Europe/Paris';
     
     /**
      * @Route("/request")
      */
-    public function request(Request $request, HeaderManager $headerManager): Response
+    public function httprequest(Request $request, HeaderManager $headerManager): Response
     {
         return new Response([
             'controller_name' => 'HeaderController',

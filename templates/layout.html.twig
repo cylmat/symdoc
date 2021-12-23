@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set controller = app.request.attributes.get('_controller')|split('\\')[4]|replace({'Controller': ''}) %}
+{% set controller = app.request.attributes.get('_controller')|split('\\')[3]|replace({'Controller': ''}) %}
 
 {% block title %}{{ controller }}!{% endblock %}
 

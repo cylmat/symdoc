@@ -57,10 +57,10 @@ final class MenuBuilder
         }, ARRAY_FILTER_USE_BOTH);
         
         $routes = array_map(function($object) {
-            preg_match('/(\w+)\\\\(\w+)Controller::(\w+)/', $object->getDefaults()['_controller'], $match);
+            preg_match('/\\\\(\w+)Controller::(\w+)/', $object->getDefaults()['_controller'], $match);
 
             $group = $match[1];
-            $action = 'index' !== $match[3] ? $match[3] : $match[2];
+            $action = $match[2];
 
             return (object)[
                 'group' => $group,
