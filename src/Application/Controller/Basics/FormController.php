@@ -4,10 +4,10 @@ namespace App\Application\Controller\Basics;
 
 use App\Application\Form\UserType;
 use App\Application\FormCreator\FormCreator;
+use App\Application\Response;
 use App\Domain\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class FormController extends AbstractController
@@ -37,8 +37,7 @@ final class FormController extends AbstractController
             // redirecting
         }
 
-        return $this->render('form/form.html.twig', [
-            'controller_name' => 'FormController',
+        return new Response([
             'data' => [ 
                 'request' => $request->request->all(),
                 'form' => $form,
@@ -81,8 +80,7 @@ final class FormController extends AbstractController
             $submitted = $formBuilded->getData();
         }
 
-        return $this->render('form/form_build.html.twig', [
-            'controller_name' => 'FormController',
+        return new Response([
             'data' => [ 
                 'request' => $request->request->all(),
                 'formBuilder' => $formBuilder,

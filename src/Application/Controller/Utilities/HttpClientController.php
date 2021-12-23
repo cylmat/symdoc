@@ -2,11 +2,10 @@
 
 namespace App\Application\Controller\Utilities;
 
-use App\Domain\Manager\HeaderManager;
+use App\Application\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class HttpClientController extends AbstractController
@@ -16,12 +15,11 @@ final class HttpClientController extends AbstractController
     /**
      * @Route("/http-client")
      */
-    public function httpclient(Request $request): Response
+    public function index(Request $request): Response
     {
         $response = HttpClient::create()->request(Request::METHOD_GET, 'http://localhost:88/headers');
 
-        return $this->render('all/headers.html.twig', [
-            'controller_name' => 'HeaderController',
+        return new Response([
             'data' => [
                 'response_headers' => $response->getHeaders(),
                 'response' => $response,

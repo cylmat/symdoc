@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% set controller = app.request.attributes.get('_controller')|split('\\')[4]|replace({'Controller': ''}) %}
+
+{% block title %}{{ controller }}!{% endblock %}
+
 {% block body %}
 
     <style>
@@ -19,9 +23,7 @@
             {{ knp_menu_render('main') }}
         </div>
 
-        {% if controller_name is defined %}
-            <h2>Welcome to {{ controller_name }}</h2>
-        {% endif %}
+        <h2>Welcome to {{ controller }}</h2>
 
         {% block wrapper '' %}
 

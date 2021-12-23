@@ -2,9 +2,9 @@
 
 namespace App\Application\Controller;
 
+use App\Application\Response;
 use App\Domain\Manager\MiscManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class MiscController extends AbstractController
@@ -12,10 +12,9 @@ final class MiscController extends AbstractController
     /**
      * @Route("/misc")
      */
-    public function misc(MiscManager $miscManager): Response
+    public function index(MiscManager $miscManager): Response
     {
-        return $this->render('misc/index.html.twig', [
-            'controller_name' => 'MiscController',
+        return new Response([
             'data' => $miscManager->call(),
         ]);
     }

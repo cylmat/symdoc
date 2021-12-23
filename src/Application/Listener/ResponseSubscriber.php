@@ -33,9 +33,9 @@ class ResponseSubscriber implements EventSubscriberInterface
 
         $dir = strtolower($match[1]);
         $ctrl = strtolower(strstr($match[2], 'Controller', true));
-        $action = $match[3];
+        $action = 'index' === $match[3] ? '' : '_'.$match[3];
 
-        $templatePath = "$dir/".$ctrl."_$action.html.twig";
+        $templatePath = strtolower("$dir/".$ctrl."$action.html.twig");
 
         $response = $event->getResponse();
         if (!$response instanceof Response) {

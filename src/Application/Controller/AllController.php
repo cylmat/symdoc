@@ -2,9 +2,9 @@
 
 namespace App\Application\Controller;
 
+use App\Application\Response;
 use App\Domain\Manager\AllManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class AllController extends AbstractController
@@ -14,8 +14,7 @@ final class AllController extends AbstractController
      */
     public function index(AllManager $allManager): Response
     {
-        return $this->render('all/index.html.twig', [
-            'controller_name' => 'AllController',
+        return new Response([
             'data' => $allManager->call(),
         ]);
     }

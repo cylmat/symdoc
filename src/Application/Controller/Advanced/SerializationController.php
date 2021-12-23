@@ -2,21 +2,20 @@
 
 namespace App\Application\Controller\Advanced;
 
-use App\Domain\Manager\MessageManager;
+use App\Application\Response;
+use App\Domain\Manager\SerializerManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class SerializationController extends AbstractController
 {
     /**
-     * @Route("/message")
+     * @Route("/serializer")
      */
-    public function index(MessageManager $messageManager): Response
+    public function index(SerializerManager $serializerManager): Response
     {
-        return $this->render('db/message.html.twig', [
-            'controller_name' => 'MessageController',
-            'data' => $messageManager->call(),
+        return new Response([
+            'data' => $serializerManager->call(),
         ]);
     }
 }

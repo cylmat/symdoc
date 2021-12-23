@@ -25,14 +25,6 @@ final class HttpController extends AbstractController
             ),
             'current_date' => $this->getDateTime(),
         ]);
-        /*return $this->render('all/headers.html.twig', [
-            'controller_name' => 'HeaderController',
-            'data' => array_merge(
-                ['attributes' => $request->attributes], 
-                $headerManager->call()
-            ),
-            'current_date' => $this->getDateTime(),
-        ]);*/
     }
 
     private function getDateTime(): string
