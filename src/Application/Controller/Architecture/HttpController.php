@@ -2,20 +2,22 @@
 
 namespace App\Application\Controller\Architecture;
 
+use App\Application\Response;
 use App\Domain\Manager\HeaderManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class HttpController extends AbstractController
 {
+    private const DATETIME_PARIS = 'Europe/Paris';
+    
     /**
      * @Route("/request")
      */
     public function request(Request $request, HeaderManager $headerManager): Response
     {
-        return $this->render('all/headers.html.twig', [
+        return new Response([
             'controller_name' => 'HeaderController',
             'data' => array_merge(
                 ['attributes' => $request->attributes], 
@@ -23,5 +25,18 @@ final class HttpController extends AbstractController
             ),
             'current_date' => $this->getDateTime(),
         ]);
+        /*return $this->render('all/headers.html.twig', [
+            'controller_name' => 'HeaderController',
+            'data' => array_merge(
+                ['attributes' => $request->attributes], 
+                $headerManager->call()
+            ),
+            'current_date' => $this->getDateTime(),
+        ]);*/
+    }
+
+    private function getDateTime(): string
+    {
+        return (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE);
     }
 }
