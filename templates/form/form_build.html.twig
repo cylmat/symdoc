@@ -50,9 +50,9 @@
                 var $form = $('#form')
                 var postdata = $form.serialize()
                 $.post('/formbuild', postdata, function(html) {
-                  /*  $('#form_div_for_type').replaceWith(
+                    $('#form_div_for_type').replaceWith(
                         $(html).find('#form_div_for_type')
-                    )*/
+                    )
                 })
             })
         });

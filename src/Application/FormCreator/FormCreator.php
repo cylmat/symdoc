@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
 
-class FormCreator
+final class FormCreator
 {
     private $formFactory;
 
@@ -71,7 +71,7 @@ class FormCreator
 
     // Symfony\Component\Form\FormFactory()->createBuilder(FormType::class, $data, $options)
     public function updateFormBuilder(FormBuilderInterface $formBuilder): void
-    {var_dump($_POST);
+    {
         $formBuilder
             ->add('username', EntityType::class, [
                 'class' => User::class,
@@ -106,31 +106,24 @@ class FormCreator
             ->add('save', Type\SubmitType::class, ['label' => 'Saving...'])
         ;
 
+        /**
+         * Form update is set on "child" type to access "parent" form
+         * Child can't be accessed once submitted
+         */
         $formBuilder->get('type')
             ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
-                $type = $event->getData();
+                $type = (int)$event->getData();
                 $parentForm = $event->getForm()->getParent();
 
-                if (0 === $type) {
-                    $parentForm
-                        ->add('address', Type\TextType::class, [
-                            'mapped' => false,
-                            'required' => false,
-                        ]);
-                } elseif (1 === $type) {
-                    $parentForm
-                        ->add('tax', Type\TextType::class, [
-                            'mapped' => false,
-                            'required' => false,
-                        ])
-                        ->add('social', Type\TextType::class, [
-                            'mapped' => false,
-                            'required' => false,
-                        ]);
-                }
+                $this->addSpecificType($parentForm, $type);
             });
 
         /**
+          * SET DATA:
+          *     objects from database and entity
+          * SUBMIT:
+          *     objects from POST method
+          * 
           * add an email field (preset), 
           * then populate data (presubmit)
           * then remove field
@@ -139,9 +132,8 @@ class FormCreator
             ->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData'])
             ->addEventListener(FormEvents::POST_SET_DATA, [$this, 'onPostSetData'])
 
-            // Change data from the request
+            // Change data from the POST request
             ->addEventListener(FormEvents::PRE_SUBMIT, function(PreSubmitEvent $event) {
-
             })
             //  change data from the normalized representation
             // data objects model
@@ -149,15 +141,14 @@ class FormCreator
                 $event->getForm()->add('email');
                 
                 $data = $event->getData();
-                $data->setEmail('modified from presubmit');
+                $data->setEmail('modified in event submit');
                 $event->setData($data);
 
                 $event->getForm()->remove('email');
             })
             // can be used to fetch data after denormalization
             // PS event does not allow modifications to the form the listener is bound to, but it allows modifications to its parent
-            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
-                
+            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {  
             });
     }
 
@@ -165,16 +156,28 @@ class FormCreator
     // Use  FormEvent::setData(), not Form:setData()
     public function onPreSetData(PreSetDataEvent $event, string $eventName, $dispatcher)
     {
-        $entity = $event->getData();
+        $type = (int)$event->getData()->getType();
+        $this->addSpecificType($event->getForm(), $type);
+    }
 
-        if (0 === $entity->getType()) {
-            $event->getForm()
+    // Data from model denormalizer and view
+    public function onPostSetData(PostSetDataEvent $event, string $eventName, $dispatcher)
+    {
+    }
+
+    private function addSpecificType(FormInterface $form, int $type): void
+    {
+        // Needed because "type" is not actually persisted in DB
+        $form->remove('address')->remove('tax')->remove('social');
+
+        if (0 === $type) {
+            $form
                 ->add('address', Type\TextType::class, [
                     'mapped' => false,
                     'required' => false,
                 ]);
-        } elseif (1 === $entity->getType()) {
-            $event->getForm()
+        } elseif (1 === $type) {
+            $form
                 ->add('tax', Type\TextType::class, [
                     'mapped' => false,
                     'required' => false,
@@ -184,12 +187,6 @@ class FormCreator
                     'required' => false,
                 ]);
         }
-    }
-
-    // Data from model denormalizer and view
-    public function onPostSetData(PostSetDataEvent $event, string $eventName, $dispatcher)
-    {
-        
     }
 
     public function createCustomFormBuilder(): FormBuilderInterface

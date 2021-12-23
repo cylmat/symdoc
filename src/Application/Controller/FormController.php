@@ -64,7 +64,15 @@ final class FormController extends AbstractController
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
 
-        $formBuilded->handleRequest($request);  
+
+        // HttpFoundationRequestHandler
+        $formBuilded->handleRequest($request);
+        /**
+         * Manually submit form
+         */
+        /*if ($request->isMethod(Request::METHOD_POST)) {
+            $formBuilded->submit($request->request->get($formBuilded->getName()));
+        }*/
         if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
             $this->addFlash('info', 'Formbuilded submitted');
 
