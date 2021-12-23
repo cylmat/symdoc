@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Controller;
+namespace App\Application\Controller\Basics;
 
 use App\Application\Form\UserType;
 use App\Application\FormCreator\FormCreator;
@@ -60,7 +60,9 @@ final class FormController extends AbstractController
         $formBuilder = $this->createFormBuilder($user, [ // data, [options]
             'csrf_message' => 'This is an invalid Csrf...',
             'attr' => ['id' => 'form'],
-        ]);
+            'action' => $this->generateUrl('app_application_basics_form_formbuild')
+        ])
+        ->setAction($this->generateUrl('app_application_basics_form_formbuild'));
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
 
@@ -89,33 +91,6 @@ final class FormController extends AbstractController
             ],
             'formBuilder' => $formBuilded->createView(null),
             'submitted' => $submitted ?? null,
-        ]);
-    }
-
-    /**
-     * @Route("/formbuildcustom")
-     */
-    public function formBuildCustom(Request $request, FormCreator $formCreator): Response
-    {
-        $formBuilder = $this->createFormBuilder(null, [ // data, [options]
-            'action' => $this->generateUrl('app_application_form_formbuildcustom')
-        ])
-        ->setAction($this->generateUrl('app_application_form_formbuildcustom'));
-
-        $formBuilded = $formBuilder->getForm();
-
-        $formBuilded->handleRequest($request);
-        if ($formBuilded->isSubmitted() && $formBuilded->isValid()) {
-            $this->addFlash('info', 'Formbuilded sumbitted');
-        }
-
-        return $this->render('form/form_build_custom.html.twig', [
-            'controller_name' => 'FormController',
-            'data' => [ 
-                'request' => $request->request->all(),
-                'customFormBuilder' => $formBuilder,
-            ],
-            'customFormBuilder' => $formBuilder->getForm()->createView(null),
         ]);
     }
 }

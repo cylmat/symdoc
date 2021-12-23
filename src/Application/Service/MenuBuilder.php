@@ -11,6 +11,22 @@ final class MenuBuilder
     private $factory;
     private $routeCollection;
 
+    private const GROUPS = [
+        'Started' => false,
+        'Architecture' => false,
+        'Basics' => false,
+        'Advanced' => false,
+        'Security' => false,
+        'Frontend' => false,
+        'Utilities' => false,
+        'Production' => false,
+    ];
+
+    private const LABELS = [
+        'primary', 'secondary', 'success', 'danger',
+        'warning', 'info', 'light', 'dark', 99=>''
+    ];
+
     public function __construct(FactoryInterface $factory, RouterInterface $router)
     {
         $this->factory = $factory;
@@ -20,8 +36,12 @@ final class MenuBuilder
     public function createMainMenu(array $options): ItemInterface
     {
         $menu = $this->factory->createItem('root');
-        foreach ($this->filterRoutes() as $route => $controller) {
-            $menu->addChild($controller, ['route' => $route]);
+        foreach ($this->filterRoutes() as $route => $data) {
+            $label = self::LABELS[array_search($data->group, array_keys(self::GROUPS)) ?: 99];
+            $menu->addChild($data->controller, [
+                'route' => $route,
+                'linkAttributes' => ['class' => 'p-1 alert-'.$label]
+            ]);
         }
 
         return $menu;
@@ -36,16 +56,20 @@ final class MenuBuilder
         }, ARRAY_FILTER_USE_BOTH);
         
         $routes = array_map(function($object) {
-            preg_match('/\\\\(\w+)Controller::(\w+)/', $object->getDefaults()['_controller'], $match);
+            preg_match('/(\w+)\\\\(\w+)Controller::(\w+)/', $object->getDefaults()['_controller'], $match);
 
-            return [
+            $group = $match[1];
+            $action = 'index' !== $match[3] ? $match[3] : $match[2];
+
+            return (object)[
+                'group' => $group,
                 'path' => $object->getPath(),
-                'controller' => $match[1][0].'::'.$match[2],
+                'controller' => $action,
             ];
         }, $routes);
 
-        foreach($routes as $path => $route) {
-            yield $path => $route['controller'];
+        foreach($routes as $path => $data) {
+            yield $path => $data;
         }
     }
 
@@ -56,7 +80,11 @@ final class MenuBuilder
         $menu = $this->factory->createItem('root');
         foreach ($this->getDocLinks() as $doc => $validated) {
             $validated = $validated ? 'validated' : '';
-            $menu->addChild($doc, ['uri' => $symdoc, "linkAttributes" => ["class" => $validated]]);
+            $label = self::LABELS[array_search($doc, array_keys(self::GROUPS))];
+            $menu->addChild($doc, [
+                'uri' => $symdoc,
+                "linkAttributes" => ["class" => "alert-$label $validated"]
+            ]);
         }
 
         return $menu;
@@ -64,15 +92,6 @@ final class MenuBuilder
 
     private function getDocLinks(): array
     {
-        return [
-            'Getting Started' => false,
-            'Architecture' => false,
-            'Basics' => false,
-            'Advanced' => false,
-            'Security' => false,
-            'Frontend' => false,
-            'Utilities' => false,
-            'Production' => false,
-        ];
+        return self::GROUPS;
     }
 }

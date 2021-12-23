@@ -24,7 +24,7 @@ class User
 {
     public const TYPES = ['individual', 'company'];
     
-    private $testing;
+    public $testing;
 
     /** @var int $type */
     private $type = 0;
