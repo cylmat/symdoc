@@ -49,7 +49,7 @@ final class FormController extends AbstractController
     }
 
     /**
-     * @Route("/formbuild")
+     * @Route("/form-build")
      */
     public function formBuild(Request $request, FormCreator $formCreator): Response
     {

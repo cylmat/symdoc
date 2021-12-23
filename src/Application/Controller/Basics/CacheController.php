@@ -10,9 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CacheController extends AbstractController
 {
     /**
-     * @Route("/redis")
+     * @Route("/cache")
      */
-    public function redis(RedisManager $redisManager): Response
+    public function cache(RedisManager $redisManager): Response
     {
         return $this->render('db/redis.html.twig', [
             'controller_name' => 'RedisController',

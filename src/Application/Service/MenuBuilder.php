@@ -12,14 +12,14 @@ final class MenuBuilder
     private $routeCollection;
 
     private const GROUPS = [
-        'Started' => false,
+        'Advanced' => false,
         'Architecture' => false,
         'Basics' => false,
-        'Advanced' => false,
-        'Security' => false,
         'Frontend' => false,
-        'Utilities' => false,
         'Production' => false,
+        'Security' => false,
+        'Started' => false,
+        'Utilities' => false,
     ];
 
     private const LABELS = [
@@ -37,10 +37,11 @@ final class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         foreach ($this->filterRoutes() as $route => $data) {
-            $label = self::LABELS[array_search($data->group, array_keys(self::GROUPS)) ?: 99];
+            $label = array_search($data->group, array_keys(self::GROUPS));
+            $label = false !== $label ? self::LABELS[$label] : self::LABELS[99];
             $menu->addChild($data->controller, [
                 'route' => $route,
-                'linkAttributes' => ['class' => 'p-1 alert-'.$label]
+                'linkAttributes' => ['class' => "p-1 alert-$label"]
             ]);
         }
 
@@ -64,7 +65,7 @@ final class MenuBuilder
             return (object)[
                 'group' => $group,
                 'path' => $object->getPath(),
-                'controller' => $action,
+                'controller' => ucfirst($action),
             ];
         }, $routes);
 
