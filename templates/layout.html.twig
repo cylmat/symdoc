@@ -32,6 +32,12 @@
             {{ knp_menu_render(menu_doc) }}
         </div>
 
+        <p>
+            {% if data is defined %}
+                {{ dump(data) }}
+            {% endif %}
+        </p>
+
     </div>
 
 {% endblock %}

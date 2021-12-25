@@ -3,55 +3,32 @@
 namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
-use App\Domain\Entity\User;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use App\Domain\Service\Component\Process;
+use App\Domain\Service\Component\Property;
+use App\Domain\Service\Component\Resolver;
 
 final class ComponentManager implements ManagerInterface
 {
+    private $components = [];
+
+    public function __construct(
+        Process $process,
+        Property $property,
+        Resolver $resolver
+    ) {
+        foreach (func_get_args() as $component) {
+            $this->components[\get_class($component)] = $component;
+        }
+    }
+
     public function call(): array
     {
-        return [
-            'property' => $this->properties(),
-            'resolver' => $this->resolver(),
-        ];
-    }
+        $data = [];
 
-    private function resolver(): array
-    {
-        $resolver = new OptionsResolver();
+        foreach ($this->components as $class => $component) {
+            $data[$class] = $component->use();
+        }
 
-        $resolver->setDefault('encryption', null);
-        $resolver->setDefault('port', function(Options $options) {
-            if ('ssl' === $options['encryption']) {
-                return 465;
-            }
-
-            return 25;
-        });
-        // will be Callable itself
-        $resolver->setDefault('port-closure', function(/* implicite "Options" argument */) {
-            /** @var Options $options */
-            if ('ssl' === $options['encryption']) {
-                return 465;
-            }
-
-            return 25;
-        });
-
-        return $resolver->resolve(['encryption' => 'SSL']);
-    }
-
-    private function properties(): string
-    {
-        $accessor = PropertyAccess::createPropertyAccessor();
-
-        $person = new User();
-        $person->testing = 'Alpha';
-
-        $testing = $accessor->getValue($person, 'testing');
-
-        return $testing;
+        return $data;
     }
 }

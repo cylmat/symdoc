@@ -1,16 +1,1 @@
 {% extends 'layout.html.twig' %}
-
-{% set myvar = "<div>it's</div>" %}
-{% set myvar2 = "<div>exact</div>" %}
-
-{% block wrapper %}
-
-    <p>
-        {% if data is defined %}
-            {{ dump(data) }}
-        {% endif %}
-    </p>
-
-    {% block body_content '' %}
-
-{% endblock %}

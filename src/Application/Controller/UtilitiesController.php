@@ -3,6 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
+use App\Domain\Manager\ComponentManager;
 use App\Domain\Manager\ExpressionManager;
 use App\Domain\Manager\FormatManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 final class UtilitiesController extends AbstractController
 {
     private const DATETIME_PARIS = 'Europe/Paris';
+    
+    private $componentController;
+    
+    function __construct(ComponentController $componentController)
+    {
+        $this->componentController = $componentController;
+    }
 
     /**
      * @Route("/http-client")
@@ -53,5 +61,17 @@ final class UtilitiesController extends AbstractController
         return new Response([
             'data' => $formatManager->call(),
         ]);
+    }
+
+    /*
+     * Components
+     */
+
+    /**
+     * @Route("/components")
+     */
+    public function components(ComponentManager $miscManager): Response
+    {
+        return $this->componentController->index($miscManager);
     }
 }

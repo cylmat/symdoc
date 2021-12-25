@@ -2,11 +2,6 @@
 
 {% block wrapper %}
 
-    {#{ parent() }#}
-    {% if data is defined %}
-        {{ dump(data) }}
-    {% endif %}
-
     {% if myvar is defined %}
         <p>
             1.{{ myvar|raw~myvar2 }}-
