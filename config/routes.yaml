@@ -6,7 +6,7 @@ homepage:
   path: /
   controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
   defaults:
-    path: /all
+    path: /components
 
 redirect:
     path: /old-path

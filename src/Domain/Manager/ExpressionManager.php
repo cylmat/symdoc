@@ -20,6 +20,15 @@ final class ExpressionManager implements ManagerInterface
         $language = new ExpressionLanguage();
         $object = new class() { public $num = 5, $txt = 'alpha', $func = "echo 'test'"; };
 
+        /*var_dump($language->evaluate(
+            'life < universe or life < everything',
+            array(
+                'life' => 10,
+                'universe' => 10,
+                'everything' => 22,
+            )
+        ));*/
+
         return [
             '1_2_obj_evaluate' => $language->evaluate('1 + 2 + myobj.num', ['myobj' => $object]),
             '1_2_compile' => $language->compile('1 + 2', []), // compiled into php

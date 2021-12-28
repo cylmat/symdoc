@@ -1,0 +1,3 @@
+[submodule "Bundle/Phpext"]
+	path = Bundle/Phpext
+	url = https://github.com/cylmat/phpext-sample.git

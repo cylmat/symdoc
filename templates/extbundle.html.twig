@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% set controller = app.request.attributes.get('_controller') %}
+
+{% block title %}{{ controller }}!{% endblock %}
+
+{% block body %}
+
+    <style>
+        .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
+        .top_menu li { list-style-type: none; display: inline }
+
+        .render h2, .render h3 { color: grey; font-size: normal }
+        .render legend { font-size: smaller }
+        .render fieldset { border: solid 0.1em blue }
+    </style>
+
+    <div class="example-wrapper">
+
+        <div class="top_menu">
+            {{ knp_menu_render('main') }}
+        </div>
+
+        <h2>Welcome to {{ controller }}</h2>
+
+        <p>
+            <div class="render">
+                {{ render|raw }}
+            </div>
+        </p>
+
+    </div>
+
+{% endblock %}

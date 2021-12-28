@@ -1,3 +1,6 @@
+# external github bundles
+/Bundle
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
