@@ -14,10 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class UtilitiesController extends AbstractController
 {
     private const DATETIME_PARIS = 'Europe/Paris';
-    
+
     private $componentController;
-    
-    function __construct(ComponentController $componentController)
+
+    public function __construct(ComponentController $componentController)
     {
         $this->componentController = $componentController;
     }

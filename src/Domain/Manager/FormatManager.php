@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Domain\Manager;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 final class FormatManager implements ManagerInterface
 {
     public function call(): array
-    {        
+    {
         return [
             'xpath' => $this->xpath(),
             'yaml' => $this->yaml()

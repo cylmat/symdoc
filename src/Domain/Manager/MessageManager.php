@@ -20,7 +20,7 @@ final class MessageManager implements ManagerInterface
         // $this->dispatchMessage in AbstractController
 
         return [
-            'message '=> $this->messageBus->dispatch(new Message('bouh')),
+            'message ' => $this->messageBus->dispatch(new Message('bouh')),
         ];
     }
 }

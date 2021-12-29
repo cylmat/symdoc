@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Application\Form\Listener;
 
@@ -18,16 +18,13 @@ class FormSubscriber implements EventSubscriberInterface
 
     public function preSubmit(string $event)
     {
-        
     }
 
     public function submit(string $event)
     {
-
     }
 
     public function postSubmit(string $event)
     {
-
     }
 }

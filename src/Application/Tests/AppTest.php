@@ -15,13 +15,13 @@ class AppTest extends WebTestCase
 
     /**
      * @see https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
-     * 
+     *
      * Arrange
      * Act
      * Assert
      */
     public function testAllRoutes(): void
-    {       
+    {
         self::$client->request('GET', '/all');
         $this->assertResponseIsSuccessful();
 

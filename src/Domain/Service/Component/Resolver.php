@@ -13,7 +13,7 @@ class Resolver implements ServiceDomainInterface
         $resolver = new OptionsResolver();
 
         $resolver->setDefault('encryption', null);
-        $resolver->setDefault('port', function(Options $options) {
+        $resolver->setDefault('port', function (Options $options) {
             if ('ssl' === $options['encryption']) {
                 return 465;
             }
@@ -21,7 +21,7 @@ class Resolver implements ServiceDomainInterface
             return 25;
         });
         // will be Callable itself
-        $resolver->setDefault('port-closure', function(/* implicite "Options" argument */) {
+        $resolver->setDefault('port-closure', function (/* implicite "Options" argument */) {
             /** @var Options $options */
             if ('ssl' === $options['encryption']) {
                 return 465;

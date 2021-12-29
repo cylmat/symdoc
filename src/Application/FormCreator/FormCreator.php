@@ -59,7 +59,8 @@ final class FormCreator
                     'alpha' => (new LazyChoiceList(
                         new CallbackChoiceLoader(function () {
                             return [111]; // keys
-                        }), function($key) {
+                        }),
+                        function ($key) {
                             return [111 => 'value_111'][$key];
                         }
                     ))->getChoices(),
@@ -87,7 +88,7 @@ final class FormCreator
                 'mapped' => false,
             ])
             // passing "null" will autoload Type\DateTimeType::class, required and maxlength option
-            ->add('createdAt', null, [ 
+            ->add('createdAt', null, [
                 'attr' => [],
 
                 // Bootstrap datepicker sample
@@ -99,7 +100,7 @@ final class FormCreator
 
                 'html5' => false, // need to disable to use "format"
                 'format' => 'yyyy-MM-dd', // (default) HTML5_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-                
+
                 'date_format' => IntlDateFormatter::MEDIUM,
                 'date_widget' => 'choice', // "default" choice
             ])
@@ -111,7 +112,7 @@ final class FormCreator
          * Child can't be accessed once submitted
          */
         $formBuilder->get('type')
-            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {
+            ->addEventListener(FormEvents::POST_SUBMIT, function (PostSubmitEvent $event) {
                 $type = (int)$event->getData();
                 $parentForm = $event->getForm()->getParent();
 
@@ -123,8 +124,8 @@ final class FormCreator
           *     objects from database and entity
           * SUBMIT:
           *     objects from POST method
-          * 
-          * add an email field (preset), 
+          *
+          * add an email field (preset),
           * then populate data (presubmit)
           * then remove field
           */
@@ -133,13 +134,13 @@ final class FormCreator
             ->addEventListener(FormEvents::POST_SET_DATA, [$this, 'onPostSetData'])
 
             // Change data from the POST request
-            ->addEventListener(FormEvents::PRE_SUBMIT, function(PreSubmitEvent $event) {
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event) {
             })
             //  change data from the normalized representation
             // data objects model
-            ->addEventListener(FormEvents::SUBMIT, function(SubmitEvent $event) {
+            ->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) {
                 $event->getForm()->add('email');
-                
+
                 $data = $event->getData();
                 $data->setEmail('modified in event submit');
                 $event->setData($data);
@@ -147,8 +148,9 @@ final class FormCreator
                 $event->getForm()->remove('email');
             })
             // can be used to fetch data after denormalization
-            // PS event does not allow modifications to the form the listener is bound to, but it allows modifications to its parent
-            ->addEventListener(FormEvents::POST_SUBMIT, function(PostSubmitEvent $event) {  
+            // PS event does not allow modifications to the form the listener is bound to,
+            //   but it allows modifications to its parent
+            ->addEventListener(FormEvents::POST_SUBMIT, function (PostSubmitEvent $event) {
             });
     }
 

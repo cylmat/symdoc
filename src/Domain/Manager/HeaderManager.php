@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Domain\Manager;
 
@@ -17,7 +17,7 @@ final class HeaderManager implements ManagerInterface
     }
 
     public function call(): array
-    {        
+    {
         return $this->header();
     }
 
@@ -28,7 +28,8 @@ final class HeaderManager implements ManagerInterface
         /*
          * Cache
          */
-        $response->setMaxAge(100); //Sets the number of seconds after which the response should no longer be considered fresh.
+        //Sets the number of seconds after which the response should no longer be considered fresh.
+        $response->setMaxAge(100);
         $response->setSharedMaxAge(200);
 
         $response->setLastModified((new \DateTime())->add(($this->dateTime->getDateInterval('', '8600S'))));
@@ -36,9 +37,10 @@ final class HeaderManager implements ManagerInterface
         $response->setProtocolVersion('1.1');
         $response->setStatusCode(Response::HTTP_PARTIAL_CONTENT, 'status code text');
         $response->setTtl(3600); // adjusts the Cache-Control/s-maxage
-        
+
         // specific
-        (new Response())->setNotModified(); //discards any headers that MUST NOT be included in 304 NOT MODIFIED  responses
+        //discards any headers that MUST NOT be included in 304 NOT MODIFIED  responses
+        (new Response())->setNotModified();
 
         /*
          * Vary
@@ -49,7 +51,7 @@ final class HeaderManager implements ManagerInterface
         $response->setVary([Header::ACCEPT_ENCODING, Header::USER_AGENT]); // replace = true
 
         // @todo
-        /* 
+        /*
         $response->setVary('Accept-Encoding');
         $response->setVary('User-Agent', false);
         $response->headers->set('Vary', 'Accept-Encoding, User-Agent');

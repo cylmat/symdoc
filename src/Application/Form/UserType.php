@@ -41,7 +41,7 @@ class UserType extends AbstractType implements FormTypeInterface
             );
     }
 
-    public function ucfirstUsernameOnPreSetData(PreSetDataEvent $event) 
+    public function ucfirstUsernameOnPreSetData(PreSetDataEvent $event)
     {
         $username = ucfirst($event->getData()->getUsername());
         $event->getForm()->get('username')->setData($username);

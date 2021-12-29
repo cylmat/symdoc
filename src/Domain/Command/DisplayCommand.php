@@ -47,7 +47,7 @@ class DisplayCommand extends Command
 
         $myurl = $this->generateUrl();
 
-        $io->success('You have a new command! < '.$myurl.' >');
+        $io->success('You have a new command! < ' . $myurl . ' >');
 
         return 0;
     }

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ArchitectureController extends AbstractController
 {
     private const DATETIME_PARIS = 'Europe/Paris';
-    
+
     /**
      * @Route("/request")
      */
@@ -20,7 +20,7 @@ final class ArchitectureController extends AbstractController
         return new Response([
             'controller_name' => 'HeaderController',
             'data' => array_merge(
-                ['attributes' => $request->attributes], 
+                ['attributes' => $request->attributes],
                 $headerManager->call()
             ),
             'current_date' => $this->getDateTime(),

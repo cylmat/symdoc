@@ -1,4 +1,28 @@
 {
+    "amphp/amp": {
+        "version": "v2.6.1"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.8.1"
+    },
+    "amphp/parallel": {
+        "version": "v1.4.1"
+    },
+    "amphp/parallel-functions": {
+        "version": "v1.0.0"
+    },
+    "amphp/parser": {
+        "version": "v1.0.0"
+    },
+    "amphp/process": {
+        "version": "v1.1.3"
+    },
+    "amphp/serialization": {
+        "version": "v1.0.0"
+    },
+    "amphp/sync": {
+        "version": "v1.4.2"
+    },
     "clue/stream-filter": {
         "version": "v1.5.0"
     },
@@ -118,6 +142,9 @@
             "config/packages/fos_rest.yaml"
         ]
     },
+    "gitonomy/gitlib": {
+        "version": "v1.3.2"
+    },
     "guzzlehttp/promises": {
         "version": "1.5.1"
     },
@@ -160,6 +187,12 @@
     "nikic/php-parser": {
         "version": "v4.13.1"
     },
+    "ondram/ci-detector": {
+        "version": "4.1.0"
+    },
+    "opis/closure": {
+        "version": "3.6.2"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
@@ -192,6 +225,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
+    },
+    "phpro/grumphp": {
+        "version": "v1.5.0"
     },
     "phpspec/prophecy": {
         "version": "1.14.0"
@@ -291,6 +327,9 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
+    "seld/jsonlint": {
+        "version": "1.8.3"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.6",
         "recipe": {
@@ -319,6 +358,18 @@
         },
         "files": [
             "config/packages/sentry.yaml"
+        ]
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "phpcs.xml.dist"
         ]
     },
     "symfony/asset": {

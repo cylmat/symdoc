@@ -20,7 +20,7 @@ final class BasicsFormController extends AbstractController
     {
         $user = (new User());
 
-        $form = $this->createForm(UserType::class, $user,  [ // type, data, [options]
+        $form = $this->createForm(UserType::class, $user, [ // type, data, [options]
             'custom_type_options_file_required' => [false, true]
         ]);
         $formCreator->updateForm($form);
@@ -34,7 +34,7 @@ final class BasicsFormController extends AbstractController
         }
 
         return new Response([
-            'data' => [ 
+            'data' => [
                 'request' => $request->request->all(),
                 'form' => $form,
                 'form.view' => $form->createView(null),// parent,
@@ -74,7 +74,7 @@ final class BasicsFormController extends AbstractController
         }
 
         return new Response([
-            'data' => [ 
+            'data' => [
                 'request' => $request->request->all(),
                 'formBuilder' => $formBuilder,
                 'formBuilded' => $formBuilded,

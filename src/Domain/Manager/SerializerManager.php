@@ -34,8 +34,8 @@ final class SerializerManager implements ManagerInterface
 
     private function serialize(): string
     {
-        $user1 = (new User)->setUsername('Alpha')->setPhone(01)->setToken(new Token);
-        $user2 = (new User)->setUsername('Beta')->setPhone(02)->setToken(new Token);
+        $user1 = (new User())->setUsername('Alpha')->setPhone(01)->setToken(new Token());
+        $user2 = (new User())->setUsername('Beta')->setPhone(02)->setToken(new Token());
 
         $serialize = $this->serializer->serialize([$user1, $user2], 'json', ['groups' => 'registration']);
 
@@ -77,7 +77,7 @@ final class SerializerManager implements ManagerInterface
         $serializer = new Serializer($normalizers, [new JsonEncoder()]);
 
         $data = $this->serialize();
-        $users = $serializer->deserialize($data, User::class.'[]', JsonEncoder::FORMAT, [
+        $users = $serializer->deserialize($data, User::class . '[]', JsonEncoder::FORMAT, [
             [
                 AbstractNormalizer::OBJECT_TO_POPULATE => new User()
             ],

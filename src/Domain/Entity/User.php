@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * DOC
- * 
+ *
  * There is 2 default validation groups
  * - <classname> (here User)
  * - Default
@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class User
 {
     public const TYPES = ['individual', 'company'];
-    
+
     public $testing;
 
     /** @var int $type */
@@ -121,7 +121,6 @@ class User
     public function getEmail(): ?string
     {
         return $this->email;
-        
     }
 
     public function setEmail(?string $email): self

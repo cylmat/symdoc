@@ -24,7 +24,7 @@ class TwitterClient
     /**
      * Wither methods (called automatically on autowiring by Sf)
      * @see https://symfony.com/blog/new-in-symfony-4-3-configuring-services-with-immutable-setters
-     * 
+     *
      * @required
      * @return static
      */

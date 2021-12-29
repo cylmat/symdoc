@@ -12,7 +12,8 @@ class AppMyBundle extends Bundle
 {
     public function boot(): void
     {
-        // ErrorHandler::register(null, false)->throwAt($this->container->getParameter('debug.error_handler.throw_at'), true);
+        // ErrorHandler::register(null, false)
+        //   ->throwAt($this->container->getParameter('debug.error_handler.throw_at'), true);
         $this->container->getParameter('kernel.http_method_override');
     }
 
@@ -21,7 +22,7 @@ class AppMyBundle extends Bundle
         parent::build($containerBuilder);
 
         $extClass = $this->getContainerExtensionClass();
-        $ext = $this->getContainerExtension(); 
+        $ext = $this->getContainerExtension();
 
         // ADD compiler pass
         $containerBuilder->addCompilerPass(new AppCompilerPass());

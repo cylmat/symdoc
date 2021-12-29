@@ -43,7 +43,7 @@ final class AllManager implements ManagerInterface
         DataTransformerInterface::class;
         FormTypeInterface::class;
     }
-    
+
     public function classes()
     {
         AnnotationLoader::class;
@@ -59,23 +59,23 @@ final class AllManager implements ManagerInterface
         Serializer::class;
         VarDumper::class;
         Yaml::class;
-        
+
         // events
         FormEvents::class;
         KernelEvent::class;
     }
-    
+
     public function form()
     {
         FormType::class;
     }
-    
+
     public function factory()
     {
         ConfigCacheFactory::class;
         ClassMetadataFactory::class;
     }
-    
+
     public function security()
     {
         AccessDecisionManager::class;

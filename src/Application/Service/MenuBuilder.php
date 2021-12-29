@@ -25,7 +25,7 @@ final class MenuBuilder
 
     private const LABELS = [
         'primary', 'secondary', 'success', 'danger',
-        'warning', 'info', 'light', 'dark', 99=>''
+        'warning', 'info', 'light', 'dark', 99 => ''
     ];
 
     public function __construct(FactoryInterface $factory, RouterInterface $router)
@@ -60,13 +60,13 @@ final class MenuBuilder
 
     private function filterRoutes(): iterable
     {
-        $routes = array_filter($this->routeCollection->all(), function($object, $route) {
+        $routes = array_filter($this->routeCollection->all(), function ($object, $route) {
             if (0 === strpos($route, 'app_')) {
                 return true;
             }
         }, ARRAY_FILTER_USE_BOTH);
-        
-        $routes = array_map(function($object) {
+
+        $routes = array_map(function ($object) {
             preg_match('/\\\\(\w+)Controller::(\w+)/', $object->getDefaults()['_controller'], $match);
 
             $group = $match[1];
@@ -79,7 +79,7 @@ final class MenuBuilder
             ];
         }, $routes);
 
-        foreach($routes as $path => $data) {
+        foreach ($routes as $path => $data) {
             yield $path => $data;
         }
     }
