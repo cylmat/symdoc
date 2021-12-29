@@ -1,3 +1,4 @@
 grumphp:
     tasks:
         phpcs: null
+        phpunit: null
