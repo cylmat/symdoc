@@ -46,7 +46,9 @@ class AppTest extends WebTestCase
             }
             $crawler = self::$client->request('GET', $route->getPath());
 
+            echo PHP_EOL;
             try {
+                echo ("Testing " . $route->getPath() . "...") . PHP_EOL;
                 $this->assertEquals(
                     Response::HTTP_OK,
                     self::$client->getResponse()->getStatusCode(),
