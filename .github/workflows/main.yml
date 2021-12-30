@@ -40,17 +40,17 @@ jobs:
     - name: Symfony cli
       run: make symfony-bin
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+    # - name: Cache Composer packages
+    #   id: composer-cache
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: vendor
+    #     key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-php-
 
     - name: Install composer dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+      # if: steps.composer-cache.outputs.cache-hit != 'true'
       env:
         APP_ENV: prod # post-install-cmd
       run: composer install --prefer-dist --no-cache --no-progress --no-dev
