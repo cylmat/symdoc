@@ -55,5 +55,5 @@ kint-bin:
 	curl -LO https://raw.githubusercontent.com/kint-php/kint/master/build/kint.phar
 
 symfony-bin:
-	wget https://get.symfony.com/cli/installer -O /usr/local/symfony-installer
-	bash /usr/local/symfony-installer --install-dir=/usr/local/bin
+	wget https://get.symfony.com/cli/installer -O /usr/local/bin/symfony-installer
+	bash /usr/local/bin/symfony-installer --install-dir=/usr/local/bin
