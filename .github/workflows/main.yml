@@ -33,7 +33,7 @@ jobs:
       with:
         coverage: xdebug
         extensions: |
-          curl, gd, intl, mbstring, pdo_sqlite \
+          curl, gd, intl, mbstring, pdo_sqlite, \
           opcache, sqlite3, sockets, sodium, xsl, zip
         php-version: "7.3"
 
@@ -53,7 +53,7 @@ jobs:
       # if: steps.composer-cache.outputs.cache-hit != 'true'
       env:
         APP_ENV: prod # post-install-cmd
-      run: composer install --prefer-dist --no-cache --no-progress --no-dev
+      run: composer install --prefer-dist --no-cache --no-progress
 
     - name: Tests
       run: make tests
