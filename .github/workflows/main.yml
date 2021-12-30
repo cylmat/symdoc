@@ -47,15 +47,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
+    - name: Install sqlite for messenger
+      run: apt update && apt install -y sqlite3
+
     - name: Install composer dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       # --no-plugins avoid to install grumphp's git hook
       env:
         APP_ENV: prod # post-install-cmd
       run: composer install --prefer-dist --no-cache --no-progress --no-dev
-
-    - name: Install sqlite for messenger
-      run: apt update && apt install -y sqlite3
 
     - name: Tests
       run: make tests
