@@ -50,7 +50,7 @@ jobs:
     - name: Install composer dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       # --no-plugins avoid to install grumphp's git hook
-      run: composer install --prefer-dist --no-progress --no-plugins
+      run: composer install --prefer-dist --no-progress --no-dev
 
     - name: Install sqlite for messenger
       run: apt update && apt install -y sqlite3
