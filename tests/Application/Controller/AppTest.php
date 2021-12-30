@@ -35,7 +35,12 @@ class AppTest extends WebTestCase
             }
 
             // avoid http-request tests
-            if ('app_application_utilities_httpclient' === $name) {
+            var_dump($_SERVER);
+            if (
+                \in_array($name, [
+                    'app_application_utilities_httpclient'
+                ])
+            ) {
                 continue;
             }
             $crawler = self::$client->request('GET', $route->getPath());
