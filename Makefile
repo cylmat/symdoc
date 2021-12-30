@@ -49,6 +49,6 @@ deployer-bin:
 kint-bin:
 	curl -LO https://raw.githubusercontent.com/kint-php/kint/master/build/kint.phar
 
-symfony-cli:
+symfony-bin:
 	wget https://get.symfony.com/cli/installer -O - | bash
 	mv /root/.symfony/bin/symfony /usr/local/bin/symfony

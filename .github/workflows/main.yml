@@ -35,6 +35,9 @@ jobs:
         extensions: curl, gd, intl, mbstring, opcache, sockets, sodium, xsl, zip
         php-version: "7.3"
 
+    - name: Symfony cli
+      run: make symfony-bin
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
