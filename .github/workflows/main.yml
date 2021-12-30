@@ -33,7 +33,7 @@ jobs:
       with:
         coverage: xdebug
         extensions: |
-          curl, gd, intl, mbstring, pdo_sqlite
+          curl, gd, intl, mbstring, pdo_sqlite \
           opcache, sqlite3, sockets, sodium, xsl, zip
         php-version: "7.3"
 
