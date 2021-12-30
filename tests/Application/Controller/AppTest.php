@@ -35,10 +35,11 @@ class AppTest extends WebTestCase
             }
 
             // avoid http-request tests
-            var_dump($_SERVER);
             if (
-                \in_array($name, [
-                    'app_application_utilities_httpclient'
+                key_exists('GITHUB_ACTIONS', $_SERVER)
+                && \in_array($name, [
+                    'app_application_basics_cache',
+                    'app_application_utilities_httpclient',
                 ])
             ) {
                 continue;
