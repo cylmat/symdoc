@@ -69,8 +69,10 @@
         "symfony/web-profiler-bundle": "5.0.*"
     },
     "autoload": {
+        "classmap": [
+            "src/Kernel.php"
+        ],
         "psr-4": {
-            "": "src/",
             "App\\Application\\": "src/Application/",
             "App\\Domain\\": "src/Domain/",
             "App\\Infrastructure\\": "src/Infrastructure/",

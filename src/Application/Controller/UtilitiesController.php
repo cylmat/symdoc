@@ -25,9 +25,10 @@ final class UtilitiesController extends AbstractController
     /**
      * @Route("/http-client")
      */
-    public function index(Request $request): Response
+    public function httpclient(Request $request): Response
     {
-        $response = HttpClient::create()->request(Request::METHOD_GET, 'http://localhost:88/headers');
+        $url = 'http://localhost' . $this->generateUrl('app_application_architecture_httprequest');
+        $response = HttpClient::create()->request(Request::METHOD_GET, $url);
 
         return new Response([
             'data' => [

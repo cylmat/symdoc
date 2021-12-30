@@ -22,8 +22,12 @@ rebase:
 #########
 # CI/CD #
 #########
+cs:
+	vendor/bin/phpcs
+
 tests:
 	bin/phpunit
+.PHONY: tests
 
 ##########
 # SERVER #

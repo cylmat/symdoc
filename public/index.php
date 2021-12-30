@@ -1,12 +1,13 @@
 <?php
 
+use App\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 ini_set('display_errors', 'on');
 error_reporting(-1);
 
-require dirname(__DIR__).'/config/bootstrap.php';
+require dirname(__DIR__) . '/config/bootstrap.php';
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
@@ -14,12 +15,15 @@ if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
 if ((bool) $_SERVER['SWITCH_PHPEXT']) {
-    include __DIR__.'/../Bundle/Phpext/public/index.php';
+    include __DIR__ . '/../Bundle/Phpext/public/index.php';
     die();
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
+    Request::setTrustedProxies(
+        explode(',', $trustedProxies),
+        Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO
+    );
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {

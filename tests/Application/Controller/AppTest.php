@@ -28,17 +28,28 @@ class AppTest extends WebTestCase
     {
         $routes = self::$client->getContainer()->get('router')->getRouteCollection()->all();
 
-        foreach($routes as $name => $route) {
+        foreach ($routes as $name => $route) {
             /** @var Route $route */
             if (false === strpos($name, 'application')) {
                 continue;
             }
-            self::$client->request('GET', $route->getPath());
-            $this->assertEquals(
-                Response::HTTP_OK,
-                self::$client->getResponse()->getStatusCode(),
-                'Route "'.$route->getPath().'" is not returning code -200-!'
-            );
+
+            // avoid http-request tests
+            if ('app_application_utilities_httpclient' === $name) {
+                continue;
+            }
+            $crawler = self::$client->request('GET', $route->getPath());
+
+            try {
+                $this->assertEquals(
+                    Response::HTTP_OK,
+                    self::$client->getResponse()->getStatusCode(),
+                    'Route "' . $route->getPath() . '" is not returning code -200-!'
+                );
+            } catch (\Exception $e) {
+                var_dump($crawler->filter('h1')->last()->text());
+                throw $e;
+            }
         }
     }
 }
