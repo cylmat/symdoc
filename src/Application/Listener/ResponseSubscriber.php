@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
+use Twig\Error\LoaderError;
 
 class ResponseSubscriber implements EventSubscriberInterface
 {
@@ -33,7 +34,7 @@ class ResponseSubscriber implements EventSubscriberInterface
         $ctrl = strtolower(strstr($match[2], 'Controller', true));
         $action = 'index' === $match[3] ? '' : $match[3];
 
-        $templatePath = strtolower($ctrl . "/$action.html.twig");
+        $customTemplate = strtolower($ctrl . "/$action.html.twig");
 
         $response = $event->getResponse();
         if (!$response instanceof Response) {
@@ -41,7 +42,12 @@ class ResponseSubscriber implements EventSubscriberInterface
         }
 
         /** @var Response $response */
-        $content = $this->twig->render($templatePath, $response->getControllerData());
+        try {
+            $content = $this->twig->render($customTemplate, $response->getControllerData());
+        } catch (LoaderError $loaderError) {
+            $defaultTemplate = "/layout.html.twig";
+            $content = $this->twig->render($defaultTemplate, $response->getControllerData());
+        }
         $response->setContent($content);
     }
 }

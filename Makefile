@@ -19,6 +19,12 @@ phpext:
 rebase:
 	git rebase main -s recursive -X theirs
 
+#########
+# CI/CD #
+#########
+tests:
+	bin/phpunit
+
 ##########
 # SERVER #
 ##########

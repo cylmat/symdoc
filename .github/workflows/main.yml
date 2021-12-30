@@ -5,11 +5,11 @@
 # DOC
 # https://github.com/actions/starter-workflows/
 
-name: Symfony project
+name: Sym-play
 
 on:
   push:
-    branches: [ project ]
+    branches: [ main ]
 
 ###
 # Jobs
@@ -32,13 +32,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         coverage: xdebug
-        extensions: mbstring, intl
+        extensions: curl, gd, intl, mbstring, opcache, sockets, sodium, xsl, zip
         php-version: "7.3"
-
-    - name: Symfony cli
-      run: |
-        wget https://get.symfony.com/cli/installer -O - | bash
-        mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
     - name: Cache Composer packages
       id: composer-cache
@@ -54,28 +49,8 @@ jobs:
       # --no-plugins avoid to install grumphp's git hook
       run: composer install --prefer-dist --no-progress --no-plugins
 
-  ##########
-  # DEPLOY #
-  ##########
-  deploy:
-    needs: tests
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v2
-    
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.3'
+    - name: Install sqlite for messenger
+      run: apt update && apt install -y sqlite3
 
-      - name: Deploy
-        env:
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REPOSITORY: ${{ secrets.REPOSITORY }}
-          SSH_KEY: ${{ secrets.SSH_HOST_KEY }}
-        run: |
-          mkdir -p /home/runner/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          make deployer-bin
-          dep deploy prod -v
+    - name: Tests
+      run: make tests

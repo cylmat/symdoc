@@ -17,10 +17,12 @@ final class MessageManager implements ManagerInterface
 
     public function call(): array
     {
-        // $this->dispatchMessage in AbstractController
+        // $this->dispatchMessage (in AbstractController)
+        $msg = new Message('Message from manager');
 
         return [
-            'message ' => $this->messageBus->dispatch(new Message('bouh')),
+            'message_dispatched' => $this->messageBus->dispatch($msg),
+            'message' => $msg,
         ];
     }
 }
