@@ -24,6 +24,7 @@ rebase:
 #########
 cs:
 	vendor/bin/phpcs
+.PHONY: cs
 
 tests:
 	bin/phpunit
@@ -54,5 +55,5 @@ kint-bin:
 	curl -LO https://raw.githubusercontent.com/kint-php/kint/master/build/kint.phar
 
 symfony-bin:
-	wget https://get.symfony.com/cli/installer -O - | bash
-	mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+	wget https://get.symfony.com/cli/installer -O /usr/local/symfony-installer
+	bash /usr/local/symfony-installer --install-dir=/usr/local/bin

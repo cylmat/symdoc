@@ -20,7 +20,7 @@ jobs:
   #########
   tests:
     runs-on: ubuntu-latest
-    name: Lint
+    name: Tests
     strategy:
       fail-fast: false
 
