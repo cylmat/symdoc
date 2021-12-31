@@ -22,13 +22,19 @@ rebase:
 #########
 # CI/CD #
 #########
+.PHONY: cs, tests, stan, md
+
 cs:
 	vendor/bin/phpcs
-.PHONY: cs
+
+md:
+	vendor/bin/phpmd src ansi phpmd.xml
+
+stan:
+	vendor/bin/phpstan --memory-limit=1G
 
 tests:
 	bin/phpunit
-.PHONY: tests
 
 ##########
 # SERVER #

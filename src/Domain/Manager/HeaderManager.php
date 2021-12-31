@@ -4,6 +4,7 @@ namespace App\Domain\Manager;
 
 use App\Application\Service\DateTimeService;
 use App\Domain\Core\Interfaces\ManagerInterface;
+use DateTime;
 use KoenHoeijmakers\Headers\Header;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,7 +33,7 @@ final class HeaderManager implements ManagerInterface
         $response->setMaxAge(100);
         $response->setSharedMaxAge(200);
 
-        $response->setLastModified((new \DateTime())->add(($this->dateTime->getDateInterval('', '8600S'))));
+        $response->setLastModified((new DateTime())->add(($this->dateTime->getDateInterval('', '8600S'))));
         $response->setPrivate();
         $response->setProtocolVersion('1.1');
         $response->setStatusCode(Response::HTTP_PARTIAL_CONTENT, 'status code text');

@@ -3,6 +3,7 @@
 namespace App\Domain\Entity;
 
 use App\Domain\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,7 +99,7 @@ class User
     public function __construct()
     {
         $this->sport = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int

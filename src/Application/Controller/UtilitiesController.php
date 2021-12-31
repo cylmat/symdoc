@@ -6,6 +6,8 @@ use App\Application\Response;
 use App\Domain\Manager\ComponentManager;
 use App\Domain\Manager\ExpressionManager;
 use App\Domain\Manager\FormatManager;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +43,7 @@ final class UtilitiesController extends AbstractController
 
     private function getDateTime(): string
     {
-        return (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE);
+        return (new DateTime('now', new DateTimeZone(self::DATETIME_PARIS)))->format(DateTime::COOKIE);
     }
 
     /**

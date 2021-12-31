@@ -3,6 +3,7 @@
 namespace App\Domain\Entity;
 
 use App\Domain\Repository\TokenRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,7 +35,7 @@ class Token
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setCreatedAt(new DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -42,7 +43,7 @@ class Token
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }

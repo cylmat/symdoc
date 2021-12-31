@@ -66,9 +66,9 @@ final class SerializerManager implements ManagerInterface
     private function valueObject()
     {
         $normalizer = new GetSetMethodNormalizer();
-        $vo = $normalizer->denormalize(['bar' => 'symfony'], ValueObject::class);
+        $vobject = $normalizer->denormalize(['bar' => 'symfony'], ValueObject::class);
 
-        echo $vo->getFoo();
+        echo $vobject->getFoo();
     }
 
     private function deserializeUsers(): array

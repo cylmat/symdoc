@@ -12,7 +12,7 @@ class AppTest extends WebTestCase
     /** @var KernelBrowser $client */
     private static $client;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$client = static::createClient();
     }

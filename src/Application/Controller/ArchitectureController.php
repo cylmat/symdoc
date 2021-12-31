@@ -4,6 +4,8 @@ namespace App\Application\Controller;
 
 use App\Application\Response;
 use App\Domain\Manager\HeaderManager;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,6 +31,6 @@ final class ArchitectureController extends AbstractController
 
     private function getDateTime(): string
     {
-        return (new \DateTime('now', new \DateTimeZone(self::DATETIME_PARIS)))->format(\DateTime::COOKIE);
+        return (new DateTime('now', new DateTimeZone(self::DATETIME_PARIS)))->format(DateTime::COOKIE);
     }
 }
