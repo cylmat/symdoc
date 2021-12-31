@@ -14,8 +14,9 @@ class RedisService implements ServiceInterface
         $this->redis_dsn = $redis_dsn;
     }
 
-    public function getClient()
+    public function getClient(): ?Client
     {
-        return new Client($this->redis_dsn);
+        // in case dsn is empty (during test cases) return null
+        return $this->redis_dsn ? new Client($this->redis_dsn) : null;
     }
 }
