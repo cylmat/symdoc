@@ -1,0 +1,6 @@
+services:
+    App\Domain\Manager\:
+        resource: '../src/Domain/Manager/'
+        autowire: true
+        autoconfigure: true
+        public: true

@@ -33,7 +33,9 @@ final class AllManager implements ManagerInterface
 {
     public function call(): array
     {
-        return [];
+        return [
+            'foreach' => $this->foreachFunc()
+        ];
     }
 
     public function interfaces()
@@ -81,5 +83,17 @@ final class AllManager implements ManagerInterface
         AccessDecisionManager::class;
         Security::class;
         UserChecker::class;
+    }
+
+    public function foreachFunc()
+    {
+        $a = [1, 2, 3];
+
+        // @codingStandardsIgnoreStart
+        foreach ($a as &$c) {}
+        foreach ($a as $c) {}
+        // @codingStandardsIgnoreEnd
+
+        return ($a); // output [1, 2, 2]
     }
 }

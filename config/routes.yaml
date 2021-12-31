@@ -4,13 +4,13 @@
 
 homepage:
   path: /
-  controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
   defaults:
     path: /components
 
 redirect:
     path: /old-path
-    controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController'
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     defaults:
         path: /new-path
 
@@ -21,3 +21,10 @@ static:
     template: base.html.twig
     maxAge:    86400
     sharedAge: 86400
+
+contact:
+    path:     /contact
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
+    defaults:
+      path: /components

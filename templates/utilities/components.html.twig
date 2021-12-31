@@ -20,3 +20,17 @@
     {{ block('bon') }}
     {{ block('test', 'base.html.twig') }}
 {% endblock %}
+
+{% block loops %}
+    {% set maxItems = 10 %}
+
+    {% with { maxItems: 5 } %}
+        {% for i in 1..maxItems %}
+            {# ... #}
+        {% endfor %}
+    {% endwith %}
+
+    {% for j in 1..maxItems %}
+        {# ... #}
+    {% endfor %}
+{% endblock %}
