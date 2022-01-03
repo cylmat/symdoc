@@ -19,6 +19,8 @@
 
     <div class="example-wrapper">
 
+    {% if constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') is not defined %} constant {% endif %}
+
         <div class="top_menu">
             {{ knp_menu_render('main') }}
         </div>
