@@ -6,7 +6,7 @@ use App\Domain\Entity\User;
 use App\Domain\Service\ServiceDomainInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class Property implements ServiceDomainInterface
+class PropertyComp implements ServiceDomainInterface
 {
     public function use(): array
     {

@@ -6,7 +6,7 @@ use App\Domain\Service\ServiceDomainInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Resolver implements ServiceDomainInterface
+class ResolverComp implements ServiceDomainInterface
 {
     public function use(): array
     {

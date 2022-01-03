@@ -3,18 +3,18 @@
 namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
-use App\Domain\Service\Component\Process;
-use App\Domain\Service\Component\Property;
-use App\Domain\Service\Component\Resolver;
+use App\Domain\Service\Component\ProcessComp;
+use App\Domain\Service\Component\PropertyComp;
+use App\Domain\Service\Component\ResolverComp;
 
 final class ComponentManager implements ManagerInterface
 {
     private $components = [];
 
     public function __construct(
-        Process $process,
-        Property $property,
-        Resolver $resolver
+        ProcessComp $process,
+        PropertyComp $property,
+        ResolverComp $resolver
     ) {
         foreach (func_get_args() as $component) {
             $this->components[\get_class($component)] = $component;
@@ -28,7 +28,7 @@ final class ComponentManager implements ManagerInterface
         $name = $context['name'] ?? null;
         foreach ($this->components as $class => $component) {
             if ($name) {
-                if (!preg_match('/' . ucfirst($name) . '$/', $class)) {
+                if (!preg_match('/' . $name . '$/', strtolower($class))) {
                     continue;
                 } else {
                     $data = $component->use();
