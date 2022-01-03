@@ -8,10 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ComponentController extends AbstractController
 {
-    public function index(ComponentManager $miscManager): Response
+    public function index(ComponentManager $miscManager, array $context = []): Response
     {
         return new Response([
-            'data' => $miscManager->call(),
+            'data' => $miscManager->call($context),
         ]);
     }
 }

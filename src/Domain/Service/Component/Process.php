@@ -9,10 +9,16 @@ class Process implements ServiceDomainInterface
 {
     public function use(): array
     {
-        $message = 'Hello world';
-        $process = new PhpProcess("<?php echo '$message';");
+        return [
+            $this->runProcess()
+        ];
+    }
+
+    private function runProcess(): string
+    {
+        $process = new PhpProcess("ls -lsa");
         $process->run();
 
-        return [$process->getOutput()];
+        return $process->getOutput();
     }
 }

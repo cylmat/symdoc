@@ -14,7 +14,7 @@ final class RedisManager implements ManagerInterface
         $this->redisService = $redisService;
     }
 
-    public function call(): array
+    public function call(array $context = []): array
     {
         if (!$client = $this->redisService->getClient()) {
             return [];

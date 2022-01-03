@@ -66,15 +66,17 @@ final class UtilitiesController extends AbstractController
         ]);
     }
 
-    /*
+    /******************************
      * Components
-     */
+     ******************************/
 
     /**
-     * @Route("/components")
+     * @Route("/components/{name}")
      */
-    public function components(ComponentManager $miscManager): Response
+    public function components(ComponentManager $miscManager, ?string $name = null): Response
     {
-        return $this->componentController->index($miscManager);
+        $ctx = $name ? ['name' => $name] : [];
+
+        return $this->componentController->index($miscManager, $ctx);
     }
 }

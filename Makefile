@@ -14,15 +14,15 @@ phpext:
 ##############
 # GIT REBASE #
 ##############
-# git config user.name "cylmat"
-# git config user.email "cyrilmatte.pro@gmail.com"
+# git config user.name ""
+# git config user.email ""
 rebase:
 	git rebase main -s recursive -X theirs
 
 #########
 # CI/CD #
 #########
-.PHONY: cs, tests, stan, md
+.PHONY: cs tests stan md
 
 cs:
 	vendor/bin/phpcs

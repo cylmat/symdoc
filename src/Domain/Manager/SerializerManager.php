@@ -23,7 +23,7 @@ final class SerializerManager implements ManagerInterface
         $this->serializer = $serializer;
     }
 
-    public function call(): array
+    public function call(array $context = []): array
     {
         return [
             'serialize' => $this->serialize(),

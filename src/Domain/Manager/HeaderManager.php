@@ -17,7 +17,7 @@ final class HeaderManager implements ManagerInterface
         $this->dateTime = $dateTime;
     }
 
-    public function call(): array
+    public function call(array $context = []): array
     {
         return $this->header();
     }

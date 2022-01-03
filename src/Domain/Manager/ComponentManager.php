@@ -21,12 +21,21 @@ final class ComponentManager implements ManagerInterface
         }
     }
 
-    public function call(): array
+    public function call(array $context = []): array
     {
         $data = [];
 
+        $name = $context['name'] ?? null;
         foreach ($this->components as $class => $component) {
-            $data[$class] = $component->use();
+            if ($name) {
+                if (!preg_match('/' . ucfirst($name) . '$/', $class)) {
+                    continue;
+                } else {
+                    $data = $component->use();
+                }
+            } else {
+                $data[$class] = $component->use();
+            }
         }
 
         return $data;

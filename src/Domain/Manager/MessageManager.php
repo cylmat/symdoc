@@ -15,7 +15,7 @@ final class MessageManager implements ManagerInterface
         $this->messageBus = $messageBus;
     }
 
-    public function call(): array
+    public function call(array $context = []): array
     {
         // $this->dispatchMessage (in AbstractController)
         $msg = new Message('Message from manager');

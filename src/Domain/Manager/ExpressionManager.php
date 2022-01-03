@@ -7,7 +7,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ExpressionManager implements ManagerInterface
 {
-    public function call(): array
+    public function call(array $context = []): array
     {
         return $this->expression();
     }

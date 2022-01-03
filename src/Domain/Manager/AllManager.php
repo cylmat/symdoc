@@ -6,7 +6,7 @@ use App\Domain\Core\Interfaces\ManagerInterface;
 
 final class AllManager implements ManagerInterface
 {
-    public function call(): array
+    public function call(array $context = []): array
     {
         return [
             'foreach' => $this->foreachFunc()

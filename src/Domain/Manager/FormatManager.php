@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 final class FormatManager implements ManagerInterface
 {
-    public function call(): array
+    public function call(array $context = []): array
     {
         return [
             'xpath' => $this->xpath(),
