@@ -23,8 +23,16 @@ static:
     sharedAge: 86400
 
 contact:
-    path:     /contact
+    path: /contact
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
     defaults:
       path: /components
+    
+myapp:
+    path: /blog/{page}
+    controller: App\Application\Controller\AdvancedController::message
+    requirements:
+        page: \d+
+    defaults:
+        page: 1
