@@ -21,6 +21,9 @@
     {{ block('test', 'base.html.twig') }}
 {% endblock %}
 
+{# multiple assignments #}
+{% set foo, bar = 'FOO', 'BAR' %}
+
 {% block loops %}
     {% set maxItems = 10 %}
 
