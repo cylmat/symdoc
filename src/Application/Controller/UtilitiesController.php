@@ -6,6 +6,7 @@ use App\Application\Response;
 use App\Domain\Manager\ComponentManager;
 use App\Domain\Manager\ExpressionManager;
 use App\Domain\Manager\FormatManager;
+use App\Domain\Manager\PhpManager;
 use DateTime;
 use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ final class UtilitiesController extends AbstractController
 
     private $componentController;
 
-    public function __construct(ComponentController $componentController)
+    public function __construct(UtilitiesComponentController $componentController)
     {
         $this->componentController = $componentController;
     }
@@ -63,6 +64,16 @@ final class UtilitiesController extends AbstractController
     {
         return new Response([
             'data' => $formatManager->call(),
+        ]);
+    }
+
+    /**
+     * @Route("/php")
+     */
+    public function php(PhpManager $phpManager): Response
+    {
+        return new Response([
+            'data' => $phpManager->call()
         ]);
     }
 

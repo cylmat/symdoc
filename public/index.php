@@ -14,6 +14,7 @@ if ($_SERVER['APP_DEBUG']) {
 
     Debug::enable();
 }
+
 if ((bool) $_SERVER['SWITCH_PHPEXT']) {
     include __DIR__ . '/../Bundle/Phpext/public/index.php';
     die();
