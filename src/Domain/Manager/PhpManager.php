@@ -25,10 +25,10 @@ final class PhpManager implements ManagerInterface
     {
         $alpha = [1, 2, 3];
 
-        foreach ($alpha as &$cam) {
-        }
-        foreach ($alpha as $cam) {
-        }
+        // @codingStandardsIgnoreStart
+        foreach ($alpha as &$cam) {}
+        foreach ($alpha as $cam) {}
+        // @codingStandardsIgnoreEnd
 
         return join(' ', $alpha); // output [1, 2, 2]
     }
