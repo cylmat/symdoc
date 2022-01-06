@@ -18,6 +18,54 @@ final class BasicsController extends AbstractController
         $this->bfc = $bfc;
     }
 
+    /*
+     * Don't use getRouteCollection in prod as it is slow!
+     */
+    /*
+     * ROUTING: matching route with controller
+     * @see (for fun) https://symfony.com/blog/new-in-symfony-3-2-unicode-routing-support
+     *
+     * $_route, $_controller, ... injected automatically by Sf
+     * parameter<requirements>
+     */
+    /**
+     * @Route("/routing/{slug<[[:alpha:]-]+>?}/{param?foo}/{def}/{last}",
+     *  defaults={
+     *      "def"="inside",
+     *      "placehoster"="localhost"
+     *  },
+     *  host="{placehoster}",
+     *  requirements={
+     *      "placehoster"="localhost|docker"
+     *  },
+     *  options={
+     *      "compiler_class": \Symfony\Component\Routing\RouteCompiler::class,
+     *      "utf8": true,
+     *  }
+     * )
+     */
+    public function routing(
+        Request $request,
+        string $_route,
+        string $_controller,
+        string $def,
+        ?string $slug = '',
+        string $param = 'not_this_default',
+        string $last = 'default_value'
+    ): Response {
+        return new Response([
+            'data' => [
+                $request,
+                '_route' => $_route,
+                '_controller' => $_controller,
+                'slug' => $slug,
+                'param' => $param,
+                'def' => $def,
+                'last' => $last,
+            ]
+        ]);
+    }
+
     /**
      * @Route("/cache")
      */
