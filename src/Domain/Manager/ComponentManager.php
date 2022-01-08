@@ -28,7 +28,7 @@ final class ComponentManager implements ManagerInterface
         $name = $context['name'] ?? null;
         foreach ($this->components as $class => $component) {
             if ($name) {
-                if (!preg_match('/' . $name . '$/', strtolower($class))) {
+                if (!preg_match('/' . $name . 'comp$/', strtolower($class))) {
                     continue;
                 } else {
                     $data = $component->use();
