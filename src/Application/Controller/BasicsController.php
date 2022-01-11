@@ -53,6 +53,8 @@ final class BasicsController extends AbstractController
         string $param = 'not_this_default',
         string $last = 'default_value'
     ): Response {
+        $pathInfo = $request->getPathInfo();
+
         return new Response([
             'data' => [
                 $request,
