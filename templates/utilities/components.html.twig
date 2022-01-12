@@ -12,6 +12,8 @@
         </p>
     {% endif %}
 
+    {#{ block('loops') }#}
+
 {% endblock %}
 
 {% block bon '' %}
@@ -29,11 +31,11 @@
 
     {% with { maxItems: 5 } %}
         {% for i in 1..maxItems %}
-            {# ... #}
+            {# ... #} i:{{i}}
         {% endfor %}
     {% endwith %}
 
     {% for j in 1..maxItems %}
-        {# ... #}
+        {# ... #} j:{{j}}
     {% endfor %}
 {% endblock %}

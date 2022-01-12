@@ -70,6 +70,9 @@
                     {{ form_errors(form) }}
                 {% endif %}
 
+                {# SAMPLE #}
+                {# {{ form.title.vars.value }} #}
+
                 {# block_prefixes => form / text / _user_username #}
                 {{ form.username.vars.required ? 'req' }}
                 {{ form_label(form.username, 'Username ',
