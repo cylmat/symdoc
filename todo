@@ -1,13 +1,3 @@
-https://symfony.com/doc/current/components/serializer.html#converting-property-names-when-serializing-and-deserializing
-data_collector
-encryption
-Factories
-HttpCache
-KernelView events
-
-FosRestBundle
-willdurand/negotiation
-
 [In progress]
 Basics:
     Form... in progress
@@ -15,3 +5,7 @@ Basics:
 [Done]
 Components:
     Process
+
+---
+FosRestBundle
+willdurand/negotiation
