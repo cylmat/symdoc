@@ -47,3 +47,30 @@
 {% endblock %}
 
 {% block test '' %}
+
+{# SAMPLES #}
+
+{# |filter(u => u.test) #}
+
+{#{ include('template.twig', {'k': 'v'}) }}
+{% include 'template.twig' with {'k': 'v'} only %}
+
+{{ include('template.twig', with_context = false) }}
+{% include 'template.twig' only %#}
+
+{# for val in vals #}
+{# else #}
+{# endfor #}
+
+{# if var starts 'r' #}
+{# if var not ends with 'r' #}
+{# if var matches '/aaa/' #}
+{# if var in ['1', '2'] #} 
+
+{# is iterable empty odd even defined sameas() #}
+
+{# render(url('___')) #}
+{# render(controller(App\\_::action, {})) #}
+{# render_esi(controller(App\\_::action)) #}
+
+{# {{ dump(var) }} {% dump var %} #}
