@@ -26,7 +26,7 @@
         </div>
 
         {% autoescape 'html' %}
-            <h2>Welcome to {{ controller }}</h2>
+            <h2>Welcome to {{ controller|escape('html') }}</h2>
         {% endautoescape %}
 
         {% block wrapper '' %}
