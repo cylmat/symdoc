@@ -25,7 +25,9 @@
             {{ knp_menu_render('main') }}
         </div>
 
-        <h2>Welcome to {{ controller }}</h2>
+        {% autoescape 'html' %}
+            <h2>Welcome to {{ controller }}</h2>
+        {% endautoescape %}
 
         {% block wrapper '' %}
 
