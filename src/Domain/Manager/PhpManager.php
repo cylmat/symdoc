@@ -18,6 +18,7 @@ final class PhpManager implements ManagerInterface
         return [
             'closure' => $this->closureFunc(),
             'foreach' => $this->foreachFunc(),
+            'float' => $this->float(),
         ];
     }
 
@@ -31,6 +32,19 @@ final class PhpManager implements ManagerInterface
         // @codingStandardsIgnoreEnd
 
         return join(' ', $alpha); // output [1, 2, 2]
+    }
+
+    private function float(): string
+    {
+        $a = 1;
+        $b = 2.5;
+        $c = 0xFF;
+
+        $d = $b + $c;
+        $e = $d * $b;
+        $f = ($d + $e) % $a;
+
+        return $f + $e;
     }
 
     private function closureFunc(): string
