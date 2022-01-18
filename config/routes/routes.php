@@ -4,7 +4,10 @@
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return function (RoutingConfigurator $routes) {
-    $routes->add('static', '/static ')
+    $routes->add('static', [
+            'fr' => '/static',
+            'en' => 'my-static',
+        ])
         // the controller value has the format [controller_class, method_name]
         ->controller([Symfony\Bundle\FrameworkBundle\Controller\TemplateController::class, 'templateAction'])
         // ->condition()

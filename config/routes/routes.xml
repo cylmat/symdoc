@@ -9,8 +9,13 @@
     <!-- the controller value has the format 'controller_class::method_name' -->
     <route id="redirect" path="/old-path"
         controller="Symfony\Bundle\FrameworkBundle\Controller\RedirectController">
+        <!--path locale="en">/about-us</path>
+        <path locale="nl">/over-ons</path-->
+
         <condition>context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/.*/i'</condition>
         <default key="path">/new-path</default>
+        <default key="permanent">true</default>
+        <default key="keepQueryParams">true</default>
         <requirement key="page">\d+</requirement>
     </route>
 

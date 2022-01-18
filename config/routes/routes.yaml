@@ -9,7 +9,9 @@ homepage:
     path: /components
 
 contact:
-    path: /contact
+    path: 
+        en: /contact
+        nl: /contact
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     # context is a RequestContext object
     condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
@@ -17,7 +19,7 @@ contact:
       path: /components
     
 myapp:
-    path: /blog/{page<\d+>}
+    path: /blog/{page<\d+>?default_value} # ("\d+" required, and "default_value" provided)
     controller: App\Application\Controller\AdvancedController::message
     methods: GET|HEAD
     requirements:

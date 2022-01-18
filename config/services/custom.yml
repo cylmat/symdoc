@@ -1,3 +1,12 @@
+parameters:
+    # Generate url in commands
+    router.request_context.host: 'example.org'
+    router.request_context.scheme: 'http'
+    asset.request_context.secure: false
+    router.request_context.base_url: 'my/path'
+    asset.request_context.base_path: '%router.request_context.base_url%'
+    # -commands
+
 services:
     rot13:
         class:    App\Application\Service\Rot13Transformer
