@@ -4,7 +4,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use App\Application\Service\DateTimeService;
 
-return function(ContainerConfigurator $configurator) {
+return function (ContainerConfigurator $configurator) {
     // makes classes in src/ available to be used as services
     // this creates a service per class whose id is the fully-qualified class name
     $services = $configurator->services();

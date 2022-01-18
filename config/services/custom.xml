@@ -3,8 +3,7 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services 
-        https://symfony.com/schema/dic/services/services-1.0.xsd">
+    xsi:schemaLocation="http://symfony.com/schema/dic/services">
 
     <parameters key="my_parameters" type="collection">
         <parameter key="my_param">testing-param</parameter>
@@ -24,11 +23,6 @@
             </call>
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
-
-        <twig:config>
-            <twig:form-theme>bootstrap_4_layout.html.twig</twig:form-theme>
-            <!-- ... -->
-        </twig:config>
 
     </services>
 

@@ -2,7 +2,6 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 imports:
-    - { resource: services_config.yml }
     - { resource: services/redis.yml }
     - { resource: services/knp/knp_menu.yml }
 

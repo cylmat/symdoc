@@ -2,8 +2,8 @@
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return function(ContainerConfigurator $configurator) {
-    $configurator->import('services_config.php');
+return function (ContainerConfigurator $configurator) {
+    //$configurator->import('services_config.php');
 
     /*
     // If you want to import a whole directory:
@@ -16,7 +16,7 @@ return function(ContainerConfigurator $configurator) {
     ;
 
     $services
-      ->load('App\\', '../src/*')
+        ->load('App\\', '../src/*')
         ->exclude('../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}');
     */
 };
