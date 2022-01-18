@@ -33,7 +33,7 @@ final class BasicsController extends AbstractController
      * @Route("/routing/{slug<[[:alpha:]-]+>?}/{param?foo}/{def}/{last}",
      *  defaults={
      *      "def"="inside",
-     *      "placehoster"="localhost"
+     *      "placehoster"="%devhost%"
      *  },
      *  host="{placehoster}",
      *  requirements={

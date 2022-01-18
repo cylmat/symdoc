@@ -11,6 +11,7 @@ imports:
 parameters:
     a: "%%b%%" # will output "%b%"
     b: "%a%%"  # will output "%b%%"
+    devhost: docker
 
 services:
     # default configuration for services in *this* file
