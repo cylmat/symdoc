@@ -7,6 +7,7 @@ return function (RoutingConfigurator $routes) {
     $routes->add('static', '/static ')
         // the controller value has the format [controller_class, method_name]
         ->controller([Symfony\Bundle\FrameworkBundle\Controller\TemplateController::class, 'templateAction'])
+        // ->condition()
 
         ->defaults([
             'page' => 1,
@@ -15,6 +16,11 @@ return function (RoutingConfigurator $routes) {
             'sharedAge' => 86400,
         ])
         ->requirements(['page' => '\d+'])
+
+        /**
+         * To use a different method in a form:
+         * <input type="hidden" name="_method" value="PUT"/>
+         */
 
         // if the action is implemented as the __invoke() method of the
         // controller class, you can skip the 'method_name' part:

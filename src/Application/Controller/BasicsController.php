@@ -32,12 +32,12 @@ final class BasicsController extends AbstractController
     /**
      * @Route("/routing/{slug<[[:alpha:]-]+>?}/{param?foo}/{def}/{last}",
      *  defaults={
-     *      "def"="inside",
-     *      "placehoster"="%devhost%"
+     *      "def": "inside",
+     *      "placehoster": "%devhost%"
      *  },
      *  host="{placehoster}",
      *  requirements={
-     *      "placehoster"="localhost|docker"
+     *      "placehoster": "localhost|docker"
      *  },
      *  options={
      *      "compiler_class": \Symfony\Component\Routing\RouteCompiler::class,

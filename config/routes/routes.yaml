@@ -11,14 +11,20 @@ homepage:
 contact:
     path: /contact
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    # context is a RequestContext object
     condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
     defaults:
       path: /components
     
 myapp:
-    path: /blog/{page}
+    path: /blog/{page<\d+>}
     controller: App\Application\Controller\AdvancedController::message
+    methods: GET|HEAD
     requirements:
-        page: \d+
+        # \p reference PCRE Unicode char 
+        # https://www.php.net/manual/en/regexp.reference.unicode.php 
+        page: \d+\p{Lu}? 
     defaults:
         page: 1
+    options:
+      utf8: true # "." match any utf8 char
