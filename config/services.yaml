@@ -2,7 +2,6 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 imports:
-    - { resource: services/redis.yml }
     - { resource: services/knp/knp_menu.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
