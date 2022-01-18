@@ -24,7 +24,10 @@
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
 
-        <service id="custom_route_loader_service" class="App\Application\Service\CustomRouteLoader">
+        <!-- injected into container with Container::set() -->
+        <service id="runtime_injected" synthetic="true" />
+
+        <service id="custom_route_loader_service" class="App\Application\Service\Route\CustomRouteLoader">
             <tag name="routing.route_loader" />
         </service>
 

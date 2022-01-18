@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Service;
+namespace App\Application\Service\Menu;
 
 use Bundle\ExtBundleController;
 use Knp\Menu\FactoryInterface;

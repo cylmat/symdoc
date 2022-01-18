@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Service;
+namespace App\Application\Service\Route;
 
 use Symfony\Bundle\FrameworkBundle\Routing\RouteLoaderInterface;
 use Symfony\Component\Routing\RouteCollection;
