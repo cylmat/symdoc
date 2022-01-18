@@ -3,10 +3,10 @@
 #    controller: App\Controller\DefaultController::index
 
 homepage:
-  path: /
-  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
-  defaults:
-    path: /components
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        path: /components
 
 contact:
     path: 
@@ -16,7 +16,7 @@ contact:
     # context is a RequestContext object
     condition: "context.getMethod() in ['GET', 'HEAD'] and request.headers.get('User-Agent') matches '/firefox/i'"
     defaults:
-      path: /components
+        path: /components
     
 myapp:
     path: /blog/{page<\d+>?default_value} # ("\d+" required, and "default_value" provided)
@@ -29,4 +29,16 @@ myapp:
     defaults:
         page: 1
     options:
-      utf8: true # "." match any utf8 char
+        utf8: true # "." match any utf8 char
+
+# ROUTE LOADER #
+route_loader:
+    # loads routes from the given routing file stored in some bundle
+    resource: '@AppMyBundle/Resources/config/' # routing.yaml'
+    type:     annotation # directory
+
+custom_routes_loader:
+    resource: 'custom_route_loader::loadMyRoutes'
+    type: service
+    trailing_slash_on_root: true
+    utf8: true

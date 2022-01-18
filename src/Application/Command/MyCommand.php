@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class SomeCommand extends Command
+class MyCommand extends Command
 {
     private $router;
 
@@ -41,7 +41,10 @@ class SomeCommand extends Command
         // when a route is localized, Symfony uses by default the current request locale
         // pass a different '_locale' value if you want to set the locale explicitly
         $signUpPageInDutch = $this->router->generate('sign_up', ['_locale' => 'nl']);
+    }
 
-        // ...
+    public function getName()
+    {
+        return 'my.command';
     }
 }

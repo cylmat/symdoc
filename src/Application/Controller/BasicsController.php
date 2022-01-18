@@ -39,9 +39,9 @@ final class BasicsController extends AbstractController
      * parameter<requirements>
      */
     /**
-     * @Route("/routing/{slug<[[:alpha:]-]*>?}/{param?foo}/{!def}/{last}{_locale?en}",
+     * @Route("/routing/{slug<[[:alpha:]-]*>?slug}/{param?par}/{!def}/{last}{_locale?en}",
      *  defaults={
-     *      "def": "inside",
+     *      "def": "defval",
      *      "placehoster": "%devhost%",
      *      "_locale": "en"
      *  },

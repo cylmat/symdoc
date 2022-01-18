@@ -17,11 +17,15 @@
         </service>
 
         <service id="twitter_client_2" class="App\Application\Service\TwitterClient">
-            <!-- symthetic=true abstract=true factory=<class> -->
+            <!-- synthetic=true abstract=true factory=<class> -->
             <call method="withConfiguredSerializer" returns-clone="true">
                 <argument type="service" id="logger"/>
             </call>
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
+        </service>
+
+        <service id="custom_route_loader" class="App\Application\Service\CustomRouteLoader">
+            <tag name="routing.route_loader" />
         </service>
 
     </services>
