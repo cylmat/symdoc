@@ -37,8 +37,12 @@ route_loader:
     resource: '@AppMyBundle/Resources/config/' # routing.yaml'
     type:     annotation # directory
 
-custom_routes_loader:
-    resource: 'custom_route_loader::loadMyRoutes'
+custom_routes_loader_service:
+    resource: 'custom_route_loader_service::loadMyRoutes'
     type: service
     trailing_slash_on_root: true
     utf8: true
+
+custom_routes_loader:
+    resource: . # unneeded
+    type: my_extra

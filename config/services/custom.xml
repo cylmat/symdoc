@@ -24,8 +24,12 @@
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
 
-        <service id="custom_route_loader" class="App\Application\Service\CustomRouteLoader">
+        <service id="custom_route_loader_service" class="App\Application\Service\CustomRouteLoader">
             <tag name="routing.route_loader" />
+        </service>
+
+        <service id="custom_route_loader" class="App\Application\Routing\CustomLoader">
+            <tag name="routing.loader" />
         </service>
 
     </services>
