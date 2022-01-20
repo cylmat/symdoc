@@ -4,10 +4,15 @@ namespace App\Application\Controller;
 
 use App\Application\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\WebLink\Link;
 
 /**
  * Route groups:
@@ -97,4 +102,73 @@ final class StartedController extends AbstractController
     {
     }
      */
+
+    /**
+     * @Route("/controller")
+     */
+    public function controller()
+    {
+        // Container
+        $param = $this->getParameter('devhost');
+        $subscribedServices = self::getSubscribedServices();
+        $service = null;
+        /*if ($this->has('twitter_client')) {
+            $service = $this->get('twitter_client');
+        }*/
+
+        // Routes
+        $url = $this->generateUrl('contact', ['param'], UrlGeneratorInterface::ABSOLUTE_PATH);
+
+        // Response
+        // $this->forward(self::class.'::routing', ['path']);
+        $redirectResponse = $this->redirect('https://userland.com', 302);
+        $redirectRouteResponse = $this->redirectToRoute('contact', ['param'], 302);
+        $jsonResponse = $this->json(['data'], 200, ['headers'], ['context']);
+        // $binaryFileResponse = $this->file('file', 'filename', ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+        $this->addFlash('INFO', 'my message'); // session
+
+        // $html = $this->renderView('template.html.twig', ['param']);
+        // $html = $this->render('template.html.twig', ['param'], new Response());
+        $streamedResponse = $this->stream('template.html.twig', ['param'], new StreamedResponse());
+
+        // Exception
+        $notfound = $this->createNotFoundException('Not Found!', new NotFoundHttpException());
+        $denied = $this->createAccessDeniedException('Access Denied!', new AccessDeniedException('path'));
+
+        // Form
+        // $form = $this->createForm('MyFormType::class', (object)['entity'], ['options']);
+        // $formBuilder = $this->createFormBuilder((object)['entity'], ['options']);
+
+        // User & security
+        $isGranted = $this->isGranted('attibutes', 'subject');
+        // $this->denyAccessUnlessGranted('attributes', 'subject', 'Access Denied!');
+        $user = $this->getUser(); // $this->container->get('security.token_storage')
+        $managerRegistry = $this->getDoctrine();
+        $csrfValid = $this->isCsrfTokenValid('id', '123token');
+        //$envelopeMessage = $this->dispatchMessage('My message', ['stamps']);
+
+        $request = new Request();
+        $this->addLink($request, new Link()); // symfony/web-link
+
+        return new Response([
+            'data' => [
+                'param' => $param,
+                'subscribed' => $subscribedServices,
+                'service' => $service,
+                'url' => $url,
+                'redirect' => $redirectResponse,
+                'redirectRoute' => $redirectRouteResponse,
+                'json' => $jsonResponse,
+                'flash' => $this->container->get('session')->getFlashBag(),
+                'stream' => $streamedResponse,
+                'notfound' => $notfound,
+                'denied' => $denied,
+                'isGranted' => $isGranted,
+                'user' => $user,
+                'manager' => $managerRegistry,
+                'csrfValid' => $csrfValid,
+                'response link' => $request->attributes,
+            ]
+        ]);
+    }
 }
