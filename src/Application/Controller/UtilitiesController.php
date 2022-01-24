@@ -88,6 +88,6 @@ final class UtilitiesController extends AbstractController
     {
         $ctx = $name ? ['name' => $name] : [];
 
-        return $this->componentController->index($miscManager, $ctx);
+        return $this->componentController->outsidecalled($miscManager, $ctx);
     }
 }
