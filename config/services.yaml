@@ -46,7 +46,11 @@ services:
     # as action arguments even if you don't extend any base controller class
     App\Application\Controller\:
         resource: '../src/Application/Controller/'
+        exclude: '../src/Application/Controller/Error/'
         tags: ['controller.service_arguments']
+        bind:
+            # for any $logger argument, pass this specific service
+            $bind_from_service_logger: '@monolog.logger.doctrine'
 
     Bundle\ExtBundleController:
         tags: ['controller.service_arguments']

@@ -3,9 +3,13 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use App\Application\Service\DateTimeService;
+use Symfony\Component\DependencyInjection\Reference;
 
 return function (ContainerConfigurator $configurator) {
     //$configurator->import('services_config.php');
+    $configurator->services()
+        ->get('App\\Application\\Controller\\StartedController')
+        ->bind('$from_php_service_logger', new Reference('monolog.logger.doctrine'));
 
     /*
     $services

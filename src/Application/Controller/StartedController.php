@@ -6,7 +6,7 @@ use App\Application\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +20,10 @@ use Symfony\Component\WebLink\Link;
  */
 final class StartedController extends AbstractController
 {
+    public function __construct(object $from_php_service_logger)
+    {
+    }
+
     /*
      * Don't use getRouteCollection in prod as it is slow!
      */
@@ -106,8 +110,12 @@ final class StartedController extends AbstractController
     /**
      * @Route("/controller")
      */
-    public function controller()
-    {
+    public function controller(
+        Request $request,
+        SessionInterface $session,
+        object $bind_from_service_logger, //binded from service.yaml
+        string $my_custom_value_resolver // autoload from CustomValueResolver
+    ) {
         // Container
         $param = $this->getParameter('devhost');
         $subscribedServices = self::getSubscribedServices();
@@ -123,16 +131,16 @@ final class StartedController extends AbstractController
         // $this->forward(self::class.'::routing', ['path']);
         $redirectResponse = $this->redirect('https://userland.com', 302);
         $redirectRouteResponse = $this->redirectToRoute('contact', ['param'], 302);
+        // use serializer service, or json_encode
         $jsonResponse = $this->json(['data'], 200, ['headers'], ['context']);
         // $binaryFileResponse = $this->file('file', 'filename', ResponseHeaderBag::DISPOSITION_ATTACHMENT);
-        $this->addFlash('INFO', 'my message'); // session
 
         // $html = $this->renderView('template.html.twig', ['param']);
         // $html = $this->render('template.html.twig', ['param'], new Response());
         $streamedResponse = $this->stream('template.html.twig', ['param'], new StreamedResponse());
 
         // Exception
-        $notfound = $this->createNotFoundException('Not Found!', new NotFoundHttpException());
+        $notfound = $this->createNotFoundException('Not Found!', new NotFoundHttpException('Not found!'));
         $denied = $this->createAccessDeniedException('Access Denied!', new AccessDeniedException('path'));
 
         // Form
@@ -147,6 +155,9 @@ final class StartedController extends AbstractController
         $csrfValid = $this->isCsrfTokenValid('id', '123token');
         //$envelopeMessage = $this->dispatchMessage('My message', ['stamps']);
 
+        // Flash and link
+        $this->addFlash('INFO', 'my message'); // session
+
         $request = new Request();
         $this->addLink($request, new Link()); // symfony/web-link
 
@@ -159,7 +170,6 @@ final class StartedController extends AbstractController
                 'redirect' => $redirectResponse,
                 'redirectRoute' => $redirectRouteResponse,
                 'json' => $jsonResponse,
-                'flash' => $this->container->get('session')->getFlashBag(),
                 'stream' => $streamedResponse,
                 'notfound' => $notfound,
                 'denied' => $denied,
@@ -168,6 +178,9 @@ final class StartedController extends AbstractController
                 'manager' => $managerRegistry,
                 'csrfValid' => $csrfValid,
                 'response link' => $request->attributes,
+
+                // {% messages in app.flashes(['success', 'warning']) %}
+                '_retrieve_from_twig' => $this->container->get('session')->getFlashBag(),
             ]
         ]);
     }

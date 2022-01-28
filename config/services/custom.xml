@@ -10,7 +10,7 @@
     </parameters>
 
     <services>
-        <defaults autowire="false" autoconfigure="false"/>
+        <defaults public="false" autowire="true" autoconfigure="false"/>
 
         <service id="App\Domain\MessageHandler\MessageHandler">
             <tag name="messenger.message_handler" handles="App\Domain\Message\Message" />
@@ -25,7 +25,7 @@
         </service>
 
         <!-- injected into container with Container::set() -->
-        <service id="runtime_injected" synthetic="true" />
+        <service id="runtime_injected" synthetic="true" public="true"/>
 
         <service id="custom_route_loader_service" class="App\Application\Service\Route\CustomRouteLoader">
             <tag name="routing.route_loader" />
@@ -33,6 +33,15 @@
 
         <service id="custom_route_loader" class="App\Application\Routing\CustomLoader">
             <tag name="routing.loader" />
+        </service>
+
+        <!-- ERROR CONTROLLER (framework.yaml) -->
+        <service id="app_error_controller" alias="App\Application\Controller\Error\AppErrorController"/>
+        <service id="App\Application\Controller\Error\AppErrorController">
+                <argument type="service" id="http_kernel" />
+                <argument>%kernel.error_controller%</argument>
+                <argument type="service" id="error_renderer" />
+                <tag name="controller.service_arguments" />
         </service>
 
     </services>

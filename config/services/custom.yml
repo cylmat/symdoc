@@ -22,12 +22,21 @@ services:
             # vendor/symfony/config/Loader/FileLoader.php
             - [withConfiguredSerializer, ['@serializer'], true]
     
+    # ###
     # Aliases HAVE to be manually declared to type-hint
+    # ###
     App\Application\Service\Rot13Transformer: '@rot13'
     App\Application\Service\TwitterClient: '@twitter_client'
 
     App\Application\Service\TwitterClientChild:
         parent: App\Application\Service\TwitterClient
+
+    # ###
+    # ArgumentResolver
+    # ###
+    App\Application\ArgumentResolver\CustomValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
 
     ########################
     # SAMPLE AND DECORATOR #

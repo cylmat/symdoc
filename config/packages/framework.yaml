@@ -20,3 +20,4 @@ framework:
         scoped_clients:
 
     default_locale: en
+    error_controller: App\Application\Controller\Error\AppErrorController
