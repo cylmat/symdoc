@@ -1,3 +1,3 @@
-[![PHPext](https://github.com/cylmat/symplay/actions/workflows/main.yml/badge.svg)](https://github.com/cylmat/symplay/actions/workflows/main.yml)
+[![PHPext](https://github.com/cylmat/symdoc/actions/workflows/main.yml/badge.svg)](https://github.com/cylmat/symdoc/actions/workflows/main.yml)
 # Symfony, controllers, doctrine, messenger...
-Try & play around symfony 5 framework and bundles for learning purpose.
+Try documentation on symfony 5 framework and bundles for learning purpose.
