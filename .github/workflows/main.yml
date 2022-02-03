@@ -5,7 +5,7 @@
 # DOC
 # https://github.com/actions/starter-workflows/
 
-name: Sym-play
+name: Sym-doc
 
 on:
   push:
