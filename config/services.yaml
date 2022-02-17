@@ -20,6 +20,8 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+    #
+    # Resource and exclude can be any GLOB pattern
     App\:
         resource: '../src/'
         exclude:
@@ -51,6 +53,9 @@ services:
         bind:
             # for any $logger argument, pass this specific service
             $bind_from_service_logger: '@monolog.logger.doctrine'
+            Psr\Log\LoggerInterface $httpClientLogger: '@monolog.logger.http_client'
+            string $myCustomData: 'from services.yaml'
+            iterable $rules: !tagged_iterator 'doctrine.event_listener'
 
     Bundle\ExtBundleController:
         tags: ['controller.service_arguments']

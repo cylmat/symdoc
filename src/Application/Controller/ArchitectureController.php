@@ -6,6 +6,7 @@ use App\Application\Response;
 use App\Domain\Manager\HeaderManager;
 use DateTime;
 use DateTimeZone;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,27 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ArchitectureController extends AbstractController
 {
     private const DATETIME_PARIS = 'Europe/Paris';
+
+    /**
+     * @Route("/services")
+     *
+     * # Same LoggerInterface, different service
+     */
+    public function services(
+        LoggerInterface $logger,
+        LoggerInterface $httpClientLogger,
+        string $myCustomData,
+        iterable $rules
+    ): Response {
+        return new Response([
+            'data' => [
+                'logger' => $logger,
+                'httpClientLogger' => $httpClientLogger,
+                'myCustomData' => $myCustomData,
+                'rules' => $rules,
+            ]
+        ]);
+    }
 
     /**
      * @Route("/request")
