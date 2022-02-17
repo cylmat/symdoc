@@ -23,6 +23,7 @@ services:
     #
     # Resource and exclude can be any GLOB pattern
     App\:
+        # namespace: MyNamespace\
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
@@ -47,6 +48,7 @@ services:
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Application\Controller\:
+        # namespace: MyNamespace2\
         resource: '../src/Application/Controller/'
         exclude: '../src/Application/Controller/Error/'
         tags: ['controller.service_arguments']
@@ -55,7 +57,7 @@ services:
             $bind_from_service_logger: '@monolog.logger.doctrine'
             Psr\Log\LoggerInterface $httpClientLogger: '@monolog.logger.http_client'
             string $myCustomData: 'from services.yaml'
-            iterable $rules: !tagged_iterator 'doctrine.event_listener'
+            iterable $rules: !tagged_iterator '@doctrine.event_listener'
 
     Bundle\ExtBundleController:
         tags: ['controller.service_arguments']
