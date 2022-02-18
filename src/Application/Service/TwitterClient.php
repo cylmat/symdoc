@@ -41,4 +41,12 @@ class TwitterClient
 
         return $this;
     }
+
+    public function withLogger(LoggerInterface $logger): self
+    {
+        $new = clone $this;
+        $new->logger = $logger;
+
+        return $new;
+    }
 }

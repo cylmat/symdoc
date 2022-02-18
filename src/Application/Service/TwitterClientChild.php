@@ -5,7 +5,7 @@ namespace App\Application\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class TwitterClientChild
+class TwitterClientChild extends TwitterClient
 {
     private $transformer;
     private $logger;

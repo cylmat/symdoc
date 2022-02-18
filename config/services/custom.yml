@@ -21,15 +21,33 @@ services:
             # vendor/symfony/dependency-injection/Compiler/AutowirePass.php 
             # vendor/symfony/config/Loader/FileLoader.php
             - [withConfiguredSerializer, ['@serializer'], true]
+            # tell Container to use returned value of method
+            - withLogger: !returns_clone ['@logger']
     
     # ###
     # Aliases HAVE to be manually declared to type-hint
     # ###
     App\Application\Service\Rot13Transformer: '@rot13'
     App\Application\Service\TwitterClient: '@twitter_client'
+    App\Application\Service\TwitterClientAlias: 
+        alias: '@twitter_client'
+        public: false
+        deprecated: 'The "%alias_id%" alias is deprecated. Do not use it anymore.'
 
     App\Application\Service\TwitterClientChild:
         parent: App\Application\Service\TwitterClient
+
+    # Anonymous service, must be defined manually
+    App\Foo:
+        autowire: false
+        autoconfigure: false
+        arguments:
+            - !service
+                class: App\AnonymousServiceBar
+    
+    App\Application\Service\FromFactoryService:
+        factory: [ !service { class: App\Application\Factory\ServiceFactory }, 'createFromFactoryService' ]
+        arguments: ['alphabeta']
 
     # ###
     # ArgumentResolver

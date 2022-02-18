@@ -3,6 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
+use App\Application\Service\FromFactoryService;
 use App\Domain\Manager\HeaderManager;
 use DateTime;
 use DateTimeZone;
@@ -20,10 +21,14 @@ final class ArchitectureController extends AbstractController
      * @Route("/services")
      *
      * # Same LoggerInterface, different service
+     *
+     * # Action injector
+     * # must be tagged with "controller.service_arguments"
      */
     public function services(
         LoggerInterface $logger,
         LoggerInterface $httpClientLogger,
+        FromFactoryService $fromFactory,
         string $myCustomData,
         iterable $rules
     ): Response {
@@ -31,6 +36,7 @@ final class ArchitectureController extends AbstractController
             'data' => [
                 'logger' => $logger,
                 'httpClientLogger' => $httpClientLogger,
+                'fromFactory' => $fromFactory,
                 'myCustomData' => $myCustomData,
                 'rules' => $rules,
             ]
