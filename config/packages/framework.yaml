@@ -21,3 +21,6 @@ framework:
 
     default_locale: en
     error_controller: App\Application\Controller\Error\AppErrorController
+
+    router:
+        strict_requirements: true

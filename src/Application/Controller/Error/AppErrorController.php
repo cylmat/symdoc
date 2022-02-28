@@ -27,8 +27,8 @@ class AppErrorController // hard to extends ErrorController! ...
     {
         $custom = new $exception(
             $exception->getMessage() . ' <- my bad!',
-            $exception->getCode(),
-            $exception
+            $exception,
+            $exception->getCode()
         );
 
         $exception = $this->errorRenderer->render($custom);

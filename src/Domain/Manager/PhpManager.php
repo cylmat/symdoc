@@ -3,6 +3,9 @@
 namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
+use ArrayIterator;
+use InfiniteIterator;
+use LimitIterator;
 
 class Bar
 {
@@ -19,6 +22,7 @@ final class PhpManager implements ManagerInterface
             'closure' => $this->closureFunc(),
             'foreach' => $this->foreachFunc(),
             'float' => $this->float(),
+            'iterators' => $this->iterators(),
         ];
     }
 
@@ -56,5 +60,18 @@ final class PhpManager implements ManagerInterface
         };
 
         return $getter()->bindTo(new Bar(), Bar::class)();
+    }
+
+    private function iterators(): array
+    {
+        $iterator = new LimitIterator(
+            new InfiniteIterator(
+                new ArrayIterator(\range('a', 'z'))
+            ),
+            10,
+            2
+        );
+
+        return \iterator_to_array($iterator);
     }
 }

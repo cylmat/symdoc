@@ -86,6 +86,7 @@ final class UtilitiesController extends AbstractController
      */
     public function components(ComponentManager $miscManager, ?string $name = null): Response
     {
+        $this->getUser();
         $ctx = $name ? ['name' => $name] : [];
 
         return $this->componentController->outsidecalled($miscManager, $ctx);
