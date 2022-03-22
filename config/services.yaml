@@ -14,11 +14,11 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
+        # Autowiring will automatically call any method with the @required annotation above it (setter)
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false
 
-    
     # Autowire interface
     _instanceof:
         App\Domain\Service\ServiceDomainInterface:

@@ -4,6 +4,7 @@ namespace App\Application\Controller;
 
 use App\Application\Response;
 use App\Application\Service\FromFactoryService;
+use App\Application\Service\TwitterClient;
 use App\Domain\Manager\HeaderManager;
 use DateTime;
 use DateTimeZone;
@@ -25,10 +26,11 @@ final class ArchitectureController extends AbstractController
      * # Action injector
      * # must be tagged with "controller.service_arguments"
      */
-    public function services(
+    public function servicesDi(
         LoggerInterface $logger,
         LoggerInterface $httpClientLogger,
         FromFactoryService $fromFactory,
+        TwitterClient $twitterClient,
         string $myCustomData,
         iterable $rules
     ): Response {
@@ -39,6 +41,7 @@ final class ArchitectureController extends AbstractController
                 'fromFactory' => $fromFactory,
                 'myCustomData' => $myCustomData,
                 'rules' => $rules,
+                'serviceTwitter' => $twitterClient,
             ]
         ]);
     }

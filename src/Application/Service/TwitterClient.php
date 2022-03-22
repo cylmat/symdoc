@@ -10,6 +10,7 @@ class TwitterClient
     private $transformer;
     private $logger;
     private $serializer;
+    private $valueFromCP;
 
     public function __construct(Rot13Transformer $transformer)
     {
@@ -22,7 +23,7 @@ class TwitterClient
     }
 
     /**
-     * Wither methods (called automatically on autowiring by Sf)
+     * Wither methods (called automatically with autowiring:true by Sf)
      * @see https://symfony.com/blog/new-in-symfony-4-3-configuring-services-with-immutable-setters
      *
      * @required
@@ -48,5 +49,10 @@ class TwitterClient
         $new->logger = $logger;
 
         return $new;
+    }
+
+    public function calledFromCompilerPass(string $value = '')
+    {
+        $this->valueFromCP = 'defined' . $value;
     }
 }

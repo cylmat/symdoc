@@ -40,4 +40,18 @@ class AppMyBundle extends Bundle
         // return new AppMyExtension();
         return parent::getContainerExtension();
     }
+
+    protected function getContainerExtensionClass()
+    {
+        return parent::getContainerExtensionClass();
+    }
+
+    protected function createContainerExtension()
+    {
+        return parent::createContainerExtension();
+    }
+
+    public function shutdown()
+    {
+    }
 }
