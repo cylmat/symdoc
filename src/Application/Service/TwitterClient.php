@@ -7,6 +7,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TwitterClient
 {
+    public $configuration;
+
     private $transformer;
     private $logger;
     private $serializer;

@@ -23,6 +23,12 @@ services:
             - [withConfiguredSerializer, ['@serializer'], true]
             # tell Container to use returned value of method
             - withLogger: !returns_clone ['@logger']
+
+        # override the services to set the configurator
+        # to configure a service at runtime after its instantiation
+        # -> will first be passed to the TwitterServiceConfigurator::configuringService() method.
+        configurator: 
+            ['@App\Application\DependencyInjection\Configurator\TwitterServiceConfigurator', 'configuringService']
     
     # ###
     # Aliases HAVE to be manually declared to type-hint

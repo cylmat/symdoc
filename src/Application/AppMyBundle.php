@@ -4,7 +4,9 @@ namespace App\Application;
 
 use App\Application\DependencyInjection\Compiler\AppCompilerPass;
 use Symfony\Component\Console\Application;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -25,7 +27,8 @@ class AppMyBundle extends Bundle
         $ext = $this->getContainerExtension();
 
         // ADD compiler pass
-        $containerBuilder->addCompilerPass(new AppCompilerPass());
+        $containerBuilder->addCompilerPass(new AppCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0); //default
+        // PassConfig::TYPE_AFTER_REMOVING is called after removing unused services
     }
 
     public function registerCommands(Application $application): void
