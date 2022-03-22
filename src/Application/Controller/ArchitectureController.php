@@ -4,6 +4,7 @@ namespace App\Application\Controller;
 
 use App\Application\Response;
 use App\Application\Service\FromFactoryService;
+use App\Application\Service\Rot13Transformer;
 use App\Application\Service\TwitterClient;
 use App\Domain\Manager\HeaderManager;
 use DateTime;
@@ -31,6 +32,7 @@ final class ArchitectureController extends AbstractController
         LoggerInterface $httpClientLogger,
         FromFactoryService $fromFactory,
         TwitterClient $twitterClient,
+        Rot13Transformer $rot13,
         string $myCustomData,
         iterable $rules
     ): Response {
@@ -41,6 +43,7 @@ final class ArchitectureController extends AbstractController
                 'fromFactory' => $fromFactory,
                 'myCustomData' => $myCustomData,
                 'rules' => $rules,
+                'rot13' => $rot13,
                 'serviceTwitter' => $twitterClient,
             ]
         ]);
