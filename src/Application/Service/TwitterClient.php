@@ -27,9 +27,6 @@ class TwitterClient
     /**
      * Wither methods (called automatically with autowiring:true by Sf)
      * @see https://symfony.com/blog/new-in-symfony-4-3-configuring-services-with-immutable-setters
-     *
-     * @required
-     * @return static
      */
     public function withMyAutowiredLogger(LoggerInterface $logger)
     {
@@ -45,6 +42,10 @@ class TwitterClient
         return $this;
     }
 
+    /**
+     * @required
+     * @return static
+     */
     public function withLogger(LoggerInterface $logger): self
     {
         $new = clone $this;

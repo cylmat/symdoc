@@ -8,6 +8,10 @@ parameters:
     # -commands
 
 services:
+    # Default section for this file only!
+    _defaults:
+        autowire: true
+
     rot13:
         class:    App\Application\Service\Rot13Transformer
         # https://symfony.com/doc/5.0/service_container/expression_language.html
@@ -18,6 +22,8 @@ services:
             # - ['@=service("App\\Application\\Service\\Rot13Transformer")']
             - "@=container.hasParameter('some_param') ? parameter('some_param') : false"
             - 'both'
+        # For heavy instantiation service or ocramius/proxy-manager
+        lazy: true # need  ProxyManagerBridge
     
     twitter_client:
         class:    App\Application\Service\TwitterClient
@@ -27,8 +33,11 @@ services:
             # the TRUE argument turns this into a wither method
             # vendor/symfony/dependency-injection/Compiler/AutowirePass.php 
             # vendor/symfony/config/Loader/FileLoader.php
-            - [withConfiguredSerializer, ['@serializer'], true]
-            # tell Container to use returned value of method
+
+            # @? make a service optional (if it doesn't exists, don't use it...)
+            - [withConfiguredSerializer, ['@?serializer'], true]
+
+            # Immutable: tell Container to use returned value of method
             - withLogger: !returns_clone ['@logger']
 
         # override the services to set the configurator
@@ -47,10 +56,26 @@ services:
         public: false
         deprecated: 'The "%alias_id%" alias is deprecated. Do not use it anymore.'
 
+    ##########
+    # Parent #
+    ##########
     App\Application\Service\TwitterClientChild:
         parent: App\Application\Service\TwitterClient
+        autowire: true
 
+    # Duplicate parent service definition: NOT parent PHP inherence is mandatory
+    # Except shared, abstract and tags!
+    # MUST override the _defaults section to avoid ambiguity 
+    other.service:
+        parent: App\Application\Service\TwitterClient
+        autowire: true
+        
+        # overrides the first argument (using the special index_N key)
+        # arguments:
+        #     index_0: '@rot13'
+    #############
     # Anonymous service, must be defined manually
+    #############
     App\Foo:
         autowire: false
         autoconfigure: false

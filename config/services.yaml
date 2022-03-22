@@ -12,7 +12,7 @@ parameters:
     devhost: docker
 
 services:
-    # default configuration for services in *this* file
+    # default configuration for services in *this* file only
     _defaults:
         # Autowiring will automatically call any method with the @required annotation above it (setter)
         autowire: true      # Automatically injects dependencies in your services.
