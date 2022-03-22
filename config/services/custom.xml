@@ -17,14 +17,17 @@
         </service>
 
         <service id="twitter_client_2" class="App\Application\Service\TwitterClient">
-            <!-- synthetic=true abstract=true factory=<class> -->
+            <!-- abstract=true factory=<class> -->
             <call method="withConfiguredSerializer" returns-clone="true">
                 <argument type="service" id="logger"/>
             </call>
             <!--factory service="NewsletterManagerFactory" method="createNewsletterManager" /-->
         </service>
 
-        <!-- injected into container with Container::set() -->
+        <!-- 
+            Services that are injected at runtime are called synthetic services.
+            They just have to be declared to exists, then injected into container with Container::set() 
+        -->
         <service id="runtime_injected" synthetic="true" public="true"/>
 
         <service id="custom_route_loader_service" class="App\Application\Service\Route\CustomRouteLoader">

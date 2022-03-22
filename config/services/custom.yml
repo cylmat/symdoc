@@ -73,6 +73,7 @@ services:
         # overrides the first argument (using the special index_N key)
         # arguments:
         #     index_0: '@rot13'
+
     #############
     # Anonymous service, must be defined manually
     #############
@@ -94,11 +95,10 @@ services:
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 
-    ########################
-    # SAMPLE AND DECORATOR #
-    ########################
-    # services:
-    #         Doctrine\Migrations\Version\DbalMigrationFactory: ~
-    #         App\Migrations\Factory\MigrationFactoryDecorator:
-    #             decorates: Doctrine\Migrations\Version\DbalMigrationFactory
-    #             arguments: ['@App\Migrations\Factory\MigrationFactoryDecorator.inner', '@service_container']
+    # DECORATOR #
+    # overrides the twitter_client service but that service is still available as twitter_client.inner
+    # twitter_client_decorated:
+    #     decorates: twitter_client
+    #     decoration_inner_name: App\DecoratingMailer.wooz
+    #     decoration_priority: 5
+    #     decoration_on_invalid: ignore
