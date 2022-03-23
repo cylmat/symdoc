@@ -21,24 +21,31 @@ class AppCompilerPass implements CompilerPassInterface
         $container->setParameter('twig.form.resources', '8');
         $container->setParameter('twig.default_path', 9);
 
+        // long way...
         $definition = new Definition('twig.form.resources', [
             'constructor',
             'arguments',
             new Reference('doctrine'), // reference to an existing service
         ]);
         $args = $definition->getArguments();
-
         $container->setDefinition('pass.twig.form.resources', $definition);
-        // or shortcut
+
+        // ...or shortcut
         $container->register('pass.twig.form.resources', 'twig.form.resources');
 
-        // TAGGES
+        // TAGS
         $testTaggedServices = $container->findTaggedServiceIds('app.test');
         foreach ($testTaggedServices as $id => $tags) {
             //twitter_client
             $definition = $container->findDefinition($id) // like getDefinition but with alias
                 ->setPrivate(true)
                 ->setAutowired(true);
+
+            // a service could have the same tag twice
+            // Use aliased tags
+            foreach ($tags as $attributes) {
+           //      $attributes['alias'];
+            }
 
             $definition->addMethodCall('calledFromCompilerPass', ['custom9']);
         }

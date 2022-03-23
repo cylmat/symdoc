@@ -34,7 +34,11 @@ class AppMyExtension extends Extension implements PrependExtensionInterface
         $configClass = $this->getConfiguration($configs, $container);
 
         // (final) Load Configuration
-        $config = $this->processConfiguration($configClass, $configs);
+        $arrayCurrentConfig = $this->processConfiguration($configClass, $configs);
+
+        // Like _instanceof in services.yml
+        $container->registerForAutoconfiguration(ServiceDomainInterface::class)
+            ->addTag('service.my_tag2');
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface

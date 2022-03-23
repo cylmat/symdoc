@@ -3,6 +3,7 @@
 namespace App\Application;
 
 use App\Application\DependencyInjection\Compiler\AppCompilerPass;
+use App\Domain\Service\ServiceDomainInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,6 +20,9 @@ class AppMyBundle extends Bundle
         $this->container->getParameter('kernel.http_method_override');
     }
 
+    /**
+     * ContainerBuilder can be get from Bundle, Extension or Kernel
+     */
     public function build(ContainerBuilder $containerBuilder): void
     {
         parent::build($containerBuilder);
@@ -29,6 +33,10 @@ class AppMyBundle extends Bundle
         // ADD compiler pass
         $containerBuilder->addCompilerPass(new AppCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0); //default
         // PassConfig::TYPE_AFTER_REMOVING is called after removing unused services
+
+        // Like _instanceof in services.yml
+        $containerBuilder->registerForAutoconfiguration(ServiceDomainInterface::class)
+            ->addTag('service.my_tag2');
     }
 
     public function registerCommands(Application $application): void
@@ -36,7 +44,6 @@ class AppMyBundle extends Bundle
         // loaded on console..
     }
 
-    // DOC
     // Overridden to allow for the custom extension alias.
     public function getContainerExtension(): ?ExtensionInterface
     {

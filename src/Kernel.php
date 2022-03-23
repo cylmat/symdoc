@@ -17,12 +17,13 @@ class Kernel extends BaseKernel implements CompilerPassInterface
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
-     * optional: Added to work with compiler pass instead of inside Bundle::build()
+     * optional process: Added to work with compiler pass instead of inside Bundle::build()
      */
     // @codingStandardsIgnoreStart
     public function process(ContainerBuilder $container) {}
+    // -process
+    protected function build(ContainerBuilder $container) {}
     // @codingStandardsIgnoreEnd
-    // -
 
     public function registerBundles(): iterable
     {

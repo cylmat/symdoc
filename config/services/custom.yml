@@ -14,6 +14,7 @@ services:
 
     rot13:
         class:    App\Application\Service\Rot13Transformer
+        tags: ['app.test2']
         # https://symfony.com/doc/5.0/service_container/expression_language.html
         # the '@=' prefix is required when using expressions for arguments in YAML files
         # when using double-quoted strings, the backslash needs to be escaped twice (see https://yaml.org/spec/1.2/spec.html#id2787109)
@@ -28,7 +29,7 @@ services:
     twitter_client:
         class:    App\Application\Service\TwitterClient
         autowire: true
-        tags: ['app.test']
+        tags: { name: 'app.test', alias: 'app.test.alias' }
         calls:
             # the TRUE argument turns this into a wither method
             # vendor/symfony/dependency-injection/Compiler/AutowirePass.php 
@@ -93,7 +94,7 @@ services:
     # ###
     App\Application\ArgumentResolver\CustomValueResolver:
         tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
+            - { name: controller.argument_value_resolver, alias: ctrl.resolv, priority: 50 }
 
     # DECORATOR #
     # overrides the twitter_client service but that service is still available as twitter_client.inner
