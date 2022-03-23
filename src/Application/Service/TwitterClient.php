@@ -58,4 +58,12 @@ class TwitterClient
     {
         $this->valueFromCP = 'defined' . $value;
     }
+
+    /**********************
+     * For service locator
+     */
+    public static function getDefaultIndexNameCustom(): string
+    {
+        return 'blob_service_locator_name';
+    }
 }

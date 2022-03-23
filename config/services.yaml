@@ -65,10 +65,32 @@ services:
             Psr\Log\LoggerInterface $httpClientLogger: '@monolog.logger.http_client'
             string $myCustomData: 'from services.yaml'
             iterable $rules: !tagged_iterator 'service.my_tag'
+            $taggedLocator: !tagged_locator
+                { tag: 'handler.main', index_by: 'key', default_index_method: 'getDefaultIndexNameCustom' }
+            $commandLocator: '@app.command_handler_locator'
 
     # Bundle for github/phpext playground
     Bundle\ExtBundleController:
         tags: ['controller.service_arguments']
+
+    ###################
+    # SERVICE LOCATOR #
+    ###################
+    my.other.service.bis: 
+        class: App\Application\Service\TwitterClient
+
+    my.other.service.ter: 
+        class: App\Application\Service\TwitterClient
+        tags: 
+            - { name: 'handler.main', key: 'customing_two_twitter' }
+
+    app.command_handler_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: ['container.service_locator']
+        arguments:
+            -
+                - '@App\Application\Service\Rot13Transformer'
+                - '@App\Application\Service\TwitterClient'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

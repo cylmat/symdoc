@@ -28,7 +28,8 @@
             Services that are injected at runtime are called synthetic services.
             They just have to be declared to exists, then injected into container with Container::set() 
         -->
-        <service id="runtime_injected" synthetic="true" public="true"/>
+        <!-- shared get the same instance -->
+        <service id="runtime_injected" synthetic="true" shared="true"  public="true"/>
 
         <service id="custom_route_loader_service" class="App\Application\Service\Route\CustomRouteLoader">
             <tag name="routing.route_loader" />

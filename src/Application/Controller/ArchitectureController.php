@@ -2,6 +2,8 @@
 
 namespace App\Application\Controller;
 
+use App\Application\Locator\CommandBus;
+use App\Application\Locator\CommandWithTrait;
 use App\Application\Response;
 use App\Application\Service\FromFactoryService;
 use App\Application\Service\Rot13Transformer;
@@ -11,6 +13,7 @@ use DateTime;
 use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +23,7 @@ final class ArchitectureController extends AbstractController
     private const DATETIME_PARIS = 'Europe/Paris';
 
     /**
-     * @Route("/services")
+     * @Route("/servicesdi")
      *
      * # Same LoggerInterface, different service
      *
@@ -33,18 +36,28 @@ final class ArchitectureController extends AbstractController
         FromFactoryService $fromFactory,
         TwitterClient $twitterClient,
         Rot13Transformer $rot13,
+        CommandBus $commandBus,
         string $myCustomData,
-        iterable $rules
+        iterable $rules,
+        /** @var ServiceLocator[] $locators */
+        ServiceLocator $taggedLocator,
+        ServiceLocator $commandLocator,
+        CommandWithTrait $commandWithTrait
     ): Response {
         return new Response([
             'data' => [
                 'logger' => $logger,
                 'httpClientLogger' => $httpClientLogger,
                 'fromFactory' => $fromFactory,
+                'serviceTwitter' => $twitterClient,
+                'rot13' => $rot13,
+                'commandBus' => $commandBus,
                 'myCustomData' => $myCustomData,
                 'rules' => $rules,
-                'rot13' => $rot13,
-                'serviceTwitter' => $twitterClient,
+                'taggedLocator' => $taggedLocator,
+                'taggedLocator.get.twitter' => $taggedLocator->get('customing_two_twitter'),
+                'commandLocator' => $commandLocator,
+                'commandWithTrait.logger' => $commandWithTrait->logger(),
             ]
         ]);
     }
