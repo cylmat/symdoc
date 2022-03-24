@@ -6,11 +6,6 @@ alias:
 	alias sc="./bin/symfony console"
 	alias sr="./bin/symfony composer"
 
-# Submodule for Bundle
-# Add cylmat/phpext php langage and extensions playground
-phpext:
-	git submodule add https://github.com/cylmat/phpext-sample.git Bundle/Phpext 
-
 ##############
 # GIT REBASE #
 ##############

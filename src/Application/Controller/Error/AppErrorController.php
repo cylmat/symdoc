@@ -25,10 +25,10 @@ class AppErrorController // hard to extends ErrorController! ...
     // Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer
     public function __invoke(\Throwable $exception): Response
     {
-        $custom = new $exception(
+        $custom = new \Exception(
             $exception->getMessage() . ' <- my bad!',
-            $exception,
-            $exception->getCode()
+            $exception->getCode(),
+            $exception
         );
 
         $exception = $this->errorRenderer->render($custom);

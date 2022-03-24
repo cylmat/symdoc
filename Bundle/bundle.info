@@ -1,3 +1,0 @@
-# install cylmat/phpext bundle
-- make phpext
-- .env.local: SWITCH_PHPEXT=0

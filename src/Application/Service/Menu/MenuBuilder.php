@@ -2,7 +2,6 @@
 
 namespace App\Application\Service\Menu;
 
-use Bundle\ExtBundleController;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -43,15 +42,6 @@ final class MenuBuilder
             $menu->addChild($data->controller, [
                 'route' => $route,
                 'linkAttributes' => ['class' => "p-1 alert-$label"]
-            ]);
-        }
-
-        /**
-         * ExtBundle Phpext if exists
-         */
-        if (ExtBundleController::isAccessible()) {
-            $menu->addChild('Phpext', [
-                'route' => 'bundle_phpext'
             ]);
         }
 
