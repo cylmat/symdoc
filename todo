@@ -1,11 +1,14 @@
 [In progress]
+Started:
+- Config env
 Basics:
-    Form... in progress
+- Form... in progress
 
 [Done]
 Archi:
 - Service DI
 Started: 
+- Setup, Page
 - Routing
 - Controller
 Components:

@@ -3,6 +3,7 @@
 
 imports:
     - { resource: services/knp/knp_menu.yml }
+    # - { resource: 'sample_config.php' } # Can import different format (e.g. php)
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -10,6 +11,12 @@ parameters:
     a: "%%b%%" # will output "%b%"
     b: "%a%%"  # will output "%b%%"
     devhost: docker
+    app_env: '%env(APP_ENV)%'
+    # processor: int,string,bool,float,const,base64,json,resolve(params),csv,file,require,trim,url
+    proc: '%env(trim:string:APP_ENV)%' 
+    proc_array: '%env(key:FOO:BAR)%'
+    default: '%env(default:proc:BAR)%' 
+    query: '%env(query_string:BAR)%' # from url
 
 services:
     # default configuration for services in *this* file only

@@ -10,6 +10,13 @@
     </parameters>
 
     <services>
+        <!-- Values between tag will not be trimmed 
+            e.g. his value will be "\n    something@example.com \n   "
+        <parameter key="app.admin_email">
+            something@example.com
+        </parameter>
+        -->
+
         <defaults public="false" autowire="true" autoconfigure="false"/>
 
         <service id="App\Domain\MessageHandler\MessageHandler">

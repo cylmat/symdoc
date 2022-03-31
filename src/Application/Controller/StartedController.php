@@ -4,6 +4,7 @@ namespace App\Application\Controller;
 
 use App\Application\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -20,8 +21,12 @@ use Symfony\Component\WebLink\Link;
  */
 final class StartedController extends AbstractController
 {
-    public function __construct(object $from_php_service_logger)
+    /**
+     * ContainerBag can inject lot of params instead of one by one
+     */
+    public function __construct(object $from_php_service_logger, ContainerBagInterface $alpha)
     {
+        $alpha->get('app_env');
     }
 
     /*
