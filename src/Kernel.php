@@ -25,6 +25,11 @@ class Kernel extends BaseKernel implements CompilerPassInterface
     protected function build(ContainerBuilder $container) {}
     // @codingStandardsIgnoreEnd
 
+    /**
+     * From MicroKernelTrait
+     * registerContainerConfiguration(LoaderInterface $loader): void
+    */
+
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
@@ -33,11 +38,6 @@ class Kernel extends BaseKernel implements CompilerPassInterface
                 yield new $class();
             }
         }
-    }
-
-    public function getProjectDir(): string
-    {
-        return \dirname(__DIR__);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
@@ -63,5 +63,32 @@ class Kernel extends BaseKernel implements CompilerPassInterface
         $routes->import($confDir . '/{routes}/' . $this->environment . '/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    /**
+     * Override directories
+     * Templates:
+     *  - twig.paths: ["%kernel.project_dir%/resources/views"]
+     *  - translator.paths: ["%kernel.project_dir%/i18n"]
+     *  composer "extra"."public-dir": "my_new_public_dir"
+     */
+    public function getProjectDir()
+    {
+        return parent::getprojectDir();
+    }
+
+    public function getCacheDir()
+    {
+        return parent::getCacheDir();
+    }
+
+    public function getLogDir()
+    {
+        return parent::getLogDir();
+    }
+
+    public function getCharset()
+    {
+        return parent::getCharset();
     }
 }
