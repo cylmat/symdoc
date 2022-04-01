@@ -11,5 +11,6 @@
     <rule ref="PSR12"/>
 
     <file>src/</file>
+    <exclude-pattern>config/</exclude-pattern>
 
 </ruleset>
