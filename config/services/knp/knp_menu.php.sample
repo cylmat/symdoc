@@ -3,6 +3,8 @@
 /*
 // config/packages/knp_menu.php
 $container->loadFromExtension('knp_menu', [
+    'debug' => '%kernel.debug%',
+    
     // use 'twig' => false to disable the Twig extension and the TwigRenderer
     'twig' => [
         'template' => 'KnpMenuBundle::menu.html.twig'
