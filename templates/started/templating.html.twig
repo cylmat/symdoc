@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{# https://symfony.com/doc/current/templates.html #}
+
+{% block wrapper %}
+
+    You have {{ notifObject.getNotifications|length }} notifications. <br/>
+    <p>
+        <a href="{{ path('app_application_started_templating.en') }}">Template path</a>
+    </p>
+    <p>
+        <a href="{{ url('app_application_started_templating.en') }}">Template url</a>
+    </p>
+
+    {# composer require symfony/asset #}
+    <img width=50 src="{{ asset('symfony.png') }}" alt="Sym" />
+    {{ asset('symfony.png') }}
+    <br/>
+    <img width=50 src="{{ absolute_url(asset('symfony.png')) }}" alt="Sym" />
+    {{ absolute_url(asset('symfony.png')) }}
+
+{% endblock %}

@@ -29,6 +29,84 @@ final class StartedController extends AbstractController
         $alpha->get('app_env');
     }
 
+    /**
+     * @Route("/controller")
+     */
+    public function controller(
+        Request $request,
+        SessionInterface $session,
+        object $bind_from_service_logger, //binded from service.yaml
+        string $my_custom_value_resolver // autoload from CustomValueResolver
+    ) {
+        // Container
+        $param = $this->getParameter('devhost');
+        $subscribedServices = self::getSubscribedServices();
+        $service = null;
+        /*if ($this->has('twitter_client')) {
+            $service = $this->get('twitter_client');
+        }*/
+
+        // Routes
+        $url = $this->generateUrl('contact', ['param'], UrlGeneratorInterface::ABSOLUTE_PATH);
+
+        // Response
+        // $this->forward(self::class.'::routing', ['path']);
+        $redirectResponse = $this->redirect('https://userland.com', 302);
+        $redirectRouteResponse = $this->redirectToRoute('contact', ['param'], 302);
+        // use serializer service, or json_encode
+        $jsonResponse = $this->json(['data'], 200, ['headers'], ['context']);
+        // $binaryFileResponse = $this->file('file', 'filename', ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+        // $html = $this->renderView('template.html.twig', ['param']);
+        // $html = $this->render('template.html.twig', ['param'], new Response());
+        $streamedResponse = $this->stream('template.html.twig', ['param'], new StreamedResponse());
+
+        // Exception
+        $notfound = $this->createNotFoundException('Not Found!', new NotFoundHttpException('Not found!'));
+        $denied = $this->createAccessDeniedException('Access Denied!', new AccessDeniedException('path'));
+
+        // Form
+        // $form = $this->createForm('MyFormType::class', (object)['entity'], ['options']);
+        // $formBuilder = $this->createFormBuilder((object)['entity'], ['options']);
+
+        // User & security
+        $isGranted = $this->isGranted('attibutes', 'subject');
+        // $this->denyAccessUnlessGranted('attributes', 'subject', 'Access Denied!');
+        $user = $this->getUser(); // $this->container->get('security.token_storage')
+        $managerRegistry = $this->getDoctrine();
+        $csrfValid = $this->isCsrfTokenValid('id', '123token');
+        //$envelopeMessage = $this->dispatchMessage('My message', ['stamps']);
+
+        // Flash and link
+        $this->addFlash('INFO', 'my message'); // session
+
+        $request = new Request();
+        $this->addLink($request, new Link()); // symfony/web-link
+
+        return new Response([
+            'data' => [
+                'param' => $param,
+                'subscribed' => $subscribedServices,
+                'service' => $service,
+                'url' => $url,
+                'redirect' => $redirectResponse,
+                'redirectRoute' => $redirectRouteResponse,
+                'json' => $jsonResponse,
+                'stream' => $streamedResponse,
+                'notfound' => $notfound,
+                'denied' => $denied,
+                'isGranted' => $isGranted,
+                'user' => $user,
+                'manager' => $managerRegistry,
+                'csrfValid' => $csrfValid,
+                'response link' => $request->attributes,
+
+                // {% messages in app.flashes(['success', 'warning']) %}
+                '_retrieve_from_twig' => $this->container->get('session')->getFlashBag(),
+            ]
+        ]);
+    }
+
     /*
      * Don't use getRouteCollection in prod as it is slow!
      */
@@ -113,80 +191,28 @@ final class StartedController extends AbstractController
      */
 
     /**
-     * @Route("/controller")
+     * @Route("/templating")
      */
-    public function controller(
-        Request $request,
-        SessionInterface $session,
-        object $bind_from_service_logger, //binded from service.yaml
-        string $my_custom_value_resolver // autoload from CustomValueResolver
-    ) {
-        // Container
-        $param = $this->getParameter('devhost');
-        $subscribedServices = self::getSubscribedServices();
-        $service = null;
-        /*if ($this->has('twitter_client')) {
-            $service = $this->get('twitter_client');
-        }*/
-
-        // Routes
-        $url = $this->generateUrl('contact', ['param'], UrlGeneratorInterface::ABSOLUTE_PATH);
-
-        // Response
-        // $this->forward(self::class.'::routing', ['path']);
-        $redirectResponse = $this->redirect('https://userland.com', 302);
-        $redirectRouteResponse = $this->redirectToRoute('contact', ['param'], 302);
-        // use serializer service, or json_encode
-        $jsonResponse = $this->json(['data'], 200, ['headers'], ['context']);
-        // $binaryFileResponse = $this->file('file', 'filename', ResponseHeaderBag::DISPOSITION_ATTACHMENT);
-
-        // $html = $this->renderView('template.html.twig', ['param']);
-        // $html = $this->render('template.html.twig', ['param'], new Response());
-        $streamedResponse = $this->stream('template.html.twig', ['param'], new StreamedResponse());
-
-        // Exception
-        $notfound = $this->createNotFoundException('Not Found!', new NotFoundHttpException('Not found!'));
-        $denied = $this->createAccessDeniedException('Access Denied!', new AccessDeniedException('path'));
-
-        // Form
-        // $form = $this->createForm('MyFormType::class', (object)['entity'], ['options']);
-        // $formBuilder = $this->createFormBuilder((object)['entity'], ['options']);
-
-        // User & security
-        $isGranted = $this->isGranted('attibutes', 'subject');
-        // $this->denyAccessUnlessGranted('attributes', 'subject', 'Access Denied!');
-        $user = $this->getUser(); // $this->container->get('security.token_storage')
-        $managerRegistry = $this->getDoctrine();
-        $csrfValid = $this->isCsrfTokenValid('id', '123token');
-        //$envelopeMessage = $this->dispatchMessage('My message', ['stamps']);
-
-        // Flash and link
-        $this->addFlash('INFO', 'my message'); // session
-
-        $request = new Request();
-        $this->addLink($request, new Link()); // symfony/web-link
-
+    public function templating()
+    {
+        /*
+         * order:
+            $foo['bar'] (array and element);
+            $foo->bar (object and public property);
+            $foo->bar() (object and public method);
+            $foo->getBar() (object and getter method);
+            $foo->isBar() (object and isser method);
+            $foo->hasBar() (object and hasser method);
+        */
         return new Response([
-            'data' => [
-                'param' => $param,
-                'subscribed' => $subscribedServices,
-                'service' => $service,
-                'url' => $url,
-                'redirect' => $redirectResponse,
-                'redirectRoute' => $redirectRouteResponse,
-                'json' => $jsonResponse,
-                'stream' => $streamedResponse,
-                'notfound' => $notfound,
-                'denied' => $denied,
-                'isGranted' => $isGranted,
-                'user' => $user,
-                'manager' => $managerRegistry,
-                'csrfValid' => $csrfValid,
-                'response link' => $request->attributes,
-
-                // {% messages in app.flashes(['success', 'warning']) %}
-                '_retrieve_from_twig' => $this->container->get('session')->getFlashBag(),
-            ]
+            'notifObject' => new class {
+                public function getNotifications()
+                {
+                    return [
+                        'hello', "i'm fine", 'bye'
+                    ];
+                }
+            }
         ]);
     }
 }

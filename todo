@@ -1,6 +1,4 @@
 [In progress]
-Started:
-- Config env 'n' vault
 Basics:
 - Form... in progress
 
@@ -8,8 +6,6 @@ Basics:
 Archi:
 - Service DI
 Started: 
-- Setup, Page
-- Routing
-- Controller
+- Setup, Page, Config env vault, Routing, Controller
 Components:
 - Process
