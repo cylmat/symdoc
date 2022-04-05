@@ -4,19 +4,30 @@
 
 {% block wrapper %}
 
-    You have {{ notifObject.getNotifications|length }} notifications. <br/>
     <p>
+    You have {{ data.notifObject.getNotifications|length }} notifications. <br/>
         <a href="{{ path('app_application_started_templating.en') }}">Template path</a>
-    </p>
-    <p>
+        - 
         <a href="{{ url('app_application_started_templating.en') }}">Template url</a>
+        - 
+        {{ ga_tracking }}
+        -
+        {{ 'rot13:' ~ tweeting.tweet('param-my-tweet') }}
     </p>
 
     {# composer require symfony/asset #}
     <img width=50 src="{{ asset('symfony.png') }}" alt="Sym" />
-    {{ asset('symfony.png') }}
-    <br/>
-    <img width=50 src="{{ absolute_url(asset('symfony.png')) }}" alt="Sym" />
+    {{ asset('symfony.png') }} 
     {{ absolute_url(asset('symfony.png')) }}
+
+    <p>
+        {#{ dump(app) }#}
+    </p>
+
+    {{ include('started/_fragment.html.twig') }}
+    {#{ render(path('custom_routes_loader', {max: 3})) }#}
+
+    {# framework.fragments: { path: /_fragment } #}
+    {{ render(controller('App\\Application\\Controller\\StartedController::embedded', {max: 3})) }}
 
 {% endblock %}

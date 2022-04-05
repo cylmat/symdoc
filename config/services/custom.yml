@@ -13,7 +13,7 @@ services:
         autowire: true
 
     rot13:
-        class:    App\Application\Service\Rot13Transformer
+        class: App\Application\Service\Rot13Transformer
         tags: ['app.test2']
         # https://symfony.com/doc/5.0/service_container/expression_language.html
         # the '@=' prefix is required when using expressions for arguments in YAML files
@@ -21,13 +21,13 @@ services:
         # arguments: ["@=service('App\\\\Mail\\\\MailerConfiguration').getMailerMethod()"]
         arguments: 
             # - ['@=service("App\\Application\\Service\\Rot13Transformer")']
-            - "@=container.hasParameter('some_param') ? parameter('some_param') : false"
+            - "@=container.hasParameter('some_param') ? parameter('some_param') : true"
             - 'both'
         # For heavy instantiation service or ocramius/proxy-manager
         lazy: true # need  ProxyManagerBridge
     
     twitter_client:
-        class:    App\Application\Service\TwitterClient
+        class: App\Application\Service\TwitterClient
         autowire: true
         tags: { name: 'app.test', alias: 'app.test.alias' }
         calls:

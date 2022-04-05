@@ -3,10 +3,12 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
+use Symfony\Bridge\Twig\AppVariable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\WebLink\Link;
+use Twig\Environment;
 
 /**
  * Route groups:
@@ -192,8 +195,11 @@ final class StartedController extends AbstractController
 
     /**
      * @Route("/templating")
+     * lint:twig ./templates --show-deprecations
+     * debug:twig --filter=date
+     * composer require symfony/var-dumper
      */
-    public function templating()
+    public function templating(Environment $twig)
     {
         /*
          * order:
@@ -204,15 +210,27 @@ final class StartedController extends AbstractController
             $foo->isBar() (object and isser method);
             $foo->hasBar() (object and hasser method);
         */
+        $loader = $twig->getLoader();
+        $loader->exists('theme/layout_responsive.html.twig');
         return new Response([
-            'notifObject' => new class {
-                public function getNotifications()
-                {
-                    return [
-                        'hello', "i'm fine", 'bye'
-                    ];
-                }
-            }
+            'data' => [
+                'notifObject' => new class {
+                    public function getNotifications()
+                    {
+                        return [
+                            'hello', "i'm fine", 'bye'
+                        ];
+                    }
+                },
+                'appVariable' => new AppVariable(),
+                'environment' => $twig,
+                'loader' => $loader,
+            ]
         ]);
+    }
+
+    public function embedded($list = 3)
+    {
+        return new HttpFoundationResponse("from_embedded");
     }
 }

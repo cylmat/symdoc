@@ -9,3 +9,10 @@ twig:
         decimals: 0
         decimal_point: .
         thousands_separator: ','
+
+    paths:
+        'templates/architecture': ~
+
+    globals:
+        ga_tracking: 'from_twig.globals'
+        tweeting: '@twitter_client'

@@ -24,6 +24,9 @@ framework:
 
     router:
         strict_requirements: true
+    
+    # for twig fragment
+    fragments: { path: /_fragments_update }
 
 # secrets:
     #vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
