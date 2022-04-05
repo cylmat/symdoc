@@ -28,6 +28,14 @@
     {#{ render(path('custom_routes_loader', {max: 3})) }#}
 
     {# framework.fragments: { path: /_fragment } #}
-    {{ render(controller('App\\Application\\Controller\\StartedController::embedded', {max: 3})) }}
+    {#{ render(controller('App\\Application\\Controller\\StartedController::embedded', {max: 3})) }#}
+    {{ render_esi(
+        controller('App\\Application\\Controller\\StartedController::embedded', {max: 3}),
+        { alt: 'other_route', ignore_errors: false }
+    ) }}
+
+    <!-- Embed the content of another page here -->
+    <esi:include src="http://"/>
+    <!-- html -->
 
 {% endblock %}

@@ -212,6 +212,9 @@ final class StartedController extends AbstractController
         */
         $loader = $twig->getLoader();
         $loader->exists('theme/layout_responsive.html.twig');
+
+        // can change header for ESI rendering
+        // $response->setPublic();
         return new Response([
             'data' => [
                 'notifObject' => new class {

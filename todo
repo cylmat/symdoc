@@ -2,10 +2,11 @@
 Basics:
 - Form... in progress
 
-[Done]
+[OK]
 Archi:
 - Service DI
-Started: 
-- Setup, Page, Config env vault, Routing, Controller
 Components:
 - Process
+
+[DONE]
+Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
