@@ -14,8 +14,13 @@ use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class ArchitectureController extends AbstractController
@@ -63,17 +68,26 @@ final class ArchitectureController extends AbstractController
     }
 
     /**
-     * @Route("/request")
+     * @Route("/http-kernel")
+     *
+     * composer require symfony/http-kernel
      */
-    public function httprequest(Request $request, HeaderManager $headerManager): Response
+    public function httpkernel(Request $request, HeaderManager $headerManager): Response
     {
+        $kernel = new HttpKernel(
+            new EventDispatcher(),
+            new ControllerResolver(),
+            new RequestStack(),
+            new ArgumentResolver()
+        );
+
         return new Response([
-            'controller_name' => 'HeaderController',
-            'data' => array_merge(
-                ['attributes' => $request->attributes],
-                $headerManager->call()
-            ),
-            'current_date' => $this->getDateTime(),
+            'data' => [
+                'attributes' => $request->attributes,
+                'headers' => $headerManager->call(),
+                'kernel' => $kernel,
+                'current_date' => $this->getDateTime(),
+            ],
         ]);
     }
 
