@@ -80,7 +80,7 @@ final class ArchitectureController extends AbstractController
     /**
      * @Route("/json")
      */
-    public function jsonresponse(Request $request): JsonResponse
+    public function jsonresponseNomenu(Request $request): JsonResponse
     {
         $response = new JsonResponse(['data' => 123]);
         $response->setData(['data' => 456]);

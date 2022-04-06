@@ -51,7 +51,7 @@ final class MenuBuilder
     private function filterRoutes(): iterable
     {
         $routes = array_filter($this->routeCollection->all(), function ($object, $route) {
-            if (0 === strpos($route, 'app_')) {
+            if (0 === strpos($route, 'app_') && false === strpos(strtolower($route), 'nomenu')) {
                 return true;
             }
         }, ARRAY_FILTER_USE_BOTH);
