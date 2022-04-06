@@ -18,6 +18,12 @@ parameters:
     default: '%env(default:proc:BAR)%' 
     query: '%env(query_string:BAR)%' # from url
 
+    # KERNEL
+    # @see https://symfony.com/doc/5.0/reference/configuration/kernel.html
+    # container.build_hash: 123 # a hash of the contents of all your source files;
+    # container.build_time: 123 # a timestamp of the moment when the container was built
+    # container.build_id: 5 # the result of merging the two previous parameters and encoding the result using CRC32
+
 services:
     # default configuration for services in *this* file only
     _defaults:

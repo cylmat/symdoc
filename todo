@@ -4,7 +4,7 @@ Basics:
 
 [OK]
 Archi:
-- Service DI
+- HttpKernel-RqRp, Service-DI
 Components:
 - Process
 

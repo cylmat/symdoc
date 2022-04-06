@@ -89,6 +89,6 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 
     public function getCharset()
     {
-        return parent::getCharset();
+        return parent::getCharset(); //return 'ISO-8859-1'; 'UTF-8';
     }
 }
