@@ -30,7 +30,7 @@ final class UtilitiesController extends AbstractController
      */
     public function httpclient(Request $request): Response
     {
-        $url = 'http://localhost' . $this->generateUrl('app_application_architecture_httprequest');
+        $url = 'http://localhost' . $this->generateUrl('app_application_utilities_httpclient');
         $response = HttpClient::create()->request(Request::METHOD_GET, $url);
 
         return new Response([
@@ -70,7 +70,7 @@ final class UtilitiesController extends AbstractController
     /**
      * @Route("/php")
      */
-    public function php(PhpManager $phpManager): Response
+    public function phpNoMenu(PhpManager $phpManager): Response
     {
         return new Response([
             'data' => $phpManager->call()

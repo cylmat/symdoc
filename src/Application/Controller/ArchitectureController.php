@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Application\Event\CustomEvent;
 use App\Application\Locator\CommandBus;
 use App\Application\Locator\CommandWithTrait;
 use App\Application\Response;
@@ -16,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Template};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -111,6 +113,27 @@ final class ArchitectureController extends AbstractController
                 'headers' => $headerManager->call(),
                 'kernel' => $kernel,
                 'current_date' => $this->getDateTime(),
+            ],
+        ]);
+    }
+
+    /**
+     * @Route("/event")
+     *
+     * @see https://symfony.com/doc/5.0/event_dispatcher.html
+     */
+    public function event(EventDispatcherInterface $dispatcher, Request $request): Response
+    {
+        $beforeEvent = new CustomEvent('before');
+        $dispatcher->dispatch($beforeEvent, CustomEvent::class . 'before_called');
+        // do something ...
+        $afterEvent = new CustomEvent('after');
+        $dispatcher->dispatch($afterEvent, CustomEvent::class . 'after');
+
+        return new Response([
+            'data' => [
+                'before' => $beforeEvent->running(),
+                'after' => $afterEvent->running(),
             ],
         ]);
     }

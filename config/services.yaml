@@ -83,6 +83,10 @@ services:
                 { tag: 'handler.main', index_by: 'key', default_index_method: 'getDefaultIndexNameCustom' }
             $commandLocator: '@app.command_handler_locator'
 
+    App\Application\Listener\ViewListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.response }
+
     ###################
     # SERVICE LOCATOR #
     ###################

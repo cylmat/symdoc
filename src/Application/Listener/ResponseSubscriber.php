@@ -2,6 +2,7 @@
 
 namespace App\Application\Listener;
 
+use App\Application\Event\CustomEvent;
 use App\Application\Response;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -21,8 +22,27 @@ class ResponseSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => 'getTemplate'
+            // KernelEvents::RESPONSE => 'getTemplate',
+            // or
+            ResponseEvent::class => 'getTemplateFqcn',
+
+            // can be extended with AddEventAliasesPass
+            'my_custom::class' => 'myCustomEvent',
+
+            // custom event
+            CustomEvent::class . 'before_called' => 'tryitBefore',
+            CustomEvent::class . 'after' => 'tryitAfter',
         ];
+    }
+
+    public function myCustomEvent(ResponseEvent $event)
+    {
+    }
+
+    // Fully Qualified Class Name
+    public function getTemplateFqcn(ResponseEvent $event): void
+    {
+        $this->getTemplate($event);
     }
 
     public function getTemplate(ResponseEvent $event): void
@@ -49,5 +69,15 @@ class ResponseSubscriber implements EventSubscriberInterface
             $content = $this->twig->render($defaultTemplate, $response->getControllerData());
         }
         $response->setContent($content);
+    }
+
+    public function tryitBefore(CustomEvent $event)
+    {
+        $event->setValue('"before" subscriber');
+    }
+
+    public function tryitAfter(CustomEvent $event)
+    {
+        $event->setValue('"after" subscriber');
     }
 }

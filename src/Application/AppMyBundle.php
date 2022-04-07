@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AppMyBundle extends Bundle
@@ -37,6 +38,13 @@ class AppMyBundle extends Bundle
         // Like _instanceof in services.yml
         $containerBuilder->registerForAutoconfiguration(ServiceDomainInterface::class)
             ->addTag('service.my_tag2');
+
+        /**
+         * For events
+         */
+        $containerBuilder->addCompilerPass(new AddEventAliasesPass([
+            'my_custom::class' => 'my_custom_event',
+        ]));
     }
 
     public function registerCommands(Application $application): void
