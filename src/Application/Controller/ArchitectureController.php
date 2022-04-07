@@ -31,46 +31,6 @@ final class ArchitectureController extends AbstractController
     private const DATETIME_PARIS = 'Europe/Paris';
 
     /**
-     * @Route("/servicesdi")
-     *
-     * # Same LoggerInterface, different service
-     *
-     * # Action injector
-     * # must be tagged with "controller.service_arguments"
-     */
-    public function servicesDi(
-        LoggerInterface $logger,
-        LoggerInterface $httpClientLogger,
-        FromFactoryService $fromFactory,
-        TwitterClient $twitterClient,
-        Rot13Transformer $rot13,
-        CommandBus $commandBus,
-        string $myCustomData,
-        iterable $rules,
-        /** @var ServiceLocator[] $locators */
-        ServiceLocator $taggedLocator,
-        ServiceLocator $commandLocator,
-        CommandWithTrait $commandWithTrait
-    ): Response {
-        return new Response([
-            'data' => [
-                'logger' => $logger,
-                'httpClientLogger' => $httpClientLogger,
-                'fromFactory' => $fromFactory,
-                'serviceTwitter' => $twitterClient,
-                'rot13' => $rot13,
-                'commandBus' => $commandBus,
-                'myCustomData' => $myCustomData,
-                'rules' => $rules,
-                'taggedLocator' => $taggedLocator,
-                'taggedLocator.get.twitter' => $taggedLocator->get('customing_two_twitter'),
-                'commandLocator' => $commandLocator,
-                'commandWithTrait.logger' => $commandWithTrait->logger(),
-            ]
-        ]);
-    }
-
-    /**
      * @Route("/httpkernel")
      */
     /*
@@ -118,11 +78,51 @@ final class ArchitectureController extends AbstractController
     }
 
     /**
-     * @Route("/event")
+     * @Route("/servicesdi")
+     *
+     * # Same LoggerInterface, different service
+     *
+     * # Action injector
+     * # must be tagged with "controller.service_arguments"
+     */
+    public function servicesDi(
+        LoggerInterface $logger,
+        LoggerInterface $httpClientLogger,
+        FromFactoryService $fromFactory,
+        TwitterClient $twitterClient,
+        Rot13Transformer $rot13,
+        CommandBus $commandBus,
+        string $myCustomData,
+        iterable $rules,
+        /** @var ServiceLocator[] $locators */
+        ServiceLocator $taggedLocator,
+        ServiceLocator $commandLocator,
+        CommandWithTrait $commandWithTrait
+    ): Response {
+        return new Response([
+            'data' => [
+                'logger' => $logger,
+                'httpClientLogger' => $httpClientLogger,
+                'fromFactory' => $fromFactory,
+                'serviceTwitter' => $twitterClient,
+                'rot13' => $rot13,
+                'commandBus' => $commandBus,
+                'myCustomData' => $myCustomData,
+                'rules' => $rules,
+                'taggedLocator' => $taggedLocator,
+                'taggedLocator.get.twitter' => $taggedLocator->get('customing_two_twitter'),
+                'commandLocator' => $commandLocator,
+                'commandWithTrait.logger' => $commandWithTrait->logger(),
+            ]
+        ]);
+    }
+
+    /**
+     * @Route("/events")
      *
      * @see https://symfony.com/doc/5.0/event_dispatcher.html
      */
-    public function event(EventDispatcherInterface $dispatcher, Request $request): Response
+    public function events(EventDispatcherInterface $dispatcher, Request $request): Response
     {
         $beforeEvent = new CustomEvent('before');
         $dispatcher->dispatch($beforeEvent, CustomEvent::class . 'before_called');
