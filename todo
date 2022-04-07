@@ -3,10 +3,9 @@ Basics:
 - Form... in progress
 
 [OK]
-Archi:
-- HttpKernel-RqRp, Service-DI
 Components:
 - Process
 
 [DONE]
+Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault

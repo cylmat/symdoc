@@ -12,10 +12,19 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class AppMyExtension extends Extension implements PrependExtensionInterface
 {
     /**
+     * How to Simplify Configuration of Multiple Bundles
+     * @see https://symfony.com/doc/5.0/bundles/prepend_extension.html
+     *
      * Merge all extension before beeing called
+     * Full access to the ContainerBuilder instance just before the load() method is called on each
      */
     public function prepend(ContainerBuilder $container): void
     {
+        // get all bundles
+        $bundles = $container->getParameter('kernel.bundles');
+        $ext = $container->getExtensions();
+        // $container->prependExtensionConfig($extName, $config);
+
         // used to load <ns> configurations
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('config.yml');

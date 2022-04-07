@@ -14,12 +14,20 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @see https://symfony.com/doc/5.0/bundles.html
+ * @see https://symfony.com/doc/5.0/contributing/code/standards.html
  *
+ * Command/
  * Controller/
  * DependencyInjection/
+ * Document/
+ * Entity/
+ * EventListener/
  * Resources/config/
- * Resources/views/
+ * Resources/config/serialization/
+ * Resources/config/validation/
  * Resources/public/
+ * Resources/translations/
+ * Resources/views/
  * Tests/
  */
 class AppMyBundle extends Bundle
