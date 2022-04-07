@@ -43,6 +43,11 @@ class ResponseSubscriber implements EventSubscriberInterface
     public function getTemplateFqcn(ResponseEvent $event): void
     {
         $this->getTemplate($event);
+        $ctrl = $event->getRequest()->attributes->get('_controller');
+
+        if (false !== strpos($ctrl, 'ArchitectureController::event')) {
+            $event->getResponse()->headers->add(['X-FROM' => 'ArchitectureCtrl from response-subscriber']);
+        }
     }
 
     public function getTemplate(ResponseEvent $event): void
@@ -57,6 +62,7 @@ class ResponseSubscriber implements EventSubscriberInterface
         $customTemplate = strtolower($ctrl . "/$action.html.twig");
 
         $response = $event->getResponse();
+        $response->headers->add(['X-TEMPLATE' => $customTemplate]);
         if (!$response instanceof Response) {
             return;
         }
@@ -65,6 +71,7 @@ class ResponseSubscriber implements EventSubscriberInterface
         try {
             $content = $this->twig->render($customTemplate, $response->getControllerData());
         } catch (LoaderError $loaderError) {
+            $response->headers->add(['X-ERROR' => $loaderError->getMessage()]);
             $defaultTemplate = "/layout.html.twig";
             $content = $this->twig->render($defaultTemplate, $response->getControllerData());
         }

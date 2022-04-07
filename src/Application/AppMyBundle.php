@@ -12,6 +12,16 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * @see https://symfony.com/doc/5.0/bundles.html
+ *
+ * Controller/
+ * DependencyInjection/
+ * Resources/config/
+ * Resources/views/
+ * Resources/public/
+ * Tests/
+ */
 class AppMyBundle extends Bundle
 {
     public function boot(): void

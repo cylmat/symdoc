@@ -139,6 +139,14 @@ final class ArchitectureController extends AbstractController
     }
 
     /**
+     * Contracts
+     * @see https://symfony.com/doc/5.0/components/contracts.html
+     *
+     * composer require symfony/cache-contracts event-dispatcher-contracts deprecation-contracts
+     *  http-client-contracts service-contracts translation-contracts cache-implementation
+     */
+
+    /**
      * @Route("/json")
      */
     public function jsonresponseNomenu(Request $request): JsonResponse

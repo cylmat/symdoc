@@ -11,7 +11,7 @@ class Response extends HttpFoundationResponse
     public function __construct(array $data, int $status = 200, array $headers = [])
     {
         $this->data = $data;
-        parent::__construct('<placeholder>', $status, $headers);
+        parent::__construct('<overrided_in_subscriber>', $status, $headers);
     }
 
     public function getControllerData(): array

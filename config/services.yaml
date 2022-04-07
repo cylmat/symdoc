@@ -17,6 +17,9 @@ parameters:
     proc_array: '%env(key:FOO:BAR)%'
     default: '%env(default:proc:BAR)%' 
     query: '%env(query_string:BAR)%' # from url
+    tokens:
+        client1: tokenized
+        client2: tokenizing
 
     # KERNEL
     # @see https://symfony.com/doc/5.0/reference/configuration/kernel.html
