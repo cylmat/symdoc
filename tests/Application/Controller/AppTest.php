@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppTest extends WebTestCase
 {
+    protected const AJAX_HEADER = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
+    
     /**
      * @see https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/
      *
