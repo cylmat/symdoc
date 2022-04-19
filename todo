@@ -9,3 +9,7 @@ Components:
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
+
+---
+Tools
+- https://github.com/qossmic/deptrac
