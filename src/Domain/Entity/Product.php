@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -26,6 +27,8 @@ class Product
      * @ORM\Column(type="float")
      */
     private $price;
+
+    public $date;
 
     public function getId(): ?int
     {
@@ -54,5 +57,18 @@ class Product
         $this->price = $price;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PostLoad
+     */
+    public function setValueDuringEvent()
+    {
+        $this->date = (new \DateTime())->format('Y:m:d');
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date;
     }
 }

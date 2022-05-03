@@ -1,14 +1,14 @@
-[In progress]
+[Progress]
 Basics:
-- Form... in progress
+- Doctrine
+- Form...
 
-[OK]
-Components:
-- Process
 
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
+Components:
+- Process
 
 ---
 Tools

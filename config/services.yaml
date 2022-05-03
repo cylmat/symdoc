@@ -109,5 +109,19 @@ services:
                 - '@App\Application\Service\Rot13Transformer'
                 - '@App\Application\Service\TwitterClient'
 
+    ############
+    # DOCTRINE #
+    ############
+    App\Application\Listener\DoctrineListener:
+        tags: 
+            -
+                name: 'doctrine.event_listener'
+                event: 'postLoad'
+                connection: 'default'
+
+    # App\Application\Listener\DatabaseSubscriber:
+    #     tags:
+    #         - { name: 'doctrine.event_subscriber' }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

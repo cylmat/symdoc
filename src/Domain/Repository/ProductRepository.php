@@ -22,7 +22,6 @@ class ProductRepository extends ServiceEntityRepository
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
-    /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('p')
@@ -34,9 +33,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
     public function findOneBySomeField($value): ?Product
     {
         return $this->createQueryBuilder('p')
@@ -46,5 +43,34 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+
+    public function findWithSQL(int $price)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM product p
+            WHERE p.price > :price
+            ORDER BY p.price ASC
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['price' => $price]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
+
+    public function findWithJoined()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p, c
+            FROM App\Entity\Product p
+            INNER JOIN p.category c
+            WHERE p.id = :id'
+        )->setParameter('id', 1);
+
+        return $query->getOneOrNullResult();
+    }
 }
