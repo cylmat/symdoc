@@ -18,6 +18,7 @@
 
         <!--server name="KERNEL_CLASS" value="App\Kernel" /-->
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
     </php>
 
     <testsuites>

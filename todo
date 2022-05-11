@@ -5,7 +5,7 @@ Basics:
 
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
-Basics: Doctrine
+Basics: Doctrine, Tests
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Components:
 - Process

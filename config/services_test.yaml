@@ -4,3 +4,9 @@ services:
         autowire: true
         autoconfigure: true
         public: true
+
+    # Testing
+    #test.App\Test\SomeTestHelper:
+        # id of the private service
+        #alias: 'My\Private\Service'
+        #public: true
