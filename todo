@@ -1,11 +1,11 @@
 [Progress]
 Basics:
-- Doctrine
 - Form...
 
 
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
+Basics: Doctrine
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Components:
 - Process

@@ -1,5 +1,6 @@
 doctrine:
     dbal:
+        default_connection: default
         url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
@@ -7,7 +8,19 @@ doctrine:
         # and
         # Avoid error in cache:clear
         server_version: 3
+
+        # MULTIPLES sample
+        # bin/console doctrine:database:create --connection=customer
+        # 
+        # connections:
+        #     default:
+        #         # configure these for your database server
+        #         url: '%env(resolve:DATABASE_URL)%'
+        #         driver: 'pdo_mysql'
+        #         server_version: '5.7'
+        #         charset: utf8mb4
     orm:
+        default_entity_manager: default
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
@@ -18,3 +31,34 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/Entity'
                 prefix: 'App\Domain\Entity'
                 alias: App
+
+        # Working with interface entity
+        # https://symfony.com/doc/5.0/doctrine/resolve_target_entity.html
+        #
+        # resolve_target_entities:
+        #     Sample\InvoiceSubjectInterface: App\Entity\CustomSample
+
+        # MULTIPLE sample
+        # entity_managers:
+        #     default:
+        #         connection: default
+        #         mappings:
+        #             Main:
+        #                 is_bundle: false
+        #                 type: annotation
+        #                 dir: '%kernel.project_dir%/src/Entity/Main'
+        #                 prefix: 'App\Entity\Main'
+        #                 alias: Main
+
+        #
+        # Custom Dql function
+        #
+        dql:
+            string_functions:
+                test_string: App\DQL\StringFunction
+        # or
+        # entity_managers:
+        #     example_manager:
+        #         dql:
+        #             datetime_functions:
+        #                 test_datetime: App\DQL\DatetimeFunction

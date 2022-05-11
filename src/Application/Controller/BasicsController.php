@@ -37,6 +37,10 @@ final class BasicsController extends AbstractController
      * doctrine:schema:create
      * dbal:run-sql 'SELECT * FROM product'
      * make:entity --regenerate
+     * make:registration-form
+     *
+     * Ensure that each test run in a separate env (PHPUnit extension or listener)
+     * composer require --dev dama/doctrine-test-bundle
      *
      * https://symfony.com/doc/5.0/reference/configuration/doctrine.html
      * sensio/framework-extra-bundle

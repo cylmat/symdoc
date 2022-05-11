@@ -103,3 +103,10 @@ services:
     #     decoration_inner_name: App\DecoratingMailer.wooz
     #     decoration_priority: 5
     #     decoration_on_invalid: ignore
+
+    # Store session in Database 1/2 (framework.yml)
+    # @see https://symfony.com/doc/5.0/session/database.html
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+            - { db_table: 'customer_session', db_id_col: 'guid' }

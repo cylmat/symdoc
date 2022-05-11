@@ -15,7 +15,6 @@
         "doctrine/annotations": "^1.13",
         "doctrine/dbal": "^2.13",
         "doctrine/doctrine-bundle": "^2.3",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.10",
         "friendsofsymfony/rest-bundle": "^3.1",
@@ -56,6 +55,7 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "jetbrains/phpstorm-stubs": "^2021.3",
         "phpro/grumphp": "^1.5",
         "phpstan/phpstan": "^1.3",
