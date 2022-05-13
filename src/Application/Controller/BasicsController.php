@@ -9,6 +9,7 @@ use App\Domain\Manager\RedisManager;
 use App\Domain\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -102,6 +103,23 @@ final class BasicsController extends AbstractController
         return $this->bfc->formBuild($request, $formCreator);
     }
     // -forms
+
+    /**
+     * framework.session
+     *
+     * @Route("/session")
+     */
+    public function session(Request $request, SessionInterface $session)
+    {
+        $session->set('thank_to_namespaced/key', 'my_value');
+
+        return new Response([
+            'data' => [
+                'session' => $session,
+                '_locale' => $request->attributes->get('_locale'),
+            ],
+        ]);
+    }
 
     /**
      * @Route("/cache")

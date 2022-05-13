@@ -6,13 +6,22 @@ framework:
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
+    #
+    # @see https://symfony.com/doc/5.0/session.html
     session:
+        enabled: true
         cookie_secure: auto
         cookie_samesite: lax
 
         # session in database 2/2 (service.yml)
-        # handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
-        handler_id: null
+        #handler_id: null # native PHP session
+        #handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        #handler_id: 'session.handler.native_file'
+        handler_id: App\Application\Session\CustomSessionProxy
+
+        # allow Symfony to work with a session started outside of the Symfony HttpFoundation component
+        #storage_id: session.storage.php_bridge
+        storage_id: App\Application\Session\CustomSessionStorage
 
     esi: true # { enabled: true }
     

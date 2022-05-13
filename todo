@@ -2,10 +2,9 @@
 Basics:
 - Form...
 
-
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
-Basics: Doctrine, Tests
+Basics: Doctrine, Tests, Session
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Components:
 - Process
@@ -13,3 +12,6 @@ Components:
 ---
 Tools
 - https://github.com/qossmic/deptrac
+
+@ParamConverter
+https://symfony.com/bundles/SensioFrameworkExtraBundle/current/annotations/converters.html

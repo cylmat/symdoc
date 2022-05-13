@@ -104,9 +104,44 @@ services:
     #     decoration_priority: 5
     #     decoration_on_invalid: ignore
 
+    ###########
+    # Session #
+    ###########
+    # 
     # Store session in Database 1/2 (framework.yml)
     # @see https://symfony.com/doc/5.0/session/database.html
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
             - '%env(DATABASE_URL)%'
             - { db_table: 'customer_session', db_id_col: 'guid' }
+
+    # use namespaced attributes instead attributebag
+    session:
+        public: true
+        class: Symfony\Component\HttpFoundation\Session\Session
+        arguments: ['@session.storage', '@session.namespacedattributebag', '@session.flash_bag']
+
+    session.namespacedattributebag:
+        class: Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag
+
+    # Avoid "circular reference" error
+    SessionHandlerInterface:
+        class: 'Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler'
+
+    session.handler:
+        class: App\Application\Session\CustomSessionProxy
+
+    # session.handler.custom:
+    #     alias: App\Application\Session\CustomSessionProxy
+
+    App\Application\Session\CustomSessionStorage:
+        arguments:
+            - '%session.storage.options%'
+            - '@session.handler'
+            - '@session.storage.metadata_bag'
+
+    # session.storage.php_bridge:
+    #     class: Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage
+    #     arguments:
+    #         - '@session.handler'
+    #         - '@session.storage.metadata_bag'
