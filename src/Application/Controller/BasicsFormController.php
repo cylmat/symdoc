@@ -17,6 +17,7 @@ final class BasicsFormController extends AbstractController
      * 3. Process
      *
      * composer require symfony/security-csrf
+     * tags: [form.type_guesser]
      */
     public function form(Request $request, FormCreator $formCreator): Response
     {

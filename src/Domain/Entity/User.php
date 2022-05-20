@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Application\Form\Object\IntObject;
 use App\Domain\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -75,6 +76,10 @@ class User
      * @ORM\Column(type="datetime_immutable", nullable=false)
      */
     private $createdAt;
+
+    # https://symfony.com/doc/current/form/data_transformers.html
+    public array $tags; // used to Data Transformers doc
+    public IntObject $intObject; // used to Data Transformers doc
 
     /**
      * - Validation without annotations
