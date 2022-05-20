@@ -15,6 +15,8 @@ final class BasicsFormController extends AbstractController
      * 1. Build
      * 2. Render
      * 3. Process
+     *
+     * composer require symfony/security-csrf
      */
     public function form(Request $request, FormCreator $formCreator): Response
     {
@@ -24,11 +26,22 @@ final class BasicsFormController extends AbstractController
             'custom_type_options_file_required' => [false, true]
         ]);
         $formCreator->updateForm($form);
+        $csrf_tokenized = null;
 
+        $data = null;
         $form->handleRequest($request);
          // validate if object valid after submitted data to it
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
+
+            $data = $form->getData();
+
+            if ($submittedToken = $request->request->get('_token')) {
+                $csrf_tokenized = $submittedToken;
+                if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
+                    // ...
+                }
+            }
 
             // redirecting
         }
@@ -38,6 +51,8 @@ final class BasicsFormController extends AbstractController
                 'request' => $request->request->all(),
                 'form' => $form,
                 'form.view' => $form->createView(null),// parent,
+                'csrf' => $csrf_tokenized,
+                'data' => $data,
             ],
             'form' => $form->createView(null),
         ]);

@@ -131,8 +131,8 @@ services:
     session.handler:
         class: App\Application\Session\CustomSessionProxy
 
-    # session.handler.custom:
-    #     alias: App\Application\Session\CustomSessionProxy
+    session.handler.custom:
+        alias: App\Application\Session\CustomSessionProxy
 
     App\Application\Session\CustomSessionStorage:
         arguments:

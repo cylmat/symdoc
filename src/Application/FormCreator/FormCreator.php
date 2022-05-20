@@ -40,7 +40,8 @@ final class FormCreator
                 'block_prefix' => 'special_field_prefix'
             ])
             ->add('agreeTerms', Type\CheckboxType::class, [
-                'mapped' => false
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('my_int', Type\IntegerType::class, [
                 'mapped' => false,

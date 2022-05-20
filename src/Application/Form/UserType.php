@@ -3,7 +3,9 @@
 namespace App\Application\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Event\PreSetDataEvent;
+use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -23,9 +25,9 @@ class UserType extends AbstractType implements FormTypeInterface
             ->add('created_at', Type\DateTimeType::class, [
                 'html5' => false,
                 'input' => 'datetime_immutable',
-                'format' => 'yyyy-MM-dd h:mm:ss', // used with html5 disabled
+                'format' => 'yyyy-MM-dd h:mm:ss', // used when html5 disabled
                 'date_format' => 'yyyy-MM-dd',
-                'input_format' => 'Ymd H.i.s'
+                'input_format' => 'Ymd H.i.s',
             ])
             ->add('custom_file', Type\FileType::class, [
                 'mapped' => false,
@@ -39,6 +41,17 @@ class UserType extends AbstractType implements FormTypeInterface
                 FormEvents::PRE_SET_DATA,
                 [$this, 'ucfirstUsernameOnPreSetData']
             );
+
+        $builder
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event, string $eventName) {
+                $event->getData()['email'] = 'pre';
+            });
+
+
+        $builder
+            ->addEventListener(FormEvents::POST_SUBMIT, function (PostSubmitEvent $event, string $eventName) {
+                $event->getData()->setEmail('default email');
+            });
     }
 
     public function ucfirstUsernameOnPreSetData(PreSetDataEvent $event)
@@ -51,6 +64,11 @@ class UserType extends AbstractType implements FormTypeInterface
     {
         $resolver->setDefaults([
             'data_classs' => User::class,
+
+            # CSRF
+            'csrf_protection' => true,
+            //'csrf_field_name' => '_tokenazerty',
+            //'csrf_token_id'   => 'custom_item',
         ]);
 
         $resolver->setDefined('custom_type_options_file_required')

@@ -45,7 +45,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Asserts\NotBlank
+     * @Asserts\NotBlank(allowNull=true)
      */
     private $email;
 

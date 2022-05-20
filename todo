@@ -1,6 +1,6 @@
 [Progress]
 Basics:
-- Form...
+- Form: dataT, validate...
 
 [DONE]
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles

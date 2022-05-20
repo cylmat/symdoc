@@ -23,7 +23,7 @@ class CustomSessionProxy extends SessionHandlerProxy
 
     public function read($id)
     {
-        return parent::read($id . 'sessionidcustom');
+        return parent::read($id . ''); // custom
     }
 
     public function write($id, $data)

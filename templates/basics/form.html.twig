@@ -42,7 +42,7 @@
             2 => "special_field_prefix"
             3 => "_my_typped_block_prefix_username"
     #}
-    <em>-custom-field-agree-</em>
+    <em> -custom-agree-terms- </em>
 {% endblock %}
 
 {% block customrangeblockprefix_help %} {# block_prefix => special_field_prefix #}
@@ -64,7 +64,7 @@
         {# debug: 'attr': {'novalidate': 'novalidate'} #}
             {{ form_start(form, {
                     'action': path('app_application_basics_form'), 
-                    'method': 'GET',
+                    'method': 'POST',
             }) }}
                 {% if form is rootform %}
                     {{ form_errors(form) }}
@@ -87,6 +87,8 @@
                 <br/>
                 <em> username.prefixes: {{ form.username.vars.block_prefixes|join('|') }}</em>
 
+                {{ form_row(form.created_at) }} {# prefix: _user_my_int #}
+
                 {{ form_row(form.choice) }} {# prefix: _user_my_int #}
                 {{ form_row(form.my_int) }} {# prefix: _user_my_int #}
                 {{ form_row(form.agreeTerms, {'label': 'Agree terms'}) }} {# row: label + widget #}
@@ -94,7 +96,7 @@
 
                 {# form_rest(form) #}
                 <button id="form_twig_submit" type="submit">Save this</button>
-            {{ form_end(form, {render_rest: false}) }}
+            {{ form_end(form, {render_rest: true}) }}
         </p>
     </p>
 

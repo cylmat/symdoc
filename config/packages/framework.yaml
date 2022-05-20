@@ -46,4 +46,7 @@ framework:
     #local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
     #decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
-    
+    ########
+    # FORM #
+    ########
+    csrf_protection: ~ # _token in forms
