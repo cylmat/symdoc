@@ -39,26 +39,43 @@ class UserType extends AbstractType implements FormTypeInterface
                     'inherit_data' => true, // data transformers are not applied to that field.
             ]);
 
+        /**
+         * @see https://symfony.com/doc/5.0/form/data_transformers.html
+         *
+         * Model <=> Norm <=> View
+         *  Model data - If you call Form::getData() or Form::setData()
+         *  Norm Data - This is a normalized version of your data
+         *  View Data - When you call Form::submit($data)
+         */
+
         $builder->add('tags', Type\TextType::class, ['required' => false]);
         $builder->get('tags')
             ->addModelTransformer(new CallbackTransformer(
-                // used to render the field in Twig
+                // used to render the field in Twig ( "model data" => "norm data")
                 function (?array $transformTags) {
                     return $transformTags ? implode(',', $transformTags) : null;
                 },
-                // submitted value back into the format used in code
+                // submitted value back into the format used in code ("norm data" => "model data")
                 function (?string $reverseTags) {
                     return $reverseTags ? explode(',', $reverseTags) : null;
                 }
             ));
 
         $builder->add('intObject', Type\IntegerType::class, ['required' => false]);
-        $builder->get('intObject')->addModelTransformer(new IntToObjectTransformer());
+        $builder->get('intObject')->addModelTransformer(new IntToObjectTransformer()); // model to normalized
 
-        // @todo
-        //$builder->get('intObject')->addViewTransformer();
+        $builder->get('intObject')->addViewTransformer(new CallbackTransformer( // normalized to view
+            function (string $transform) {
+                return $transform;
+            },
+            function (string $reverse) {
+                return $reverse;
+            }
+        ));
 
-        // Events listeners
+        /**
+         * Events listeners
+         */
         $builder
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
