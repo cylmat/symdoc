@@ -16,9 +16,13 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserType extends AbstractType implements FormTypeInterface
 {
+    /**
+     * bin/console debug:form
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -35,8 +39,19 @@ class UserType extends AbstractType implements FormTypeInterface
             ->add('custom_file', Type\FileType::class, [
                 'mapped' => false,
                 'required' => $options['custom_type_options_file_required'][0], // no server-side validation
-                    'label' => 'Custom file info',
-                    'inherit_data' => true, // data transformers are not applied to that field.
+                'label' => 'Custom file info',
+                'inherit_data' => true, // data transformers are not applied to that field.
+
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
             ]);
 
         /**
@@ -61,10 +76,13 @@ class UserType extends AbstractType implements FormTypeInterface
                 }
             ));
 
-        $builder->add('intObject', Type\IntegerType::class, ['required' => false]);
-        $builder->get('intObject')->addModelTransformer(new IntToObjectTransformer()); // model to normalized
+        $builder->add('int_object', Type\IntegerType::class, [
+            'required' => false,
+            'property_path' => 'intObject',
+        ]);
+        $builder->get('int_object')->addModelTransformer(new IntToObjectTransformer()); // model to normalized
 
-        $builder->get('intObject')->addViewTransformer(new CallbackTransformer( // normalized to view
+        $builder->get('int_object')->addViewTransformer(new CallbackTransformer( // normalized to view
             function (string $transform) {
                 return $transform;
             },
@@ -72,6 +90,12 @@ class UserType extends AbstractType implements FormTypeInterface
                 return $reverse;
             }
         ));
+
+        /**
+         * Mappers
+         *  Transformers change the representation (e.g. from "2016-08-12" to a DateTime instance)
+         *  Mappers map data (e.g. an object or array) to form fields
+         */
 
         /**
          * Events listeners
