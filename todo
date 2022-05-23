@@ -1,4 +1,5 @@
 [Progress]
+Basic: Cache, Logger, Errors-debug
 
 [DONE]
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
