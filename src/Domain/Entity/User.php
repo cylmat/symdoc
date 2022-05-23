@@ -8,21 +8,32 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Asserts;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\GroupSequenceProviderInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
- * DOC
+ * @see https://symfony.com/doc/5.0/validation/groups.html
+ * There is 2 default validation groups:
+ * - Default: Contains the constraints -that belong to no other group-
+ *      in the current class AND ALL REFERENCED CLASSES (an Object property, e.g. Address class)
+ * - <classname> (here User): Equivalent to all constraints ONLY of the current User object, in the Default group
  *
- * There is 2 default validation groups
- * - <classname> (here User)
- * - Default
+ * If inheritance validated with subclass User, all constraints in the User and BaseUser will be validated.
+ * If validate using the base class BaseUser, then only the default constraints in the BaseUser class are validated.
+ *
+ * @see https://symfony.com/doc/5.0/validation/sequence_provider.html
+ *  Only be validated if all of the previous groups succeeded
+ *  In groups sequence -Default- now reference the current group sequence. Avoid it to avoid recursion loop
  */
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
+ * e.g: Assert\GroupSequence({"User", "Strict"})
+ * @Assert\GroupSequenceProvider
  */
-class User
+class User implements GroupSequenceProviderInterface
 {
     public const TYPES = ['individual', 'company'];
 
@@ -40,13 +51,13 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Asserts\NotBlank(groups={"registration"})
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Asserts\NotBlank(allowNull=true)
+     * @Assert\NotBlank(allowNull=true)
      */
     private $email;
 
@@ -58,8 +69,10 @@ class User
     /**
      * @ORM\OneToOne(targetEntity=Token::class, mappedBy="user", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Type(type="App\Domain\Entity\Token")
      */
-    private $token;
+    private Token $token;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -78,22 +91,37 @@ class User
     private $createdAt;
 
     # https://symfony.com/doc/current/form/data_transformers.html
-    public array $tags; // used to Data Transformers doc
+    public ArrayCollection $tags; // used to Data Transformers doc
     public IntObject $intObject; // used to Data Transformers doc
 
-    /**
-     * - Validation without annotations
+    /********
+     * Validation without annotations
+     *    framework.validation.enable
+     *    framework.validation.static_method: loadValidatorMetadata
+     *
+     * The validator is designed to validate objects against constraints
      */
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('username', new Asserts\NotBlank());
-        $metadata->addPropertyConstraint('createdAt', new Asserts\NotBlank());
+        $metadata->addPropertyConstraint('username', new Assert\NotBlank());
+        $metadata->addPropertyConstraint('createdAt', new Assert\NotBlank());
         $metadata->addPropertyConstraint(
             'createdAt',
-            new Asserts\Type(\DateTimeImmutable::class)
+            new Assert\Type(\DateTimeImmutable::class)
         );
     }
     // -validation
+
+    public function getGroupSequence() // from GroupSequenceProviderInterface
+    {
+        // if 'User' fails
+        // 'Premium' and 'Api' are not validated:
+        return ['User', 'Premium', 'Api'];
+
+        // if 'User' fails, 'Premium' is also validated
+        // but 'Api' won't be validated:
+        return [['User', 'Premium'], 'Api'];
+    }
 
     // MANDATORY WHEN USING EntityType
     public function __toString()

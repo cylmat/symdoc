@@ -50,3 +50,4 @@ framework:
     # FORM #
     ########
     csrf_protection: ~ # _token in forms
+    validation: { enabled: true, enable_annotations: true }

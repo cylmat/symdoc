@@ -18,24 +18,34 @@ final class BasicsFormController extends AbstractController
      *
      * composer require symfony/security-csrf
      * tags: [form.type_guesser]
+     *
+     * @todo: https://symfony.com/doc/current/form/form_collections.html
      */
     public function form(Request $request, FormCreator $formCreator): Response
     {
         $user = (new User());
 
         $form = $this->createForm(UserType::class, $user, [ // type, data, [options]
-            'custom_type_options_file_required' => [false, true]
+            'custom_type_options_file_required' => [false, true],
+            'validation_groups' => ['own_registration'],
         ]);
         $formCreator->updateForm($form);
         $csrf_tokenized = null;
 
         $data = null;
         $form->handleRequest($request);
+        // or
+        if ($request->isMethod('POST') && false) {
+            $form->submit($request->request->get($form->getName()));
+        }
+
          // validate if object valid after submitted data to it
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('info', 'Form submitted');
 
             $data = $form->getData();
+            //$form->get('saveAndAdd')->isClicked();
+            //$form->getClickedButton() === $form->get('saveAndAdd');
 
             if ($submittedToken = $request->request->get('_token')) {
                 $csrf_tokenized = $submittedToken;

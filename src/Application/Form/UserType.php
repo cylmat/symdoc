@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\GroupSequence;
 
 class UserType extends AbstractType implements FormTypeInterface
 {
@@ -40,6 +41,9 @@ class UserType extends AbstractType implements FormTypeInterface
                 'mapped' => false,
                 'required' => $options['custom_type_options_file_required'][0], // no server-side validation
                 'label' => 'Custom file info',
+
+                // Allow to create a "child" Type with shared code
+                // @see https://symfony.com/doc/current/form/inherit_data_option.html
                 'inherit_data' => true, // data transformers are not applied to that field.
 
                 'constraints' => [
@@ -52,6 +56,7 @@ class UserType extends AbstractType implements FormTypeInterface
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])
                 ],
+                'validation_groups' => false, //disable validation
             ]);
 
         /**
@@ -132,6 +137,10 @@ class UserType extends AbstractType implements FormTypeInterface
             'csrf_protection' => true,
             //'csrf_field_name' => '_tokenazerty',
             //'csrf_token_id'   => 'custom_item',
+
+            # Validation
+            // e.g. own_registration group, then all constraints that are not in a group
+            'validation_groups' => new GroupSequence(['own_registration', 'Default']),
         ]);
 
         $resolver->setDefined('custom_type_options_file_required')
