@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {# this form theme will be applied only to the form of this template #}
-{% form_theme formBuilder with ['foundation_5_layout.html.twig', _self] only %} {# only disable other themes #}
+{% form_theme formb with ['foundation_5_layout.html.twig', _self] only %} {# only disable other themes #}
 {#% form_theme form.a_child_form 'form/my_custom_theme.html.twig' %#}
 
 {#
@@ -70,19 +70,19 @@
             </ul>
         {% endif %}
         <p>
-            {#{ form(formBuilder) }#}
-            {{ form_start(formBuilder) }}
-                {{ form_row(formBuilder.username) }}   
-                {{ form_row(formBuilder.type) }}
-                {{ form_row(formBuilder.custom_field_from_builder) }}
-                {{ form_row(formBuilder.createdAt) }}
+            {{ form(formb) }}
+            {#{ form_start(formb) }}
+                {{ form_row(formb.username) }}   
+                {{ form_row(formb.type) }}
+                {{ form_row(formb.custom_field_from_builder) }}
+                {{ form_row(formb.createdAt) }}
                 <div id="form_div_for_type">
-                    {{ formBuilder.address is defined ? form_row(formBuilder.address) : null }}
-                    {{ formBuilder.tax is defined ? form_row(formBuilder.tax) : null }}
-                    {{ formBuilder.social is defined ? form_row(formBuilder.social) : null }}
+                    {{ formb.address is defined ? form_row(formb.address) : null }}
+                    {{ formb.tax is defined ? form_row(formb.tax) : null }}
+                    {{ formb.social is defined ? form_row(formb.social) : null }}
                 </div>
-                {{ form_row(formBuilder.save) }}
-            {{ form_end(formBuilder) }}
+                {{ form_row(formb.save) }}
+            {{ form_end(formb, {render_rest:true}) }}#}
         </p>
     </p>
 

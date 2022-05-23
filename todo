@@ -1,13 +1,10 @@
 [Progress]
-Basics:
-- Form: dataT, validate...
 
 [DONE]
-Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
-Basics: Doctrine, Tests, Session
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
-Components:
-- Process
+Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
+Basics: Doctrine, Forms, Tests, Session
+Components: Process
 
 ---
 Tools

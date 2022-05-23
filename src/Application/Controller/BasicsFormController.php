@@ -81,9 +81,9 @@ final class BasicsFormController extends AbstractController
             'action' => $this->generateUrl('app_application_basics_formbuild')
         ])
         ->setAction($this->generateUrl('app_application_basics_formbuild'));
+
         $formCreator->updateFormBuilder($formBuilder);
         $formBuilded = $formBuilder->getForm();
-
 
         // HttpFoundationRequestHandler
         $formBuilded->handleRequest($request);
@@ -104,9 +104,9 @@ final class BasicsFormController extends AbstractController
                 'request' => $request->request->all(),
                 'formBuilder' => $formBuilder,
                 'formBuilded' => $formBuilded,
-                'formBuilded.view' => $formBuilded->createView(null),
+                'formBuilded.view' => $formBuilded->createView(),
             ],
-            'formBuilder' => $formBuilded->createView(null),
+            'formb' => $formBuilded->createView(),
             'submitted' => $submitted ?? null,
         ]);
     }

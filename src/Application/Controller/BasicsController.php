@@ -5,12 +5,17 @@ namespace App\Application\Controller;
 use App\Application\FormCreator\FormCreator;
 use App\Application\Response;
 use App\Domain\Entity\Product;
+use App\Domain\Entity\User;
 use App\Domain\Manager\RedisManager;
 use App\Domain\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -92,6 +97,24 @@ final class BasicsController extends AbstractController
      */
     public function form(Request $request, FormCreator $formCreator): Response
     {
+        $form = $this->createFormBuilder(['email' => 'my@a'])
+        ->add('email', EmailType::class, ['constraints' => new Length(['min' => 3]),])
+        ->add('send', SubmitType::class)
+        ->getForm();
+
+        //test
+        $testForm = new class extends TypeTestCase
+        {
+            public function test()
+            {
+                $this->factory->create(TestedType::class, new User());
+                $form->submit(['data']);
+                $form->isSynchronized();
+                $view = $this->factory->create(TestedType::class, ['data'])->createView();
+                $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+            }
+        };
+
         return $this->bfc->form($request, $formCreator);
     }
 

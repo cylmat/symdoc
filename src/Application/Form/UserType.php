@@ -3,6 +3,7 @@
 namespace App\Application\Form;
 
 use App\Application\Form\Transformer\IntToObjectTransformer;
+use App\Domain\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Event\PostSubmitEvent;
@@ -141,6 +142,11 @@ class UserType extends AbstractType implements FormTypeInterface
             # Validation
             // e.g. own_registration group, then all constraints that are not in a group
             'validation_groups' => new GroupSequence(['own_registration', 'Default']),
+
+            // empty
+            'empty_data' => function (FormInterface $form) {
+                return new User();
+            },
         ]);
 
         $resolver->setDefined('custom_type_options_file_required')

@@ -75,13 +75,13 @@ final class FormCreator
     public function updateFormBuilder(FormBuilderInterface $formBuilder): void
     {
         $formBuilder
-            ->add('username', EntityType::class, [
+            /*->add('username', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u');
                 },
                 'choice_label' => 'username',
-            ])
+            ])*/
             ->add('type', Type\ChoiceType::class, [
                 'choices' => array_flip(User::TYPES),
             ])
