@@ -1,10 +1,45 @@
 monolog:
+    # can use logrotate
     handlers:
+        #filter_for_errors:
+        #    type: fingers_crossed
+        #    type: deduplication
+        #    # if *one* log is error or higher, pass *all* to file_log
+        #    action_level: info
+        #    handler: file_log
+
+        # stack, first handler called
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-            channels: ["!event"]
+            channels: ['!event', '!doctrine']
+            max_files: 10
+            formatter: App\Application\Logger\Formatter\TextFormatter
+
+        event:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.event.log"
+            level: debug
+            channels: ['event']
+            max_files: 10
+
+        doctrine:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.doctrine.log"
+            level: debug
+            channels: ['doctrine']
+            max_files: 10
+
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ['!event', '!doctrine', '!console']
+
+        # grouped:
+        #     type: group
+        #     members: [main, console]
+        
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:
@@ -13,7 +48,3 @@ monolog:
         #chromephp:
         #    type: chromephp
         #    level: info
-        console:
-            type: console
-            process_psr_3_messages: false
-            channels: ["!event", "!doctrine", "!console"]

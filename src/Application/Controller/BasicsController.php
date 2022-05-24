@@ -8,6 +8,7 @@ use App\Domain\Entity\Product;
 use App\Domain\Entity\User;
 use App\Domain\Manager\RedisManager;
 use App\Domain\Repository\ProductRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -195,6 +196,26 @@ final class BasicsController extends AbstractController
                     'value1' => $value1,
                     'item' => $item,
                 ]
+            ],
+        ]);
+    }
+
+    /**
+     * @Route("/logger")
+     *
+     * Channels are done on LoggerChannelPass.php
+     * LoggerInterface $<channel>Logger
+     *   or
+     * tag your service with ("monolog.logger" channel="my_own_channel")
+     */
+    public function logger(LoggerInterface $logger, LoggerInterface $consoleLogger): Response
+    {
+        $logger->info('Logging');
+
+        return new Response([
+            'data' => [
+                'logger' => $logger,
+                'main logger' => $consoleLogger,
             ],
         ]);
     }
