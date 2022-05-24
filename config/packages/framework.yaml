@@ -51,3 +51,36 @@ framework:
     ########
     csrf_protection: ~ # _token in forms
     validation: { enabled: true, enable_annotations: true }
+
+    #########
+    # CACHE #
+    # cache.adapter.apcu / array /doctrine / filesystem / memcached / pdo / psr6 / redis
+    #
+    # service ID is the name of the pool (e.g. custom_thing.cache). 
+    # autowiring alias is also created for each pool using the camel case version of its name
+    #########
+    cache:
+        app: cache.adapter.filesystem
+        system: cache.adapter.system
+        default_pdo_provider: 'doctrine.dbal.default_connection'
+
+        directory: '%kernel.cache_dir%/pools' # Only used with cache.adapter.filesystem
+
+        pools:
+            # creates a "custom_thing.cache" service
+            # autowireable via "CacheInterface $customThingCache"
+            custom_thing.cache:
+                adapter: cache.app
+                tags: true
+
+            my_foobar_cache_pool: # $myFoobarCachePool service
+                default_lifetime: 31536000  # One year
+                
+                # Chaining
+                # Better to be from fastest to slowest
+                adapters:
+                    - cache.adapter.array
+                    - cache.adapter.apcu
+                    - cache.adapter.filesystem
+                    # ... redis or other
+                    # - {name: cache.adapter.redis, provider: 'redis://user:password@example.com'}

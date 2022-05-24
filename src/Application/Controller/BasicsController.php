@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 /**
  * Route groups:
@@ -146,11 +150,52 @@ final class BasicsController extends AbstractController
 
     /**
      * @Route("/cache")
+     *
+     * Symfont supports Cache Contracts, PSR-6/16 and Doctrine Cache interfaces
+     * cache.global_clearer - all the cache items in every pool
+     * cache.system_clearer - used in the bin/console cache:clear
+     * cache.app_clearer    - default clearer, all custom pools
+     *
+     * cache:pool:list
+     * cache:pool:clear [pool]
+     * cache:pool:clear cache.global_clearer
      */
-    public function cache(RedisManager $redisManager): Response
-    {
+    public function cache(
+        RedisManager $redisManager,
+        TagAwareCacheInterface $customThingCache,
+        CacheInterface $myFoobarCachePool
+    ): Response {
+        $fsCache = new FilesystemAdapter();
+        /** @var \Symfony\Component\Cache\CacheItem $item */
+        $item = $fsCache->getItem('item_0');
+        $item->set('beta');
+        $fsCache->save($item);
+
+        $value0 = $customThingCache->get('item_0', function (ItemInterface $item) {
+            $item->tag(['foo']);
+            return 'debug0';
+        });
+
+        $value1 = $customThingCache->get('key1', function (ItemInterface $item) {
+            $item->tag(['foo', 'bar']);
+            return 'debug1';
+        });
+
+        // Remove all cache keys tagged with "bar"
+        $customThingCache->invalidateTags(['foo', 'bar']);
+
         return new Response([
-            'data' => $redisManager->call(),
+            'data' => [
+                'redis' => $redisManager->call(),
+                'custom' => $customThingCache,
+                'pool' => $myFoobarCachePool,
+                'fsCache' => $fsCache,
+                'keys' => [
+                    'value0' => $value0,
+                    'value1' => $value1,
+                    'item' => $item,
+                ]
+            ],
         ]);
     }
 }

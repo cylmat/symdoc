@@ -1,10 +1,10 @@
 [Progress]
-Basic: Cache, Logger, Errors-debug
+Basic: Logger, Errors-debug
 
 [DONE]
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
-Basics: Doctrine, Forms, Tests, Session
+Basics: Doctrine, Forms, Tests, Session, Cache
 Components: Process
 
 ---

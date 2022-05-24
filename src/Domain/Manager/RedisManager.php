@@ -16,8 +16,11 @@ final class RedisManager implements ManagerInterface
 
     public function call(array $context = []): array
     {
-        if (!$client = $this->redisService->getClient()) {
-            return [];
+        $client = $this->redisService->getClient();
+        if (!$client || !$client->isConnected()) {
+            return [
+                'Redis not connected'
+            ];
         }
 
         $client->set('foo', 'bar');
