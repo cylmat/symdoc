@@ -8,6 +8,8 @@ use App\Domain\Entity\Product;
 use App\Domain\Entity\User;
 use App\Domain\Manager\RedisManager;
 use App\Domain\Repository\ProductRepository;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -27,8 +29,11 @@ use Symfony\Contracts\Cache\TagAwareCacheInterface;
  * Route groups:
  * @Route("", requirements={"_locale": "en|fr"}, name="")
  */
-final class BasicsController extends AbstractController
+final class BasicsController extends AbstractController implements LoggerAwareInterface
 {
+    // Used in FrameworkExtension
+    use LoggerAwareTrait;
+
     private $bfc;
 
     public function __construct(BasicsFormController $bfc)
@@ -212,9 +217,13 @@ final class BasicsController extends AbstractController
     {
         $logger->info('Logging');
 
+        // from autocalled 'setLogger'
+        $this->logger->info('from autocalled LoggerAwareInterface');
+
         return new Response([
             'data' => [
                 'logger' => $logger,
+                '$this->logger' => $this->logger,
                 'main logger' => $consoleLogger,
             ],
         ]);
