@@ -38,6 +38,9 @@ PORT?=88
 serve:
 	./bin/symfony local:server:start --port=${PORT} -d
 
+stop:
+	./bin/symfony local:server:stop
+
 ###########
 #   BIN   #
 ###########
