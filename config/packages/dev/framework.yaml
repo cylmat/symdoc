@@ -1,0 +1,8 @@
+framework:
+    mailer:
+        # Disable mailer
+        # use NullTransport
+        dsn: 'null://null'
+
+        envelope:
+            recipients: ['youremail@example.com']

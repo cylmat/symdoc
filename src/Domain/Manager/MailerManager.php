@@ -4,10 +4,12 @@ namespace App\Domain\Manager;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
 use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Crypto\SMimeSigner;
 use Symfony\Component\Mime\Email;
 
 final class MailerManager implements ManagerInterface
@@ -44,17 +46,53 @@ final class MailerManager implements ManagerInterface
         ;
 
         $email->getHeaders()
-            ->addDateHeader('this-date', new DateTime());
+            ->addDateHeader('this-date', new DateTime())
+            ->addTextHeader('X-Transport', 'alternative');
 
         $e = '';
+        $sentMessage = null;
         try {
             $sentMessage = $this->mailer->send($email);
         } catch (TransportExceptionInterface | \Exception $err) {
             $e .= $err->getMessage();
         }
 
+        $tplEmail = (new TemplatedEmail())
+            ->from('test@example.com')
+            ->to(new Address('test2@example.com'))
+            ->subject('Hello!')
+            ->htmlTemplate('emails/template.html.twig')
+            // or ->textTemplate('emails/template.html.twig')
+            ->context([
+                'username' => 'foo',
+            ])
+        ;
+
+        // tpl //
+        // composer require twig/extra-bundle twig/cssinliner-extra
+        // composer require twig/extra-bundle twig/markdown-extra league/commonmark
+        // composer require twig/extra-bundle twig/inky-extra
+        // https://get.foundation/emails/docs/inky.html
+
+        // "email" is WrappedTemplatedEmail
+        // email.image()
+
+        //////////////
+        // Security //
+        //////////////
+        // S/MIME + OpenSSL PHP extension
+
+        //$signer = new SMimeSigner('/path/to/certificate.crt', '/path/to/certificate-private-key.key', 'pass');
+        //$signedEmail = $signer->sign($email);
+
+        //$encrypter = new SMimeEncrypter('/path/to/certificate.crt');
+        //$encryptedEmail = $encrypter->encrypt($email);
+
         return [
-            $email, $e
+            $email,
+            $tplEmail,
+            $sentMessage,
+            $e
         ];
     }
 }
