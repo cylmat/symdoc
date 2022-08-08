@@ -1,11 +1,11 @@
 [Progress]
-Advanced:
-- Console
+Advanced: mailer
 
 [DONE]
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Basics: Doctrine, Forms, Tests, Session, Cache, Logger, Errors-debug
+Advanced: Console
 Components: Process
 
 ---
