@@ -24,4 +24,14 @@ class DateTimeService
 
         return new DateInterval($period . $time);
     }
+
+    public function getDateTime(): \DateTime
+    {
+        return (new \DateTime());
+    }
+
+    public function getCurrent(): string
+    {
+        return (new \DateTime())->format("Y-m-d\TH:i:sP");
+    }
 }

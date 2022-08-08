@@ -4,6 +4,7 @@ namespace App\Tests\Application\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+// https://phpunit.de/manual/6.5/en/index.html
 class AppTest extends WebTestCase
 {
     protected const AJAX_HEADER = ['HTTP_X-Requested-With' => 'XMLHttpRequest'];
