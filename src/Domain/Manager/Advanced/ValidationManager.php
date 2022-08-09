@@ -2,6 +2,7 @@
 
 namespace App\Domain\Manager\Advanced;
 
+use App\Application\Validator\AlphaNumConstraint;
 use App\Domain\Core\Interfaces\ManagerInterface;
 use App\Domain\Entity\ValidationEntity;
 use Symfony\Component\Validator\Constraints\Blank;
@@ -43,16 +44,19 @@ final class ValidationManager implements ManagerInterface
         // constraints should be "null" to use XML config framework validation
         // return a ConstraintViolationList
         $errors = $this->validator->validate($entity, null, 'ValidationEntity');
+        $payload = $errors[0]->getConstraint()->payload;
 
         return [
             'entity' => $entity,
             'annotation errors' => (string) $annotation_errors,
             'custom errors' => (string) $errors,
+            'payload' => $payload,
             'not-isbn' => $this->validator->validate('test', [new Isbn()]),
             'blank' => [
                 (string) $this->validator->validate('', [new Blank()]),
                 (string) $this->validator->validate('0', [new Blank()]), // 0 is not blank
             ],
+            'alphanum' => (string) $this->validator->validate('blob', [new AlphaNumConstraint()]), // 0 is not blank
             'callback' => (string) $this->validator->validate('test-fail', [
                 new Callback(['callback' => function (string $value, ExecutionContext $ctx) {
                     if ($value !== 'test') {

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- translations/validators.en.xlf -->
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="123456789">
+                <source>custom.length.min</source>
+                <target>Please enter an valid length -translated-.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
