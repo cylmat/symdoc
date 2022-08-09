@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Manager;
+namespace App\Domain\Manager\Utilities;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;

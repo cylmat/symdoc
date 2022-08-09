@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Manager;
+namespace App\Domain\Manager\Advanced;
 
 use App\Domain\Core\Interfaces\ManagerInterface;
 use App\Domain\Message\Message;

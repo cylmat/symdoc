@@ -3,7 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
-use App\Domain\Manager\ComponentManager;
+use App\Domain\Manager\Utilities\ComponentManager;
 
 final class UtilitiesComponentController
 {

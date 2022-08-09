@@ -3,9 +3,10 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
-use App\Domain\Manager\MailerManager;
-use App\Domain\Manager\MessageManager;
-use App\Domain\Manager\SerializerManager;
+use App\Domain\Manager\Advanced\MailerManager;
+use App\Domain\Manager\Advanced\MessageManager;
+use App\Domain\Manager\Advanced\SerializerManager;
+use App\Domain\Manager\Advanced\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,6 +43,16 @@ final class AdvancedController extends AbstractController
     {
         return new Response([
             'data' => $mailer->call(),
+        ]);
+    }
+
+    /**
+     * @Route("/validation")
+     */
+    public function validation(ValidationManager $validation)
+    {
+        return new Response([
+            'data' => $validation->call(),
         ]);
     }
 }

@@ -11,6 +11,7 @@ use App\Domain\Repository\ProductRepository;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +22,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
@@ -65,8 +69,20 @@ final class BasicsController extends AbstractController implements LoggerAwareIn
     /**
      * @Route("/doctrine")
      */
-    public function doctrine(ValidatorInterface $validator, ProductRepository $productRepository): Response
-    {
+    public function doctrine(
+        ValidatorInterface $validator,
+        ProductRepository $productRepository,
+        KernelInterface $kernel
+    ): Response {
+        // Run command migration //
+        $app = new Application($kernel);
+        $app->setAutoExit(false);
+        $app->run(new ArrayInput([
+            'command' => 'doctrine:migrations:migrate',
+            '--no-interaction' => true
+        ]), new BufferedOutput());
+
+        // action //
         $entityManager = $this->getDoctrine()->getManager();
 
         $product = new Product();

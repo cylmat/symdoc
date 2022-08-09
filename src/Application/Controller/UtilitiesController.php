@@ -3,8 +3,8 @@
 namespace App\Application\Controller;
 
 use App\Application\Response;
-use App\Domain\Manager\ComponentManager;
-use App\Domain\Manager\ExpressionManager;
+use App\Domain\Manager\Utilities\ComponentManager;
+use App\Domain\Manager\Utilities\ExpressionManager;
 use App\Domain\Manager\FormatManager;
 use App\Domain\Manager\PhpManager;
 use DateTime;
