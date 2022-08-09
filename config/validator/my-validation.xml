@@ -11,14 +11,17 @@
             <constraint name="NotBlank"/>
         </property>
 
-        <!--getter property="passwordSafe">
-            <constraint name="IsTrue">
-                <option name="message">The password cannot match your username</option>
+        <getter property="express">
+            <constraint name="Expression">
+                <option name="expression">
+                    this.getExpress() in ['isok'] or !true
+                </option>
+                <option name="message">Expression fail from xml</option>
                 <option name="groups">
-                    <value>Strict</value>
+                    <value>Valy</value>
                 </option>
             </constraint>
-        </getter-->
+        </getter>
 
         <!-- Can't use "Default" group -->
         <!--group-sequence>
