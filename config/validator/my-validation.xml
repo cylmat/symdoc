@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- config/validator/validation.xml -->
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+        https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="App\Domain\Entity\ValidationEntity">
+        <property name="three">
+            <constraint name="NotBlank"/>
+        </property>
+
+        <!--getter property="passwordSafe">
+            <constraint name="IsTrue">
+                <option name="message">The password cannot match your username</option>
+                <option name="groups">
+                    <value>Strict</value>
+                </option>
+            </constraint>
+        </getter-->
+
+        <!-- Can't use "Default" group -->
+        <!--group-sequence>
+            <value>ValidationEntity</value> 
+        </group-sequence-->
+    </class>
+</constraint-mapping>

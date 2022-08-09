@@ -5,35 +5,35 @@ namespace App\Domain\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\GroupSequenceProviderInterface;
 
-// @todo: try this
-
 /**
  * @Assert\GroupSequenceProvider
  */
-class Validation implements GroupSequenceProviderInterface
+class ValidationEntity implements GroupSequenceProviderInterface
 {
     /**
      * @Assert\NotBlank(groups={"foo"})
      */
-    private $foo;
+    public $foo;
 
     /**
      * @Assert\NotBlank(groups={"foo"})
      */
-    private $foo2;
+    public $foo2;
 
     /**
-     * @Assert\NotBlank(groups={"Product"})
+     * @Assert\NotBlank(groups={"Valy"})
      */
-    private $bar;
+    public $valy;
 
     /**
      * @Assert\NotBlank()
      */
-    private $bar2;
+    public $bar2;
+
+    public $three;
 
     public function getGroupSequence(): array
     {
-        return [['foo', 'Product']];
+        return [['foo', 'Valy'], 'three', 'Default'];
     }
 }
