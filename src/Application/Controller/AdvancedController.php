@@ -6,6 +6,7 @@ use App\Application\Response;
 use App\Domain\Manager\Advanced\MailerManager;
 use App\Domain\Manager\Advanced\MessageManager;
 use App\Domain\Manager\Advanced\SerializerManager;
+use App\Domain\Message\MessageNotification;
 use App\Domain\Manager\Advanced\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,7 @@ final class AdvancedController extends AbstractController
      */
     public function message(MessageManager $messageManager): Response
     {
+        $this->dispatchMessage(new MessageNotification('From controller'));
         return new Response([
             'data' => $messageManager->call(),
         ]);

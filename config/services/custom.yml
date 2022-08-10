@@ -145,3 +145,9 @@ services:
     #     arguments:
     #         - '@session.handler'
     #         - '@session.storage.metadata_bag'
+
+    #############
+    # MESSAGING #
+    #############
+    # App\Domain\Message\MessageHandler:
+    # (Defined in custom.xml)

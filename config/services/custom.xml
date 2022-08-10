@@ -20,7 +20,7 @@
         <defaults public="false" autowire="true" autoconfigure="false"/>
 
         <service id="App\Domain\MessageHandler\MessageHandler">
-            <tag name="messenger.message_handler" handles="App\Domain\Message\Message" />
+            <tag name="messenger.message_handler" handles="App\Domain\Message\MessageNotification" />
         </service>
 
         <service id="twitter_client_2" class="App\Application\Service\TwitterClient">
