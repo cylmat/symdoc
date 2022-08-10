@@ -44,7 +44,7 @@
 // Please see https://bitbucket.org/phpliteadmin/public/wiki/Configuration for more details
 
 //password to gain access
-$password = 'admin2';
+$password = '';
 
 //directory relative to this file to search for databases (if false, manually list databases in the $databases variable)
 $directory = '../var';
@@ -56,12 +56,8 @@ $subdirectories = false;
 //if any of the databases do not exist as they are referenced by their path, they will be created automatically
 $databases = array(
 	array(
-		'path'=> 'database1.sqlite',
+		'path'=> 'data.db',
 		'name'=> 'Database 1'
-	),
-	array(
-		'path'=> 'database2.sqlite',
-		'name'=> 'Database 2'
 	),
 );
 
@@ -113,6 +109,25 @@ $debug = false;
 
 // the user is allowed to create databases with only these extensions
 $allowed_extensions = array('db','db3','sqlite','sqlite3');
+
+
+/** END OF CONFIG FILE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // English language-texts.

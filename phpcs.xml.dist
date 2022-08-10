@@ -12,5 +12,6 @@
 
     <file>src/</file>
     <exclude-pattern>config/</exclude-pattern>
+    <exclude-pattern>public/</exclude-pattern>
 
 </ruleset>
