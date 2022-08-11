@@ -2,7 +2,7 @@
 
 namespace App\Domain\Message;
 
-class MessageNotification implements MyMessageInterface
+class AutoMessageNotification implements MyMessageInterface
 {
     private string $message;
 
@@ -17,6 +17,6 @@ class MessageNotification implements MyMessageInterface
 
     public function getContent(): string
     {
-        return $this->message;
+        return 'Auto : ' . $this->message;
     }
 }

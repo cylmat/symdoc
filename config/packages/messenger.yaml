@@ -5,9 +5,21 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            my_sync: 'sync://'
-            my_async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
+            sync: 'sync://'
+            is_sync: 'sync://'
+            my_async: 
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.native_php_serializer
+                    #messenger.transport.custom_serializer
+            auto_read: 
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.native_php_serializer
+            toobad: 
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options: 
+                    queue_name: normal_priority
+                    auto_setup: true
+            failed: 'doctrine://default?queue_name=failed'
 
             #async:
             #    dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
@@ -20,19 +32,24 @@ framework:
                 serializer: null
                 options: []
                 retry_strategy:
-                    # Service id to override the retry strategy entirely
-                    service: null
-                    max_retries: 3
+                    #max_retries: 3
                     # Time in ms to delay (or the initial value when multiplier is used)
-                    delay: 1000
+                    #delay: 1000
                     # If greater than 1, delay will grow exponentially for each retry: this delay = (delay * (multiple ^ retries))
-                    multiplier: 2
+                    #multiplier: 2
                     # Max time in ms that a retry should ever be delayed (0 = infinite)
-                    max_delay: 0
+                    #max_delay: 0
+
+                    # Service id to override the retry strategy entirely
+                    service: App\Domain\Message\RetryMessaging
 
         routing:
             # Route your messages to the transports
-            'App\Domain\Message\MessageNotification': my_async
+            # override inside MessageSubscriberInterface
+            'App\Domain\Message\MessageNotification': [my_async, auto_read] # use auto_read if my_async fail
+            'App\Domain\Message\AutoMessageNotification': auto_read
+            'App\Domain\Message\SyncMessageNotification': is_sync
+
 
         serializer:
             # Service id to use as the default serializer for the transports.
@@ -43,17 +60,19 @@ framework:
                 # Context array for the messenger.transport.symfony_serializer service (which is not the serializer used by default).
                 context:
                     # Prototype
-                    name:                 ~
+                    name: ~
         
         # Transport name to send failed messages to (after all retries have failed).
-        failure_transport: null
+        failure_transport: toobad
+
         default_bus: null
-        #buses:
+        buses:
             # Prototype
-            #name:
-                #default_middleware: true # One of true; false; "allow_no_handlers"
-                #middleware:
+            messenger.bus.default:
+                default_middleware: true # One of true; false; "allow_no_handlers"
+                middleware:
                     # Prototype
                     #-
                     #    id: ~ # Required
                     #    arguments: []
+                    - 'App\Domain\Middleware\CustomMiddleware'

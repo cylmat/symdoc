@@ -10,7 +10,6 @@ final class CustomMiddleware implements MiddlewareInterface
 {
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
-        d($envelope, $stack);
         return $stack->next()->handle($envelope, $stack);
     }
 }

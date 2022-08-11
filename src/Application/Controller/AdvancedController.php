@@ -15,6 +15,8 @@ final class AdvancedController extends AbstractController
 {
     /**
      * @Route("/message")
+     *
+     * sudo apt-get install supervisor
      */
     public function message(MessageManager $messageManager): Response
     {

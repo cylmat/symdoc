@@ -90,6 +90,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response }
 
+    App\Domain\Message\RetryMessaging: ~
+    messenger.transport.custom_serializer:
+        class: App\Domain\Message\CustomSerializer
+
     ###################
     # SERVICE LOCATOR #
     ###################

@@ -1,4 +1,4 @@
 framework:
     messenger:
         transports:
-            async_service_id: 'in-memory://'
+            my_async: 'in-memory://'

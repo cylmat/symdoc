@@ -9,6 +9,9 @@ doctrine:
         # Avoid error in cache:clear
         server_version: 3
 
+        # messager: avoid remove table on migrations
+        schema_filter: '~^(?!messenger_messages)~'
+
         # MULTIPLES sample
         # bin/console doctrine:database:create --connection=customer
         # 
