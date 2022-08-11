@@ -11,43 +11,55 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
+use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class MessageManager implements ManagerInterface
 {
-    /**
-     * Message: sended object
+    // use traint when processing !synchronously!
+    // useful for CQRS, only one sync bus and one handler
+    use HandleTrait;
+
+    # private MessageBusInterface $messageBus;
+
+    /*****************************************
+     * Message: Sended plain object
      * Serializer
-     * Middleware:
-     * Bus:
-     * Handler:
+     * Transport: Carry messages, e.g. database or filesystem..
+     * Middleware: Add informations and call specific handlers
+     * Bus: "Tunnel" that allow to dispatch messages
+     * Handler: Receive message an use them (operation with data message)
      */
 
-    private MessageBusInterface $messageBus;
     private KernelInterface $kernel;
 
     /** @todo: include receiver service in compiler pass */
     public function __construct(
-        MessageBusInterface $messageBus,
+        MessageBusInterface $messengerBusDefault,
         KernelInterface $kernel
     ) {
-        $this->messageBus = $messageBus;
+        $this->messageBus = $messengerBusDefault;
         $this->kernel = $kernel;
     }
 
+    // $ console messenger:consume my_async
     public function call(array $context = []): array
     {
         // bus by default: messenger.bus.default
         $envelope = $this->messageBus->dispatch(
             new MessageNotification('Message from the manager'),
             [new DelayStamp(1)]
-        );
+        )->with(new DispatchAfterCurrentBusStamp()); // useful for call another handler (e.g. for db)...
 
         return [
             'message_bus' => $this->messageBus,
-            'envelope_dispatched' => $envelope, //, [$stamp]),
+            'envelope_dispatched' => $envelope,
+            'envelope' => $envelope->all(HandledStamp::class),
+            'handleTrait' => $this->handle(new SyncMessageNotification('blob')),
             'instant' => $this->messageBus->dispatch(new SyncMessageNotification('Instant message')),
             'send_readed' => $this->messageBus->dispatch(new AutoMessageNotification('Web reading')),
             //'readed' => $this->read(),

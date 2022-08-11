@@ -12,6 +12,7 @@ class MessageHandler implements MessageHandlerInterface, MessageSubscriberInterf
     public function __invoke(MyMessageInterface $message)
     {
         echo $message->getContent() . ' -:- ' . PHP_EOL;
+        return $message->getContent() . ' -:- ' . PHP_EOL;
     }
 
     public static function getHandledMessages(): iterable

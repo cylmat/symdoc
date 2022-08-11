@@ -1,11 +1,11 @@
 [Progress]
-Advanced: messaging
+Advanced: notif
 
 [DONE]
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
 Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Basics: Doctrine, Forms, Tests, Session, Cache, Logger, Errors-debug
-Advanced: Console, Mailer, Validate
+Advanced: Console, Mailer, Validate, Messaging
 Components: Process
 
 ---

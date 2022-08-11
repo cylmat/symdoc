@@ -65,14 +65,21 @@ framework:
         # Transport name to send failed messages to (after all retries have failed).
         failure_transport: toobad
 
-        default_bus: null
+        default_bus: messenger.bus.default
         buses:
             # Prototype
-            messenger.bus.default:
+            messenger.bus.default: # autowireable with the MessageBusInterface
                 default_middleware: true # One of true; false; "allow_no_handlers"
                 middleware:
                     # Prototype
                     #-
                     #    id: ~ # Required
                     #    arguments: []
-                    - 'App\Domain\Middleware\CustomMiddleware'
+                    - 'App\Domain\Message\Middleware\CustomMiddleware'
+
+            command.bus: # autowire MessageBusInterface $commandBus;
+                middleware:
+                    - validation
+            query.bus: # autowire MessageBusInterface $queryBus.
+                middleware:
+                    - validation

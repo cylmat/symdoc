@@ -19,9 +19,21 @@
 
         <defaults public="false" autowire="true" autoconfigure="false"/>
 
+        <!-- MESSENGER -->
         <service id="App\Domain\MessageHandler\MessageHandler">
-            <tag name="messenger.message_handler" handles="App\Domain\Message\MyMessageInterface" />
+            <tag 
+                name="messenger.message_handler"
+                handles="App\Domain\Message\MyMessageInterface"
+                bus="messenger.bus.default"
+            />
         </service>
+
+        <service 
+            id="App\Domain\Message\Middleware\CustomMiddleware" 
+            class="App\Domain\Message\Middleware\CustomMiddleware"
+        />
+        
+        <!-- /messenger -->
 
         <service id="twitter_client_2" class="App\Application\Service\TwitterClient">
             <!-- abstract=true factory=<class> -->
