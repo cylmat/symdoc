@@ -1,0 +1,9 @@
+framework:
+  serializer:
+    # serializer.name_converter.metadata_aware
+    name_converter: 'serializer.name_converter.camel_case_to_snake_case'
+
+    enabled: true
+    enable_annotations: true
+    mapping:
+        paths: { }
