@@ -1,0 +1,25 @@
+framework:
+    # chat/sms/email
+    notifier:
+        #chatter_transports:
+        #    slack: '%env(SLACK_DSN)%'
+        #    telegram: '%env(TELEGRAM_DSN)%'
+        # roundrobin: '%env(SLACK_DSN)% && %env(TELEGRAM_DSN)%'
+        # main: '%env(SLACK_DSN)% || %env(TELEGRAM_DSN)%
+        #texter_transports:
+        #    twilio: '%env(TWILIO_DSN)%'
+        #    nexmo: '%env(NEXMO_DSN)%'
+        texter_transports:
+            twilio: 'null://null'
+        enabled: true
+        channel_policy:
+            # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
+            urgent: ['email']
+            high: ['email']
+            medium: ['browser', 'email']
+            low: ['browser']
+
+        admin_recipients:
+            - { email: admin@example.com }
+
+        notification_on_failed_messages: false

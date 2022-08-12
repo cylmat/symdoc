@@ -5,6 +5,7 @@ namespace App\Application\Controller;
 use App\Application\Response;
 use App\Domain\Manager\Advanced\MailerManager;
 use App\Domain\Manager\Advanced\MessageManager;
+use App\Domain\Manager\Advanced\NotificationManager;
 use App\Domain\Manager\Advanced\SerializerManager;
 use App\Domain\Message\MessageNotification;
 use App\Domain\Manager\Advanced\ValidationManager;
@@ -57,6 +58,16 @@ final class AdvancedController extends AbstractController
     {
         return new Response([
             'data' => $validation->call(),
+        ]);
+    }
+
+    /**
+     * @Route("/notification")
+     */
+    public function notification(NotificationManager $notification)
+    {
+        return new Response([
+            'data' => $notification->call(),
         ]);
     }
 }
