@@ -7,6 +7,7 @@ use App\Domain\Manager\Advanced\MailerManager;
 use App\Domain\Manager\Advanced\MessageManager;
 use App\Domain\Manager\Advanced\NotificationManager;
 use App\Domain\Manager\Advanced\SerializerManager;
+use App\Domain\Manager\Advanced\TranslationManager;
 use App\Domain\Message\MessageNotification;
 use App\Domain\Manager\Advanced\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,6 +69,16 @@ final class AdvancedController extends AbstractController
     {
         return new Response([
             'data' => $notification->call(),
+        ]);
+    }
+
+    /**
+     * @Route("/translation")
+     */
+    public function translation(TranslationManager $translation)
+    {
+        return new Response([
+            'data' => $translation->call(),
         ]);
     }
 }
