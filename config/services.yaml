@@ -136,3 +136,10 @@ services:
     # emoji:
     #     class: App\Domain\Serializer\EmojiNormalizer
     #     tags: [serializer.normalizer]
+
+    ##############
+    # Translator #
+    ##############
+    App\Application\Translator\CustomTranslator:
+        arguments: 
+            $locale: er

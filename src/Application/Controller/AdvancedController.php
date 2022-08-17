@@ -11,6 +11,7 @@ use App\Domain\Manager\Advanced\TranslationManager;
 use App\Domain\Message\MessageNotification;
 use App\Domain\Manager\Advanced\ValidationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class AdvancedController extends AbstractController
@@ -75,7 +76,7 @@ final class AdvancedController extends AbstractController
     /**
      * @Route("/translation")
      */
-    public function translation(TranslationManager $translation)
+    public function translation(Request $request, TranslationManager $translation)
     {
         return new Response([
             'data' => $translation->call(),

@@ -2,10 +2,12 @@
 
 namespace App\Application\DependencyInjection\Compiler;
 
+use App\Application\Translator\CustomTranslator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Manipulate other service definitions
@@ -37,6 +39,7 @@ class AppCompilerPass implements CompilerPassInterface
         $testTaggedServices = $container->findTaggedServiceIds('app.test');
         foreach ($testTaggedServices as $id => $tags) {
             //twitter_client
+            // Symfony\Component\DependencyInjection\Definition
             $definition = $container->findDefinition($id) // like getDefinition but with alias
                 ->setPrivate(true)
                 ->setAutowired(true);
@@ -44,7 +47,7 @@ class AppCompilerPass implements CompilerPassInterface
             // a service could have the same tag twice
             // Use aliased tags
             foreach ($tags as $attributes) {
-           //      $attributes['alias'];
+            //      $attributes['alias'];
             }
 
             $definition->addMethodCall('calledFromCompilerPass', ['custom9']);

@@ -3,6 +3,7 @@
 namespace App\Application;
 
 use App\Application\DependencyInjection\Compiler\AppCompilerPass;
+use App\Application\DependencyInjection\Compiler\TranslatorCompilerPass;
 use App\Domain\Service\ServiceDomainInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -52,6 +53,7 @@ class AppMyBundle extends Bundle
         // ADD compiler pass
         $containerBuilder->addCompilerPass(new AppCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0); //default
         // PassConfig::TYPE_AFTER_REMOVING is called after removing unused services
+        $containerBuilder->addCompilerPass(new TranslatorCompilerPass());
 
         // Like _instanceof in services.yml
         $containerBuilder->registerForAutoconfiguration(ServiceDomainInterface::class)

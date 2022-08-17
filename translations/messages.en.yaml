@@ -1,2 +1,13 @@
+Controller: Controller
+Doctrine: Doctrine
+HttpCLient: HttpClient
+HttpKernel: HttpKernel
+Logger: Logger
+Mailer: Mailer
 Message: Message
+Notification: Notification
+Session: Session
 Serializer: Serializer
+ServiceDi: ServiceDi
+Translation: Translation
+Validation: Validation
