@@ -1,0 +1,23 @@
+services:
+    ##########
+    # Sample #
+    ##########
+
+    # "parent" must be on his own file
+    # custom.base.translator:
+    #     class: App\Application\Translator\CustomBaseTranslator
+    #     parent: translator.default
+
+    # custom.sym.translator:
+    #     class: App\Application\Translator\CustomSymTranslator
+    #     parent: translator.default
+
+    # Symfony\Contracts\Translation\TranslatorInterface: '@custom.sym.translator'
+
+    ##########
+    # Sample #
+    ##########
+    # pass the old service as an argument
+    # App\DecoratingMailer:
+    #    decorates: App\Mailer
+    #    arguments: ['@App\DecoratingMailer.inner']

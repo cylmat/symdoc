@@ -68,6 +68,7 @@ services:
             - '../src/Application/Response.php'
             - '../src/Domain/Message/*'
             - '../src/Domain/Model/*'
+            - '../src/Application/Translator/CustomSymTranslator.php'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -136,10 +137,3 @@ services:
     # emoji:
     #     class: App\Domain\Serializer\EmojiNormalizer
     #     tags: [serializer.normalizer]
-
-    ##############
-    # Translator #
-    ##############
-    App\Application\Translator\CustomTranslator:
-        arguments: 
-            $locale: er
