@@ -23,5 +23,15 @@
         >
             <argument type="service" id="custom.translator2.inner" /><!-- implicit -->
         </service>
+
+        <!-- LOADER -->
+        <service id="App\Domain\LocalLoader\ArfTaggedLoader">
+            <tag name="translation.loader" alias="arf"/>
+        </service>
+
+        <service id="App\Domain\LocalLoader\ArfExtractor">
+            <tag name="translation.extractor" alias="arf.extract"/>
+        </service>
+
     </services>
 </container>

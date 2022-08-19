@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+{% set message = 'Hello buddy' %}
+
+{# https://symfony.com/doc/current/templates.html #}
+
+{% block wrapper %}
+
+{# https://symfony.com/doc/current/reference/twig_reference.html#trans #}
+{# {{ message|trans(arguments = [], domain = null, locale = null) }} #}
+
+    <b>
+    {{ message|trans({'buddy': 'buddies'}, 'alpha', 'misc') }}, 
+    {{ data.custom_arf }} 
+    </b>
+
+    <br/>
+
+    {# https://symfony.com/doc/current/translation.html#translation-filters #}
+    {% trans with {'%name%': 'John'} from 'app' into 'fr' %}
+        Hello %name% %%
+    {% endtrans %}
+
+    {# set the translation domain for an entire "current" Twig template #}
+    {% trans_default_domain 'app' %}
+
+    {% with %}{# inner scope #}
+        {% set foo = 42 %}
+        
+    {% endwith %}
+
+    {# https://twig.symfony.com/doc/3.x/tags/macro.html #}
+    {# {% import "forms.html" as forms %} #}
+    {# {% from 'forms.html' import input as input_field, textarea %} #}
+    {% macro input(name, value, type = "text", size = 20) %}
+        <input type="{{ type }}" name="{{ name }}" value="{{ value|e }}" size="{{ size }}"/>
+    {% endmacro %}
+
+{% endblock %}

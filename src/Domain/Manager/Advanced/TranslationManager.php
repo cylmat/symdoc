@@ -6,7 +6,15 @@ use App\Domain\Core\Interfaces\ManagerInterface;
 use Symfony\Component\Translation\DataCollectorTranslator; //debugging
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-// https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes
+/**
+ * https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes
+ *
+ * XLIFF = XML Localization Interchange File Format
+ *
+ * translation:update en --force
+ * debug:translation fr
+ * lint:yaml translations/messages.en.yaml
+ */
 final class TranslationManager implements ManagerInterface
 {
     private $translator;
@@ -20,8 +28,10 @@ final class TranslationManager implements ManagerInterface
 
     public function call(array $context = []): array
     {
+        $strtrParams = ['^this^' => 'yes']; //TranslatorTrait
         return [
             'direct' => $this->translator->trans('How dare so simple', [], 'alphadomain', 'es_custom'),
+            'custom_arf' => $this->translator->trans('Should be translated', $strtrParams, 'alpha', 'misc'),
             'd' => get_class($this->translator)
         ];
     }
