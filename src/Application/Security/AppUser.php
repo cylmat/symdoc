@@ -3,9 +3,10 @@
 namespace App\Application\Security;
 
 use Stringable;
+use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AppUser implements UserInterface, Stringable
+class AppUser implements UserInterface, Stringable, EncoderAwareInterface
 {
     private string $username;
 
@@ -19,6 +20,16 @@ class AppUser implements UserInterface, Stringable
     public function __toString(): string
     {
         return 'AppUser ' . $this->username;
+    }
+
+    // Used to select dynamically encoder
+    public function getEncoderName()
+    {
+        if (1) {
+            return 'myencoder';
+        }
+
+        return null; // use the default encoder
     }
 
     /**

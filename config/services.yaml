@@ -137,3 +137,15 @@ services:
     # emoji:
     #     class: App\Domain\Serializer\EmojiNormalizer
     #     tags: [serializer.normalizer]
+
+    ############
+    # SECURITY #
+    ############
+    #Symfony\Component\Security\Core\User\InMemoryUserProvider: 
+    #    alias: '@security.user.provider.concrete.my_memory_provider'
+
+    #App\Application\Controller\SecurityController: 
+        # https://symfony.com/doc/5.0/service_container/calls.html
+        #calls: 
+        #    - [remote, ['@security.user.provider.concrete.memory_provider']]
+        #tags: ['controller.service_arguments']

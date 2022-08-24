@@ -29,6 +29,14 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
             return (new AppUser())->setUsername($username . '@1')->setPassword('s@ecur');
         }
 
+        if ('john' === $username) {
+            return (new AppUser())->setUsername($username);
+        }
+
+        if ('alphonse' === $username) {
+            return (new AppUser())->setUsername($username);
+        }
+
         // Load a User object from your data source or throw UsernameNotFoundException.
         // The $username argument may not actually be a username:
         // it is whatever value is being returned by the getUsername()

@@ -1,20 +1,29 @@
 security:
     encoders:
         App\Application\Security\AppUser:
-            algorithm: auto # Argon2
+            algorithm: auto # Argon2 (sodium)
+
+        myencoder: 
+            id: 'App\Application\Security\MyPassEncoder'
+
+        other:
+            algorithm: auto
+
+    session_fixation_strategy: migrate
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # bin/console debug:container user.provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             id: App\Application\Security\UserProvider
-        memory_provider: 
+        my_memory_provider:
             memory:
                 users:    
                     alpha: { password: 'b3t@', roles: ['ROLE_ADMIN'] }
         all_users:
             chain:
-                providers: ['memory_provider', 'app_user_provider']
+                providers: ['my_memory_provider', 'app_user_provider']
 
     firewalls:
         # first pattern matched, first used!
@@ -28,14 +37,30 @@ security:
         #         realm: Securing
 
         remote:
-            pattern: ^/remote 
+            pattern: ^/remote
+            # guard:
+            # json_login:
+                # check_path: /login
+            # simple_form:
+            # http_basic:
+            # http_basic_ldap:
+
+            # https://symfony.com/doc/4.4/security/auth_providers.html
             remote_user: # from server or .env
                 provider: app_user_provider
                 user: custom_one
 
+            # custom_authenticators: # 5.3
+            context: shared_one
+            provider: app_user_provider
+            guard: # made with bin/console make:auth
+                authenticators:
+                    - App\Application\Security\CustomQueryAuthenticator
+
         main:
             anonymous: lazy # prevents the session from being started if there is no need for authorization
             provider: app_user_provider
+            context: shared_one
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -43,8 +68,8 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-            logout:
-                path: app_logout
+            # logout:
+                # path: app_logout
                 # target: app_any_route
                 # success_handler: service LogoutSuccessHandlerInterface
     

@@ -9,4 +9,8 @@
 
     {% endif %}
 
+    <br/>
+    Query users: 
+    {{ app.request.server.get('query_user') }}
+
 {% endblock %}
