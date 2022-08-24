@@ -69,19 +69,14 @@ final class SecurityController extends AbstractController
             // ...
         }
 
-        // redirect to user&pass to use CustomQueryAuth
-        if (null === $request->query->get('user')) {
-            return $this->redirectToRoute('app_my_route', ['user' => '', 'pass' => '']);
-        }
-
         // Manually auth
         //  authenticate the user and use onAuthenticationSuccess on the authenticator
-        $manually = $guardHandler->authenticateUserAndHandleSuccess(
-            (new AppUser())->setUsername('man'),
-            $request,
-            $customQueryAuth,
-            'remote',
-        );
+        // $manually = $guardHandler->authenticateUserAndHandleSuccess(
+        //     (new AppUser())->setUsername('man'),
+        //     $request,
+        //     $customQueryAuth,
+        //     'remote',
+        // );
 
         return new Response([
             'data' => [
@@ -89,7 +84,7 @@ final class SecurityController extends AbstractController
                 'security' => $this->security, // caution: ROLES is empty!
                 'token' => $this->security->getToken(), // PreAuthenticatedToken,
                 'session' => $request->getSession()->get('QUERY_AUTH'),
-                'manually' => $manually,
+                //'manually' => $manually,
             ],
         ]);
     }

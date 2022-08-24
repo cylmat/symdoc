@@ -41,6 +41,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         // The $username argument may not actually be a username:
         // it is whatever value is being returned by the getUsername()
         // method in your User class.
+
         throw new \Exception('TODO: fill in loadUserByUsername() inside ' . __FILE__);
     }
 

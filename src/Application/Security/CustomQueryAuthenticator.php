@@ -14,10 +14,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Guard\AuthenticatorInterface;
+use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 
 # made with bin/console make:auth
-class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements AuthenticatorInterface
+class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements
+    AuthenticatorInterface,
+    # /srv/sym/doc/vendor/symfony/security-guard/Provider/GuardAuthenticationProvider.php
+    PasswordAuthenticatedInterface # to use Encoder functions
 {
     private array $serverPass;
 
@@ -35,10 +39,11 @@ class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements Aut
     public function supports(Request $request)
     {
         //check route
-        return 'app_my_route' === $request->attributes->get('_route') && $request->isMethod('GET');
-
-        # ex: return $request->headers->has('X-AUTH-TOKEN');
-        return (null !== $request->query->get('user') && null !== $request->query->get('pass'));
+        if ('app_my_route' === $request->attributes->get('_route') && $request->isMethod('GET')) {
+            # ex: return $request->headers->has('X-AUTH-TOKEN');
+            return (null !== $request->query->get('user') && null !== $request->query->get('pass'));
+        }
+        return false;
     }
 
     # current user login credentials from request

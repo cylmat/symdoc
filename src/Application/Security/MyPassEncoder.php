@@ -13,12 +13,12 @@ class MyPassEncoder implements PasswordEncoderInterface
 
     public function encodePassword(string $raw, ?string $salt)
     {
-        d($raw);
+        return $raw;
     }
 
     public function isPasswordValid(string $encoded, string $raw, ?string $salt)
     {
-        d($raw);
+        return true;
     }
 
     public function needsRehash(string $encoded): bool

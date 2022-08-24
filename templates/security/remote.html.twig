@@ -11,6 +11,9 @@
 
     <br/>
     Query users: 
+    {% set user0 = app.request.server.get('query_user') %}
     {{ app.request.server.get('query_user') }}
+
+    <a href="{{ path('app_my_route', {'user': '0', 'pass': '1'}) }}">Login</a>
 
 {% endblock %}

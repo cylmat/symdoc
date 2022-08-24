@@ -46,6 +46,7 @@ security:
             # http_basic_ldap:
 
             # https://symfony.com/doc/4.4/security/auth_providers.html
+            # Built-in auth provider
             remote_user: # from server or .env
                 provider: app_user_provider
                 user: custom_one
