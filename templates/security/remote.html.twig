@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block wrapper %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a href="...">ok</a>
+        <p>User: {{ app.user }}</p>
+
+    {% endif %}
+
+{% endblock %}
