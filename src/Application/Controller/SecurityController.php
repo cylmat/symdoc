@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Firewall\RemoteUserAuthenticationListener;
  * SECURITY
  *
  * GuardAuthentication: Control auth process
- * Token: Contain informations about user for authentication manager
+ * Token: Represents the user authentication data present in the request
  * UserProvider: Retrieve and provide a User class
  * User: Type of user having username, password and others
  *
@@ -36,6 +36,15 @@ use Symfony\Component\Security\Http\Firewall\RemoteUserAuthenticationListener;
 
 // composer require symfony/security-bundle
 // php bin/console security:encode-password
+
+/**
+ * https://symfony.com/doc/5.0/security/custom_authentication_provider.html
+ * + custom token
+ * + custom listener
+ * + custom provider
+ * + factory  SecurityFactoryInterface
+ *      # DependencyInjection\Security\Factory\AbstractFactory
+ */
 /**
  * @IsGranted("ROLE_USER")
  */

@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- *  Reloading the User data from the session, like remember me and impersonation...
- * Verify new user in Security\Core's AbstractToken
+ * Reloading the User data from the session, like remember me and impersonation...
+ *   Verify new user in Security\Core's AbstractToken
  */
 class UserProvider implements
     UserProviderInterface,

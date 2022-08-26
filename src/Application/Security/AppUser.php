@@ -32,6 +32,11 @@ class AppUser implements UserInterface, Stringable, EncoderAwareInterface
         return null; // use the default encoder
     }
 
+    public function sampleCheck() // for user checker
+    {
+        return false;
+    }
+
     /**
      * A visual identifier that represents this user.
      *

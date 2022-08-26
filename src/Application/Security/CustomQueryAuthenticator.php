@@ -19,6 +19,10 @@ use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 
 # made with bin/console make:auth
+/**
+ * Custom for SSO for exemple, or WS-Security (WSSE)
+ * https://symfony.com/doc/5.0/security/custom_authentication_provider.html
+ */
 class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements
     AuthenticatorInterface,
     # /srv/sym/doc/vendor/symfony/security-guard/Provider/GuardAuthenticationProvider.php
