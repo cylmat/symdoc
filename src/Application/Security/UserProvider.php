@@ -4,21 +4,32 @@ namespace App\Application\Security;
 
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  *  Reloading the User data from the session, like remember me and impersonation...
+ * Verify new user in Security\Core's AbstractToken
  */
-class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
+class UserProvider implements
+    UserProviderInterface,
+    PasswordUpgraderInterface,
+    EquatableInterface // compare user when refreshed
 {
+    public function isEqualTo(UserInterface $user)
+    {
+        if (
+            $this->user->getPassword() === $user->getPassword()
+            && $this->user->getSalt() !== $user->getSalt()
+        ) {
+            return true;
+        }
+    }
+
     /**
-     * Symfony calls this method if you use features like switch_user
-     * or remember_me.
-     *
-     * If you're not using these features, you do not need to implement
-     * this method.
+     * Symfony calls this method if you use features like switch_user or remember_me.
      *
      * @throws UsernameNotFoundException if the user is not found
      */

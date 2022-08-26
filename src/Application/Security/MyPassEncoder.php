@@ -4,6 +4,7 @@ namespace App\Application\Security;
 
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
+// use bin/console security:encode-password
 class MyPassEncoder implements PasswordEncoderInterface
 {
     public static function isSupported(): bool

@@ -3,6 +3,7 @@
 namespace App\Application\Security;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,7 @@ class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements
     public function supports(Request $request)
     {
         //check route
-        if ('app_my_route' === $request->attributes->get('_route') && $request->isMethod('GET')) {
+        if ('app_secure_route' === $request->attributes->get('_route') && $request->isMethod('GET')) {
             # ex: return $request->headers->has('X-AUTH-TOKEN');
             return (null !== $request->query->get('user') && null !== $request->query->get('pass'));
         }
@@ -82,6 +83,9 @@ class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         $request->getSession()->set('QUERY_AUTH', 'ok');
+
+        // USE WITH REMEMBER ME
+        //return new RedirectResponse('/security');
     }
 
     /**
@@ -95,7 +99,7 @@ class CustomQueryAuthenticator extends AbstractGuardAuthenticator implements
 
     public function supportsRememberMe()
     {
-        return true;
+        return false; //return true;
     }
 
     // used for migrate hash

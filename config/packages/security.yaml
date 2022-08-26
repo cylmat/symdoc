@@ -15,14 +15,14 @@ security:
     # bin/console debug:container user.provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        app_user_provider: # security.user.provider.concrete.app_user_provider
             id: App\Application\Security\UserProvider
-        my_memory_provider:
+        my_memory_provider: # security.user.provider.concrete.my_memory_provider
             memory:
                 users:    
                     alpha: { password: 'b3t@', roles: ['ROLE_ADMIN'] }
-        all_users:
-            chain:
+        all_users: # security.user.provider.concrete.all_users
+            chain: # first in, first look
                 providers: ['my_memory_provider', 'app_user_provider']
 
     firewalls:
@@ -37,7 +37,7 @@ security:
         #         realm: Securing
 
         remote:
-            pattern: ^/remote
+            pattern: ^/security
             # guard:
             # json_login:
                 # check_path: /login
@@ -45,8 +45,25 @@ security:
             # http_basic:
             # http_basic_ldap:
 
+            # Activate the RememberMeAuthenticator if support it
+            # (Triggered from GuardAuthenticationListener)
+            remember_me:
+                secret: t3st_r3m3mber
+                lifetime: 600
+                path: / # entire website
+                secure: false
+                httponly: true # not by script languages
+                samesite: lax # don't be send via cross-site, lax allow to keep from externalalways_remember_me
+                always_remember_me: true
+
             # https://symfony.com/doc/4.4/security/auth_providers.html
-            # Built-in auth provider
+            # Built-in auth provider -> RemoteUserAuthenticatorListener
+
+            # Security\Http\Firewall
+            #   TraceableFireWallListener
+            #     WrappedLazyListener
+            #       AbstractPreAuthenticatedListener
+            #         RemoteUserAuthenticationListener
             remote_user: # from server or .env
                 provider: app_user_provider
                 user: custom_one
@@ -62,6 +79,14 @@ security:
             anonymous: lazy # prevents the session from being started if there is no need for authorization
             provider: app_user_provider
             context: shared_one
+
+            # use http://example.com/somewhere?_switch_user=thomas
+            # and http://example.com/somewhere?_switch_user=_exit
+            # ROLE_ALLOWED_TO_SWITCH
+            switch_user: true # not compatible with "remote_user" for exemple
+            # for params
+            # switch_user: { role: ROLE_ADMIN, parameter: _want_to_be_this_user }
+            # can use SecurityEvents::SWITCH_USER
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

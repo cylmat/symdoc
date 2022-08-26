@@ -55,13 +55,12 @@ final class SecurityController extends AbstractController
      */
 
     /**
-     * @Route("/remote", name="app_my_route")
+     * @Route("/security", name="app_secure_route")
      * @IsGranted("ROLE_USER")
      */
-    public function remote(
+    public function security(
         Request $request,
-        GuardAuthenticatorHandler $guardHandler,
-        CustomQueryAuthenticator $customQueryAuth
+        GuardAuthenticatorHandler $guardHandler
     ): HttpFoundationResponse { //, InMemoryUserProvider $userProvider
         $this->denyAccessUnlessGranted('ROLE_USER', 'subject', 'User tried to access a page without having ROLE_USER');
 
@@ -85,6 +84,7 @@ final class SecurityController extends AbstractController
                 'token' => $this->security->getToken(), // PreAuthenticatedToken,
                 'session' => $request->getSession()->get('QUERY_AUTH'),
                 //'manually' => $manually,
+                'cookies' => $request->cookies,
             ],
         ]);
     }
