@@ -14,6 +14,7 @@
     {% set user0 = app.request.server.get('query_user') %}
     {{ app.request.server.get('query_user') }}
 
-    <a href="{{ path('app_secure_route', {'user': 'john', 'pass': 'dely@9'}) }}">Login</a>
+    <a href="{{ path('app_secure_route', {'user': 'john', 'pass': 'dely@9'}) }}">Login</a><br/>
+    csrf token : {{ csrf_token('my-own') }}
 
 {% endblock %}

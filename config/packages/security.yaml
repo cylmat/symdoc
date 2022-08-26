@@ -30,10 +30,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        # my_very_own_provider:
-            # https://symfony.com/doc/5.0/security/custom_authentication_provider.html
-            # token, listener, provider, factory, config
+            # my_very_own_provider: true
+            # ex: RememberMeToken, RememberMeListener, RememberMeFactory...
+            #   in factory->getKey()
+            #   https://symfony.com/doc/5.0/security/custom_authentication_provider.html
+            #   token, listener, provider, factory, config
 
         # basic: 
         #     pattern: ^/basic

@@ -91,7 +91,8 @@ final class SecurityController extends AbstractController
                 'user' => $this->getUser(), // caution: ROLES is empty!
                 'security' => $this->security, // caution: ROLES is empty!
                 'token' => $this->security->getToken(), // PreAuthenticatedToken,
-                'session' => $request->getSession()->get('QUERY_AUTH'),
+                'query_auth' => $request->getSession()->get('QUERY_AUTH'),
+                'session' => $request->getSession(),
                 //'manually' => $manually,
                 'cookies' => $request->cookies,
             ],
