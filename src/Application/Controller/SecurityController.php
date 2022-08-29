@@ -64,14 +64,16 @@ final class SecurityController extends AbstractController
      */
 
     /**
-     * @Route("/security", name="app_secure_route")
+     * @Route("/security", name="app_secure_route", schemes={"http"})
      * @IsGranted("ROLE_USER")
+     * @IsGranted("EXTRA")
      */
     public function security(
         Request $request,
         GuardAuthenticatorHandler $guardHandler
     ): HttpFoundationResponse { //, InMemoryUserProvider $userProvider
         $this->denyAccessUnlessGranted('ROLE_USER', 'subject', 'User tried to access a page without having ROLE_USER');
+        $this->denyAccessUnlessGranted('EXTRA', 'sub');
 
         if ($this->security->isGranted('ROLE_ADMIN')) {
             // ...

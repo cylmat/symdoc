@@ -10,6 +10,10 @@ security:
             algorithm: auto
 
     session_fixation_strategy: migrate
+    access_decision_manager:
+        # strategy allow custom voters
+        strategy: consensus # This only grants access if there is no voter denying access
+        allow_if_all_abstain: true
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # bin/console debug:container user.provider
@@ -123,6 +127,12 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
+    # https://symfony.com/doc/current/security/access_control.html
+    access_control: # RequestMatcher
         - { path: ^/admin, roles: ROLE_ADMIN, ip: 127.0.0.1, port: 8080, host: symfony\.com$, methods: [GET] }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { roles: ROLE_USER, allow_if: "'127.0.0.1' == request.getClientIp()", requires_channel: http }
+        # '%env(SECURE_SCHEME)%'
+
+    # ACL
+    # https://github.com/symfony/acl-bundle

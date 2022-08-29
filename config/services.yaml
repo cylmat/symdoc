@@ -20,6 +20,7 @@ parameters:
     tokens:
         client1: tokenized
         client2: tokenizing
+    env(TRUSTED_IPS): '10.0.0.1, 10.0.0.2'
 
     # KERNEL
     # @see https://symfony.com/doc/5.0/reference/configuration/kernel.html

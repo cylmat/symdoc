@@ -25,6 +25,10 @@ services:
             - 'both'
         # For heavy instantiation service or ocramius/proxy-manager
         lazy: true # need  ProxyManagerBridge
+
+        #arguments:
+        #    - "@=service('doctrine').getRepository('AppBundle:User')"
+        # @= is expression language
     
     twitter_client:
         class: App\Application\Service\TwitterClient
