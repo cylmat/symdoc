@@ -11,6 +11,8 @@ use App\Domain\Manager\Utilities\HttpClientManager;
 use DateTime;
 use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -54,6 +56,37 @@ final class UtilitiesController extends AbstractController
     private function getDateTime(): string
     {
         return (new DateTime('now', new DateTimeZone(self::DATETIME_PARIS)))->format(DateTime::COOKIE);
+    }
+
+    /**
+     * @Route("/filesystem")
+     */
+    public function filesystem(Filesystem $filesystem): Response
+    {
+        $file = 'file4.txt';
+        try {
+            //  mkdir(), exists(), touch(), remove(), chmod(), chown() and chgrp()
+            $filesystem->mkdir(sys_get_temp_dir() . '/dir');
+            $filesystem->mkdir(sys_get_temp_dir() . '/dir2');
+            $filesystem->touch('/tmp/dir/' . $file, time(), time() - 10);
+            //$filesystem->chmod('/tmp/dir/'.$file, 777);
+            //$filesystem->chown('/tmp/dir/'.$file, 'root', false);
+            //$filesystem->chgrp('/tmp/dir/file2.txt', 'nginx', true);
+            $rel = $filesystem->makePathRelative('/tmp/', '/tmp/test'); // return '../'
+            $filesystem->mirror('/tmp/dir', '/tmp/dir2');
+            $filesystem->dumpFile('/tmp/dir/' . $file, 'content');
+            $filesystem->appendToFile('/tmp/dir/' . $file, '-is');
+        } catch (IOExceptionInterface $exception) {
+            echo ('error at ' . $exception->getPath());
+            throw $exception;
+        }
+
+        return new Response([
+            'data' => [
+                file_get_contents('/tmp/dir/' . $file),
+                'relative' => $rel,
+            ],
+        ]);
     }
 
     /**
