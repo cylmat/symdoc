@@ -30,7 +30,32 @@ framework:
         log: true
 
     http_client:
+        # Multiple pre-configured HTTP client
+        default_options:
+            http_version: '2.0'
+            #max_host_connections: 10
+            headers:
+                'User-Agent': 'My Fancy App'
+
+        # specific options for choosed urls
         scoped_clients:
+            my_api.client: 
+                scope: http://test
+                auth_bearer: secretbearertoken
+                http_version: '1.1'
+                max_redirects: 10
+            github:
+                scope: 'https://api\.github\.com'
+                headers:
+                    Accept: 'application/vnd.github.v3+json'
+                    Authorization: 'tokenapitoken'
+            # using base_uri, relative URLs (e.g. request("GET", "/repos/symfony/symfony-docs"))
+            # will default to these options
+            githubBase:
+                base_uri: 'https://api.github.com'
+                headers:
+                    Accept: 'application/vnd.github.v3+json'
+                    Authorization: 'tokenapitoken'
 
     default_locale: en
     error_controller: App\Application\Controller\Error\AppErrorController
