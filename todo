@@ -1,5 +1,5 @@
 [Progress]
-Utilities: Expression...
+Utilities: Locks...
 
 [DONE]
 Started: Setup, Page, Routing-url, Controller, Template, Config-env-vault
@@ -7,7 +7,7 @@ Archi: HttpKernel-RqRp, Service-DI, Events, Bundles
 Basics: Doctrine, Forms, Tests, Session, Cache, Logger, Errors-debug
 Advanced: Console, Mailer, Validate, Messaging, Notification, Serializer, i18n
 Security: User, Provider, Checker, Token, Voter
-Utilities: HttpClient, Filesystem
+Utilities: HttpClient, Filesystem, Expression
 Components: Process
 
 ---

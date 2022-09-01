@@ -4,7 +4,10 @@ namespace App\Domain\Manager\Utilities;
 
 use App\Application\Expression\ExpressionProvider;
 use App\Domain\Core\Interfaces\ManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\Node\Node;
+use Symfony\Component\ExpressionLanguage\ParsedExpression;
 
 # @phpcs:disable
 \define('AL', 'most');
@@ -61,8 +64,13 @@ final class ExpressionManager implements ManagerInterface
         /**
          * Other variables in
          * - security expressions (user, roles, object, token, trust_resolver) and is_auth*
-         * - service container expressions
+         * - service container expressions (service, parameter and "container variable")
          * - routing expressions (context, request)
+         *
+         * services:
+         *  - php : ->args([expr("service('App\\Mail\\MailerConfiguration').getMailerMethod()")]);
+         *  - xml : <argument type="expression">service('App\\Mail\\MailerConfiguration').getMailerMethod()</argument>
+         *  - yaml : arguments: ['@=service("App\\Mail\\MailerConfiguration").getMailerMethod()']
          */
         $language->register(
             'myown',
@@ -80,17 +88,27 @@ final class ExpressionManager implements ManagerInterface
         $language->registerProvider(new ExpressionProvider());
 
         return [
-            'evaluate 12obj and' => $language->evaluate(
-                '1 + 2 + myobj.num and user in 5..9',
+            // -> loop through the "nodes" (ParsedExpression) and evaluate them on the fly
+            'evaluate 12obj' => $language->evaluate(
+                $string = '1 + 2 + myobj.num and user in 5..9',
                 [
                     'myobj' => $object,
-                    'user' => 8
+                    'user' => 8,
                 ]
             ),
+            'parse 12obj and update it' => $parsed = $language->parse(
+                $string,
+                [
+                    'myobj', // only keys
+                    'user',
+                ]
+            ),
+            'array' => $parsed->getNodes()->toArray(),
             'const' => $language->evaluate('constant("AL")', []),
 
             // compile('a.b', array('a'));
             // expression is compiled to PHP for later evaluation
+            // ->  returns the __string conversion of this parsed object
             'compile' => $compiled = $language->compile(
                 'object.b + 987 + set[0] || myobj',
                 [
@@ -100,7 +118,8 @@ final class ExpressionManager implements ManagerInterface
 
             'registered' => $language->evaluate('myown("DOT"~(1 + 2))~fromprovider("UP")', ['obj']),
 
-            'parse' => $language->parse('1 + 2', []), // ! || &&
+            'parse' => $parse = $language->parse('1 + 2', []), // ! || &&
+            'nodes' => $parse->getNodes(),
             'match' => $language->evaluate('not ("foo" matches "/bar/")'), // not or and
             'concat' => $language->evaluate('is~"more"', ['is' => 'ok']),
         ];
