@@ -8,6 +8,7 @@ use App\Application\Security\CustomQueryAuthenticator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvider\InMemoryFactory;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -74,6 +75,10 @@ final class SecurityController extends AbstractController
     ): HttpFoundationResponse { //, InMemoryUserProvider $userProvider
         $this->denyAccessUnlessGranted('ROLE_USER', 'subject', 'User tried to access a page without having ROLE_USER');
         $this->denyAccessUnlessGranted('EXTRA', 'sub');
+
+        /*$this->denyAccessUnlessGranted(new Expression(
+            '"ROLE_ADMIN" in role_names or (not is_anonymous() and user.isSuperAdmin())'
+        ));*/
 
         if ($this->security->isGranted('ROLE_ADMIN')) {
             // ...
