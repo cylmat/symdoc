@@ -11,6 +11,7 @@ use App\Domain\Repository\ProductRepository;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -117,6 +118,14 @@ final class BasicsController extends AbstractController implements LoggerAwareIn
         ]);
     }
 
+    // Loaded from App\Application\Routing\CustomLoader
+    public function routing()
+    {
+        return new Response([
+            'data' => []
+        ]);
+    }
+
     // Forms /////////////////////////////////////////////////////
     /**
      * @Route("/form")
@@ -124,9 +133,9 @@ final class BasicsController extends AbstractController implements LoggerAwareIn
     public function form(Request $request, FormCreator $formCreator): Response
     {
         $form = $this->createFormBuilder(['email' => 'my@a'])
-        ->add('email', EmailType::class, ['constraints' => new Length(['min' => 3]),])
-        ->add('send', SubmitType::class)
-        ->getForm();
+            ->add('email', EmailType::class, ['constraints' => new Length(['min' => 3]),])
+            ->add('send', SubmitType::class)
+            ->getForm();
 
         //test
         $testForm = new class extends TypeTestCase
@@ -181,6 +190,8 @@ final class BasicsController extends AbstractController implements LoggerAwareIn
      * cache:pool:list
      * cache:pool:clear [pool]
      * cache:pool:clear cache.global_clearer
+     *
+     * @Cache(public=false, maxage=5)
      */
     public function cache(
         RedisManager $redisManager,

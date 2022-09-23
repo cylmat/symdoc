@@ -50,7 +50,7 @@ services:
         # -> will first be passed to the TwitterServiceConfigurator::configuringService() method.
         configurator: 
             ['@App\Application\DependencyInjection\Configurator\TwitterServiceConfigurator', 'configuringService']
-    
+
     # ###
     # Aliases HAVE to be manually declared to type-hint
     # ###
@@ -67,6 +67,7 @@ services:
     App\Application\Service\TwitterClientChild:
         parent: App\Application\Service\TwitterClient
         autowire: true
+        tags: ['enableflag.optioninjector']
 
     # Duplicate parent service definition: NOT parent PHP inherence is mandatory
     # Except shared, abstract and tags!

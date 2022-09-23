@@ -6,6 +6,7 @@ use App\Application\Event\CustomEvent;
 use App\Application\Locator\CommandBus;
 use App\Application\Locator\CommandWithTrait;
 use App\Application\Response;
+use App\Application\Service\EnableFlag;
 use App\Application\Service\FromFactoryService;
 use App\Application\Service\Rot13Transformer;
 use App\Application\Service\TwitterClient;
@@ -90,6 +91,7 @@ final class ArchitectureController extends AbstractController
         LoggerInterface $httpClientLogger,
         FromFactoryService $fromFactory,
         TwitterClient $twitterClient,
+        EnableFlag $enableFlag,
         Rot13Transformer $rot13,
         CommandBus $commandBus,
         string $myCustomData,
@@ -99,6 +101,10 @@ final class ArchitectureController extends AbstractController
         ServiceLocator $commandLocator,
         CommandWithTrait $commandWithTrait
     ): Response {
+
+        // use of config, extension, configuration, expression, etc...
+        $canUse = $enableFlag->use('my_flag');
+
         return new Response([
             'data' => [
                 'logger' => $logger,
@@ -106,6 +112,9 @@ final class ArchitectureController extends AbstractController
                 'fromFactory' => $fromFactory,
                 'serviceTwitter' => $twitterClient,
                 'rot13' => $rot13,
+                'flag' => $enableFlag,
+                'flag->can' => $canUse,
+                'flag->canot' => $enableFlag->use('invalid_expression_flag'),
                 'commandBus' => $commandBus,
                 'myCustomData' => $myCustomData,
                 'rules' => $rules,

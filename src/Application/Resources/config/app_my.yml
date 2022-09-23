@@ -1,0 +1,17 @@
+app_my:
+  #listener:
+    # enable is true by default
+    # id
+
+  enableflags:
+    my_flag: 
+      valid: true
+      expression: "translated in ['nycun', 'orgn']" #alpha, beta
+      options:
+        rot13: "alpha"
+
+    invalid_expression_flag: 
+      valid: true
+      expression: "translated in ['nycun', 'orgn']" #alpha, beta
+      options:
+        rot13: "notgood"

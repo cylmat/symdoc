@@ -1,0 +1,10 @@
+services:
+    #################    
+    # CONFIGURATION #
+    #################
+    # https://symfony.com/doc/current/service_container.html
+    App\Application\Service\EnableFlag:
+        arguments:
+            # this __constructor argument will be filled dynamically in the "load" of Extension Interface
+            $configFromExtension: ~
+            $optionInjectors: !tagged enableflag.optioninjector
